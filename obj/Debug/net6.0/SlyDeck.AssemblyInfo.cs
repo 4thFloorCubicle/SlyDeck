@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SlyDeck")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e10d08b6e50865cc5b83fc5e50a2ad9bd0d98be")]
 [assembly: System.Reflection.AssemblyProductAttribute("SlyDeck")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SlyDeck")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

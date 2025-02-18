@@ -1,3 +1,2 @@
-﻿
-using var game = new SlyDeck.Game1();
+﻿using var game = new SlyDeck.Game1();
 game.Run();
