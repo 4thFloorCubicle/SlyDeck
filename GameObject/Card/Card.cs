@@ -10,8 +10,8 @@ namespace SlyDeck.GameObject.Card
 {
     internal enum CardType
     {
-        Header,
-        Footer,
+        Title,
+        List,
         Picture,
         Graph,
         Transition
@@ -25,8 +25,13 @@ namespace SlyDeck.GameObject.Card
         private int stat2;
         private int cost;
 
-        public Card(Vector2 position, Texture2D texture) : base(position, texture)
+        public Card(Vector2 position, Texture2D texture, string name, string description, int stat1, int stat2, int cost) : base(position, texture)
         {
+            this.name = name;
+            this.description = description;
+            this.stat1 = stat1;
+            this.stat2 = stat2;
+            this.cost = cost;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
