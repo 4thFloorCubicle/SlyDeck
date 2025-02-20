@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlyDeck.GameObject.Card
+namespace SlyDeck.GameObjects.Card
 {
     internal enum CardType
     {
@@ -19,7 +19,6 @@ namespace SlyDeck.GameObject.Card
 
     internal class Card : GameObject
     {
-        private string name;
         private string description;
         private int stat1;
         private int stat2;
@@ -27,9 +26,8 @@ namespace SlyDeck.GameObject.Card
         private CardType type;
         private List<ICardEffect> effects;
 
-        public Card(Vector2 position, string name, string description, int stat1, int stat2, int cost, CardType type) : base(position)
+        public Card(Vector2 position, string name, string description, int stat1, int stat2, int cost, CardType type) : base(position, name)
         {
-            this.name = name;
             this.description = description;
             this.stat1 = stat1;
             this.stat2 = stat2;

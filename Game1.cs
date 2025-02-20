@@ -1,6 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using SlyDeck.GameObjects.UI;
+using SlyDeck.GameObjects;
+using SlyDeck.Managers;
+using SlyDeck.GameObjects.Card;
 
 namespace SlyDeck;
 
@@ -8,6 +13,9 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    private Dictionary<string, SpriteFont> fonts;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -17,6 +25,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+        fonts = new Dictionary<string, SpriteFont>();
 
         base.Initialize();
     }
@@ -25,7 +34,13 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // TODO: use this.Content to load your game content here
+        fonts["Arial24"] = Content.Load<SpriteFont>("Arial24");
+
+        Label testLabel = new Label(new Vector2(100, 100), "Test Label", "Hi!", fonts["Arial24"]);
+        GameObjectManager.Instance.AddGUIElement(testLabel);
+
+        Card testCard = new Card(new Vector2(200, 200), "Test Card", "This card has a test effect", 2, 4, 2, CardType.Header);
+        GameObjectManager.Instance.Ad
     }
 
     protected override void Update(GameTime gameTime)
@@ -45,7 +60,11 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        _spriteBatch.Begin();
+
+        GameObjectManager.Instance.DrawAll(_spriteBatch);
+
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }

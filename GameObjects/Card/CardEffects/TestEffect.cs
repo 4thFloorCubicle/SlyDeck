@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using SlyDeck.GameObject.UI;
+using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlyDeck.GameObject.Card.CardEffects
+namespace SlyDeck.GameObjects.Card.CardEffects
 {
     internal class TestEffect : ICardEffect
     {
@@ -20,7 +20,7 @@ namespace SlyDeck.GameObject.Card.CardEffects
         
         public void Perform()
         {
-            Label label = (Label) GameManager.Instance.GUI["Test Label"];
+            Label label = (Label)GameObjectManager.Instance.GetGUIElement("Test Label");
 
             label.Text = "Effect used!"; 
             label.TextColor = Color.LightBlue;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlyDeck.GameObject.UI
+namespace SlyDeck.GameObjects.UI
 {
     internal interface IUserInterface
     {
