@@ -8,7 +8,6 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -18,7 +17,6 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
 
         base.Initialize();
     }

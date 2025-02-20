@@ -24,9 +24,22 @@ namespace SlyDeck.GameObject.Card
         private int stat1;
         private int stat2;
         private int cost;
+        private CardType type;
+        private List<ICardEffect> effects;
 
-        public Card(Vector2 position, Texture2D texture) : base(position, texture)
+        public Card(Vector2 position, string name, string description, int stat1, int stat2, int cost, CardType type) : base(position)
         {
+            this.name = name;
+            this.description = description;
+            this.stat1 = stat1;
+            this.stat2 = stat2;
+            this.cost = cost;
+            this.type = type;
+        }
+
+        public void AddEffect(ICardEffect effect)
+        {
+            effects.Add(effect);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -14,20 +14,15 @@ namespace SlyDeck.GameObject
     internal abstract class GameObject
     {
         private Vector2 position;
-        private Texture2D texture;
-
         public Vector2 Position { get { return position; } }
-        public Texture2D Texture { get { return texture; } }
 
         /// <summary>
         /// Creates a new GameObject
         /// </summary>
         /// <param name="position">The position of the game object</param>
-        /// <param name="texture">The texture of the game object</param>
-        public GameObject(Vector2 position, Texture2D texture)
+        public GameObject(Vector2 position)
         {
             this.position = position;
-            this.texture = texture;
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);
