@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlyDeck.GameObject
+namespace SlyDeck.GameObjects
 {
     /// <summary>
     /// Base class for any player-facing objects to inherit from (i.e visible to the player)
@@ -14,20 +14,21 @@ namespace SlyDeck.GameObject
     internal abstract class GameObject
     {
         private Vector2 position;
-        private Texture2D texture;
-
+        private bool enabled;
+        private string name;
         public Vector2 Position { get { return position; } }
-        public Texture2D Texture { get { return texture; } }
+        public bool Enabled { get { return enabled; } set { enabled = value; } }
+        public string Name { get { return name; } set { name = value; } }
+
 
         /// <summary>
         /// Creates a new GameObject
         /// </summary>
         /// <param name="position">The position of the game object</param>
-        /// <param name="texture">The texture of the game object</param>
-        public GameObject(Vector2 position, Texture2D texture)
+        public GameObject(Vector2 position, string name)
         {
             this.position = position;
-            this.texture = texture;
+            this.name = name;
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);
