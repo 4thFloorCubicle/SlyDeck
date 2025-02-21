@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SlyDeck.Managers
 {
@@ -88,7 +89,7 @@ namespace SlyDeck.Managers
             }
             else
             {
-                throw new ArgumentOutOfRangeException($"{name} is not a valid key in GUI dictionary");
+                throw new ArgumentOutOfRangeException("name", $"{name} is not a valid key in GUI dictionary");
             }
         }
 
@@ -99,7 +100,22 @@ namespace SlyDeck.Managers
 
         public void AddGameObject(GameObject gameObject)
         {
-            if (gameObjects.TryAdd(gameObject.))
+            if (!gameObjects.TryAdd(gameObject.Name, gameObject))
+            {
+                throw new ArgumentException($"Element \"{gameObject.Name}\" was not added successfuly to GUI dictionary. (Is this element already present in the dictionary?)");
+            }
         }
+
+        public GameObject GetGameObject(string name)
+        {
+            if (gameObjects.TryGetValue(name, out GameObject value))
+            {
+                return value;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("name", $"{name} is not a valid key in the dictionary");
+            }
+        } 
     }
 }

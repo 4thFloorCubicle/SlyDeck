@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,20 +25,35 @@ namespace SlyDeck.GameObjects.Card
         private int stat2;
         private int cost;
         private CardType type;
-        private List<ICardEffect> effects;
+        private Dictionary<string, ICardEffect> effects;
 
-        public Card(Vector2 position, Texture2D texture, string name, string description, int stat1, int stat2, int cost) : base(position, texture)
+        public Card(Vector2 position, string name, string description, int stat1, int stat2, int cost, CardType type) : base(position, name)
         {
-            this.name = name;
             this.description = description;
             this.stat1 = stat1;
             this.stat2 = stat2;
             this.cost = cost;
+            this.type = type;
+
+            effects = new Dictionary<string, ICardEffect>();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
+        }
+
+        public void AddEffect(string effectName, ICardEffect effect)
+        {
+            effects.Add(effectName, effect);
+        }
+
+        public void Play()
+        {
+            foreach (ICardEffect effect in effects.Values)
+            {
+                effect.Perform();
+            }
         }
     }
 }

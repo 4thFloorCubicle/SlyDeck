@@ -22,7 +22,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         {
             Label label = (Label)GameObjectManager.Instance.GetGUIElement("Test Label");
 
-            label.Text = "Effect used!"; 
+            label.Text = text; 
             label.TextColor = Color.LightBlue;
         }
     }

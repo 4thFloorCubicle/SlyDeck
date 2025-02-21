@@ -14,17 +14,14 @@ namespace SlyDeck.GameObjects.UI
     /// </summary>
     internal class Label : GameObject, IUserInterface
     {
-        private string name;
         private string text;
         private SpriteFont spriteFont;
         private Color color;
-        public string Name { get { return name; } }
         public string Text { get { return text; } set { text = value; } }
         public Color TextColor { get { return color; } set { color = value; } }
 
-        public Label(Vector2 position, string name, string text, SpriteFont spriteFont) : base(position)
+        public Label(Vector2 position, string name, string text, SpriteFont spriteFont) : base(position, name)
         {
-            this.name = name;
             this.text = text;
             this.spriteFont = spriteFont;
             color = Color.White;
