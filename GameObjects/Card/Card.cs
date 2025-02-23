@@ -48,6 +48,9 @@ namespace SlyDeck.GameObjects.Card
             effects.Add(effectName, effect);
         }
 
+        /// <summary>
+        /// Plays this card, activating any effects attached to it
+        /// </summary>
         public void Play()
         {
             foreach (ICardEffect effect in effects.Values)

@@ -30,7 +30,10 @@ namespace SlyDeck.Managers
             gameObjects = new Dictionary<string, GameObject>();
         } 
 
-        // acts like a constructor and get at the same time
+        /// <summary>
+        /// Gets the singleton instance of this manager. If no instance exists, it creates a new one.
+        /// </summary>
+        /// <returns>The instance of this manager</returns>
         private static GameObjectManager GetInstance()
         {
             if (instance == null)
@@ -41,6 +44,10 @@ namespace SlyDeck.Managers
             return instance;
         }
 
+        /// <summary>
+        /// Draws all elements in the gameobjects lookup table
+        /// </summary>
+        /// <param name="spriteBatch">The spritebatch to draw to</param>
         public void DrawAll(SpriteBatch spriteBatch)
         {
             foreach (GameObject gameObject in gameObjects.Values)
@@ -81,6 +88,12 @@ namespace SlyDeck.Managers
             return success;
         }
 
+        /// <summary>
+        /// Gets a GUI element by a specified name
+        /// </summary>
+        /// <param name="name">The name of the GUI element</param>
+        /// <returns>The GUI element found</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public IUserInterface GetGUIElement(string name)
         {
             if (gui.TryGetValue(name, out IUserInterface value))
@@ -93,11 +106,22 @@ namespace SlyDeck.Managers
             }
         }
 
-        public bool TryGetGUIElement(string name, out IUserInterface value)
+        /// <summary>
+        /// Attempts to get a GUI element by name
+        /// </summary>
+        /// <param name="name">The name of the GUI element</param>
+        /// <param name="element">The value of the GUI element, if found</param>
+        /// <returns>True if found, False otherwise</returns>
+        public bool TryGetGUIElement(string name, out IUserInterface element)
         {
-            return gui.TryGetValue(name, out value);
+            return gui.TryGetValue(name, out element);
         }
 
+        /// <summary>
+        /// Adds a gameobject to a lookup table
+        /// </summary>
+        /// <param name="gameObject">The gameobject to add</param>
+        /// <exception cref="ArgumentException"></exception>
         public void AddGameObject(GameObject gameObject)
         {
             if (!gameObjects.TryAdd(gameObject.Name, gameObject))
@@ -106,6 +130,12 @@ namespace SlyDeck.Managers
             }
         }
 
+        /// <summary>
+        /// Gets a gameobject by a specified name
+        /// </summary>
+        /// <param name="name">The name of the gameobject</param>
+        /// <returns>The gameobject found</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public GameObject GetGameObject(string name)
         {
             if (gameObjects.TryGetValue(name, out GameObject value))

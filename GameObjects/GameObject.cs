@@ -16,6 +16,7 @@ namespace SlyDeck.GameObjects
         private Vector2 position;
         private bool enabled;
         private string name;
+
         public Vector2 Position { get { return position; } }
         public bool Enabled { get { return enabled; } set { enabled = value; } }
         public string Name { get { return name; } set { name = value; } }
