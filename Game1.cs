@@ -1,6 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using SlyDeck.GameObjects.UI;
+using SlyDeck.GameObjects;
+using SlyDeck.Managers;
+using SlyDeck.GameObjects.Card;
+using SlyDeck.GameObjects.Card.CardEffects;
 
 namespace SlyDeck;
 
@@ -8,6 +14,8 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    private Dictionary<string, SpriteFont> fonts;
 
     public Game1()
     {
@@ -18,7 +26,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
+        fonts = new Dictionary<string, SpriteFont>();
 
         base.Initialize();
     }
@@ -27,7 +35,16 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // TODO: use this.Content to load your game content here
+        fonts["Arial24"] = Content.Load<SpriteFont>("Arial24");
+
+        Label testLabel = new Label(new Vector2(100, 100), "Test Label", "Hi!", fonts["Arial24"]);
+        GameObjectManager.Instance.AddGUIElement(testLabel);
+
+        Card testCard = new Card(new Vector2(200, 200), "Test Card", "This card has a test effect", 2, 4, 2, CardType.Title);
+        GameObjectManager.Instance.AddGameObject(testCard);
+
+        TestEffect effect = new TestEffect("Effect used!");
+        testCard.AddEffect("Test Effect", effect);
     }
 
     protected override void Update(GameTime gameTime)
@@ -38,7 +55,12 @@ public class Game1 : Game
         )
             Exit();
 
-        // TODO: Add your update logic here
+        // proc effect
+        if (Keyboard.GetState().IsKeyDown(Keys.Space))
+        {
+            Card card = (Card)GameObjectManager.Instance.GetGameObject("Test Card");
+            card.Play();
+        }
 
         base.Update(gameTime);
     }
@@ -47,7 +69,13 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        _spriteBatch.Begin();
+
+        Label label = (Label)GameObjectManager.Instance.GetGUIElement("Test Label");
+        label.Draw(_spriteBatch);
+        //GameObjectManager.Instance.DrawAll(_spriteBatch);
+
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
