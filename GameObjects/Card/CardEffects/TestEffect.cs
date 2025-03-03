@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace SlyDeck.GameObjects.Card.CardEffects
 {
+    /// <summary>
+    /// For testing decorator functionality only
+    /// </summary>
     internal class TestEffect : ICardEffect
     {
         private string text;

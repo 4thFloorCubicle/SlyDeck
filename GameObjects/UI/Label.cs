@@ -20,6 +20,13 @@ namespace SlyDeck.GameObjects.UI
         public string Text { get { return text; } set { text = value; } }
         public Color TextColor { get { return color; } set { color = value; } }
 
+        /// <summary>
+        /// Creates a new label
+        /// </summary>
+        /// <param name="position">The position of the label</param>
+        /// <param name="name">The name for this label</param>
+        /// <param name="text">The text content this label contains</param>
+        /// <param name="spriteFont">The spritefont to use for this label</param>
         public Label(Vector2 position, string name, string text, SpriteFont spriteFont) : base(position, name)
         {
             this.text = text;
@@ -27,6 +34,10 @@ namespace SlyDeck.GameObjects.UI
             color = Color.White;
         }
 
+        /// <summary>
+        /// Draws this object to a spritebatch
+        /// </summary>
+        /// <param name="spriteBatch">The spriteback to draw to</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(spriteFont, text, Position, color);

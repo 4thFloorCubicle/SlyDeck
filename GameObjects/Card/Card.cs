@@ -18,6 +18,9 @@ namespace SlyDeck.GameObjects.Card
         Transition
     }
 
+    /// <summary>
+    /// Class that represents cards to be played within the game
+    /// </summary>
     internal class Card : GameObject
     {
         private string description;
@@ -38,11 +41,24 @@ namespace SlyDeck.GameObjects.Card
             effects = new Dictionary<string, ICardEffect>();
         }
 
+        /// <summary>
+        /// Draws the card to a spritebatch
+        /// </summary>
+        /// <param name="spriteBatch">The spritebatch to draw to</param>
+        /// <exception cref="NotImplementedException"></exception>
         public override void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Adds an effect to this card
+        /// 
+        /// NOTE: we may remove effect name if its not necessary, 
+        ///     i just have it in here for the time being so refactoring doesnt become a nightmare
+        /// </summary>
+        /// <param name="effectName">The name of the effect</param>
+        /// <param name="effect">The effect itself</param>
         public void AddEffect(string effectName, ICardEffect effect)
         {
             effects.Add(effectName, effect);
