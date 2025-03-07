@@ -30,8 +30,18 @@ namespace SlyDeck.GameObjects
         {
             this.position = position;
             this.name = name;
+
+            enabled = true;
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);
+        
+        /// <summary>
+        /// Toggles the enabled property of this gameobject
+        /// </summary>
+        public virtual void Toggle()
+        {
+            enabled = !enabled;
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace SlyDeck.GameObjects.UI
     {
         private string displayText; // text contained within the UI element shown to the user
         private Texture2D backTexture; // texture for the button
-        private SpriteFont font;
+        private SpriteFont font; // font for the buttons text
 
         public event ClickedDelegate Clicked;
         public Rectangle Bounds { get { return new Rectangle((int)Position.X, (int)Position.Y, backTexture.Width, backTexture.Height); } }
@@ -21,14 +21,17 @@ namespace SlyDeck.GameObjects.UI
         {
             this.backTexture = backTexture;
             this.displayText = displayText;
+            this.font = font;
         }
 
-        public event ClickedDelegate clicked;
-
+        /// <summary>
+        /// Draws the button back texture, THEN the text ontop
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(backTexture, Position, backTexture.Bounds, Color.White, 0, backTexture.Bounds.Center.ToVector2(), 1, SpriteEffects.None, .5f);
-            spriteBatch.DrawString(font, displayText, Position, Color.White, 0, backTexture.Bounds.Center.ToVector2(), 1, SpriteEffects.None, .51f);
+            spriteBatch.Draw(backTexture, Position, backTexture.Bounds, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, .5f); // temporary depth vals
+            spriteBatch.DrawString(font, displayText, Position, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, .51f);
         }
 
         /// <summary>
@@ -36,7 +39,7 @@ namespace SlyDeck.GameObjects.UI
         /// </summary>
         public void OnClick()
         {
-            clicked?.Invoke(); // optional for null safety, could be clicked w/o any subscribers
+            Clicked?.Invoke(); // optional for null safety, could be clicked w/o any subscribers
         }
     }
 }

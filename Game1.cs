@@ -15,6 +15,10 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Texture2D queenOfSpades;
+    private Texture2D buttonTestTexture;
+
+    private MouseState prevMouseState;
+    private KeyboardState prevKeyState;
 
     private Dictionary<string, SpriteFont> fonts;
 
@@ -29,6 +33,11 @@ public class Game1 : Game
     {
         fonts = new Dictionary<string, SpriteFont>();
 
+        _graphics.IsFullScreen = false;
+        _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
+        _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
+        _graphics.ApplyChanges();
+
         base.Initialize();
     }
 
@@ -39,12 +48,18 @@ public class Game1 : Game
         fonts["Arial24"] = Content.Load<SpriteFont>("Arial24");
 
         queenOfSpades = Content.Load<Texture2D>("QueenOfSpades");
+        buttonTestTexture = Content.Load<Texture2D>("TestButton");
 
         Label testLabel = new Label(new Vector2(100, 100), "Test Label", "Hi!", fonts["Arial24"]);
         GameObjectManager.Instance.AddGUIElement(testLabel);
 
         Card testCard = new Card(new Vector2(200, 200), "Test Card", queenOfSpades, "This card has a test effect", 2, CardType.Title);
         GameObjectManager.Instance.AddGameObject(testCard);
+
+        Button testButton = new Button(new Vector2(300, 100), "Test Button", "", buttonTestTexture, fonts["Arial24"]);
+        GameObjectManager.Instance.AddGUIElement(testButton);
+
+        testButton.Clicked += testCard.Toggle;
 
         TestEffect effect = new TestEffect("Effect used!");
         testCard.AddEffect("Test Effect", effect);
@@ -65,6 +80,22 @@ public class Game1 : Game
             card.Play();
         }
 
+        if (SingleLeftClick())
+        {
+            foreach (GameObject uiElement in GameObjectManager.Instance.GetAllGameObjects())
+            {
+                IClickable clickable = uiElement as IClickable;
+
+                if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
+                {
+                    clickable.OnClick();
+                }
+            }
+        }
+
+        prevKeyState = Keyboard.GetState();
+        prevMouseState = Mouse.GetState();
+
         base.Update(gameTime);
     }
 
@@ -79,5 +110,10 @@ public class Game1 : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    private bool SingleLeftClick()
+    {
+        return (prevMouseState.LeftButton == ButtonState.Released) && (Mouse.GetState().LeftButton == ButtonState.Pressed);
     }
 }

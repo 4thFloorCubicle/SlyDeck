@@ -3,6 +3,7 @@ using SlyDeck.GameObjects;
 using SlyDeck.GameObjects.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,10 @@ namespace SlyDeck.Managers
         {
             foreach (GameObject gameObject in gameObjects.Values)
             {
-                gameObject.Draw(spriteBatch);
+                if (gameObject.Enabled)
+                {
+                    gameObject.Draw(spriteBatch);
+                }
             }
         }
 
@@ -146,6 +150,15 @@ namespace SlyDeck.Managers
             {
                 throw new ArgumentOutOfRangeException("name", $"{name} is not a valid key in the dictionary");
             }
-        } 
+        }
+        
+        /// <summary>
+        /// Gets all game objects added to the lookup table
+        /// </summary>
+        /// <returns>A list containing all game objects</returns>
+        public List<GameObject> GetAllGameObjects()
+        {
+            return gameObjects.Values.ToList<GameObject>();
+        }
     }
 }
