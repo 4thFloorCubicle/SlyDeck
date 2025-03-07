@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using SlyDeck.GameObjects.GameObjects.Card;
+using SlyDeck.GameObjects.Card;
 
 namespace SlyDeck.Deck
 {
