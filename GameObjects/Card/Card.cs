@@ -25,17 +25,15 @@ namespace SlyDeck.GameObjects.Card
     {
         private string description;
         private int stat1;
-        private int stat2;
-        private int cost;
+        private Texture2D cardTexture;
         private CardType type;
         private Dictionary<string, ICardEffect> effects;
 
-        public Card(Vector2 position, string name, string description, int stat1, int stat2, int cost, CardType type) : base(position, name)
+        public Card(Vector2 position, string name, Texture2D cardTexture, string description, int stat1, CardType type) : base(position, name)
         {
+            this.cardTexture = cardTexture;
             this.description = description;
             this.stat1 = stat1;
-            this.stat2 = stat2;
-            this.cost = cost;
             this.type = type;
 
             effects = new Dictionary<string, ICardEffect>();
@@ -48,7 +46,7 @@ namespace SlyDeck.GameObjects.Card
         /// <exception cref="NotImplementedException"></exception>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.Draw(cardTexture, Position, cardTexture.Bounds, Color.White, 0, Position, 1, SpriteEffects.None, .9f);
         }
 
         /// <summary>

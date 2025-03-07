@@ -14,6 +14,7 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private Texture2D queenOfSpades;
 
     private Dictionary<string, SpriteFont> fonts;
 
@@ -37,10 +38,12 @@ public class Game1 : Game
 
         fonts["Arial24"] = Content.Load<SpriteFont>("Arial24");
 
+        queenOfSpades = Content.Load<Texture2D>("QueenOfSpades");
+
         Label testLabel = new Label(new Vector2(100, 100), "Test Label", "Hi!", fonts["Arial24"]);
         GameObjectManager.Instance.AddGUIElement(testLabel);
 
-        Card testCard = new Card(new Vector2(200, 200), "Test Card", "This card has a test effect", 2, 4, 2, CardType.Title);
+        Card testCard = new Card(new Vector2(200, 200), "Test Card", queenOfSpades, "This card has a test effect", 2, CardType.Title);
         GameObjectManager.Instance.AddGameObject(testCard);
 
         TestEffect effect = new TestEffect("Effect used!");
@@ -71,9 +74,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
-        Label label = (Label)GameObjectManager.Instance.GetGUIElement("Test Label");
-        label.Draw(_spriteBatch);
-        //GameObjectManager.Instance.DrawAll(_spriteBatch);
+        GameObjectManager.Instance.DrawAll(_spriteBatch);
 
         _spriteBatch.End();
 

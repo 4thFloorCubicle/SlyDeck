@@ -12,11 +12,12 @@ namespace SlyDeck.GameObjects.UI
     {
         private string displayText; // text contained within the UI element shown to the user
         private Texture2D backTexture; // texture for the button
+        private SpriteFont font;
 
         public event ClickedDelegate Clicked;
-        public Rectangle Bounds { get; }
+        public Rectangle Bounds { get { return new Rectangle((int)Position.X, (int)Position.Y, backTexture.Width, backTexture.Height); } }
 
-        public Button(Vector2 position, string name, string displayText, Texture2D backTexture) : base(position, name)
+        public Button(Vector2 position, string name, string displayText, Texture2D backTexture, SpriteFont font) : base(position, name)
         {
             this.backTexture = backTexture;
             this.displayText = displayText;
@@ -26,7 +27,8 @@ namespace SlyDeck.GameObjects.UI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.Draw(backTexture, Position, backTexture.Bounds, Color.White, 0, backTexture.Bounds.Center.ToVector2(), 1, SpriteEffects.None, .5f);
+            spriteBatch.DrawString(font, displayText, Position, Color.White, 0, backTexture.Bounds.Center.ToVector2(), 1, SpriteEffects.None, .51f);
         }
 
         /// <summary>
