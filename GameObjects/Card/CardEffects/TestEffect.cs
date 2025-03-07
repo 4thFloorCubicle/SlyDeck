@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlyDeck.GameObjects.Card.CardEffects
+namespace SlyDeck.GameObjects.GameObjects.Card.CardEffects
 {
     /// <summary>
     /// For testing decorator functionality only

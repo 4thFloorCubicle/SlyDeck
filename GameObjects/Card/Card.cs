@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlyDeck.GameObjects.Card
+namespace SlyDeck.GameObjects.GameObjects.Card
 {
     internal enum CardType
     {

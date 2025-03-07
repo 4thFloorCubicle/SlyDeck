@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using SlyDeck.GameObjects.UI;
 using SlyDeck.GameObjects;
 using SlyDeck.Managers;
-using SlyDeck.GameObjects.Card;
-using SlyDeck.GameObjects.Card.CardEffects;
+using SlyDeck.GameObjects.GameObjects.Card;
+using SlyDeck.GameObjects.GameObjects.Card.CardEffects;
 
 namespace SlyDeck;
 
