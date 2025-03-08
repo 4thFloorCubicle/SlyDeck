@@ -7,11 +7,26 @@ using Microsoft.Xna.Framework;
 
 namespace SlyDeck.GameObjects.UI
 {
+    public enum MouseButton
+    {
+        Left,
+        Middle,
+        Right
+    }
+
     public delegate void ClickedDelegate();
+    
+    /// <summary>
+    /// Interface defining clicking fucntionality via mouse
+    /// </summary>
     internal interface IClickable
     {
-        event ClickedDelegate Clicked;
+        event ClickedDelegate LeftClick;
+        event ClickedDelegate MiddleClick;
+        event ClickedDelegate RightClick;
         Rectangle Bounds { get; }
-        void OnClick();
+        void OnLeftClick();
+        void OnRightClick();
+        void OnMiddleClick();
     }
 }

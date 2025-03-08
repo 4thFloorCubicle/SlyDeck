@@ -12,34 +12,40 @@ namespace SlyDeck.GameObjects.UI
     {
         private string displayText; // text contained within the UI element shown to the user
         private Texture2D backTexture; // texture for the button
-        private SpriteFont font; // font for the buttons text
 
-        public event ClickedDelegate Clicked;
-        public Rectangle Bounds { get { return new Rectangle((int)Position.X, (int)Position.Y, backTexture.Width, backTexture.Height); } }
+        public event ClickedDelegate LeftClick;
+        public event ClickedDelegate MiddleClick;
+        public event ClickedDelegate RightClick;
 
-        public Button(Vector2 position, string name, string displayText, Texture2D backTexture, SpriteFont font) : base(position, name)
+        public Rectangle Bounds { get; }
+
+        public Button(Vector2 position, string name, string displayText, Texture2D backTexture) : base(position, name)
         {
             this.backTexture = backTexture;
             this.displayText = displayText;
-            this.font = font;
         }
 
-        /// <summary>
-        /// Draws the button back texture, THEN the text ontop
-        /// </summary>
-        /// <param name="spriteBatch"></param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(backTexture, Position, backTexture.Bounds, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, .5f); // temporary depth vals
-            spriteBatch.DrawString(font, displayText, Position, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, .51f);
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Invoked when the button is clicked. Calls all subscribers to the clicked event.
+        /// Calls all subscribers to the LeftClicked event.
         /// </summary>
-        public void OnClick()
+        public void OnLeftClick()
         {
-            Clicked?.Invoke(); // optional for null safety, could be clicked w/o any subscribers
+            LeftClick?.Invoke(); // optional for null safety, could be clicked w/o any subscribers
+        }
+
+        public void OnRightClick()
+        {
+            RightClick?.Invoke();
+        }
+
+        public void OnMiddleClick()
+        {
+            MiddleClick?.Invoke();
         }
     }
 }

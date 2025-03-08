@@ -59,7 +59,7 @@ public class Game1 : Game
         Button testButton = new Button(new Vector2(300, 100), "Test Button", "", buttonTestTexture, fonts["Arial24"]);
         GameObjectManager.Instance.AddGUIElement(testButton);
 
-        testButton.Clicked += testCard.Toggle;
+        testButton.LeftClick += testCard.Toggle;
 
         TestEffect effect = new TestEffect("Effect used!");
         testCard.AddEffect("Test Effect", effect);
@@ -88,7 +88,7 @@ public class Game1 : Game
 
                 if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
                 {
-                    clickable.OnClick();
+                    clickable.OnLeftClick();
                 }
             }
         }
