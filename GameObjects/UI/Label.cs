@@ -12,7 +12,7 @@ namespace SlyDeck.GameObjects.UI
     /// <summary>
     /// Class for Label UI Objects
     /// </summary>
-    internal class Label : GameObject, IUserInterface
+    internal class Label : GameObject
     {
         private string text;
         private SpriteFont spriteFont;

@@ -51,14 +51,13 @@ public class Game1 : Game
         buttonTestTexture = Content.Load<Texture2D>("TestButton");
 
         Label testLabel = new Label(new Vector2(100, 100), "Test Label", "Hi!", fonts["Arial24"]);
-        GameObjectManager.Instance.AddGUIElement(testLabel);
+        GameObjectManager.Instance.AddGameObject(testLabel);
 
         Card testCard = new Card(new Vector2(200, 200), "Test Card", queenOfSpades, "This card has a test effect", 2, CardType.Title);
         GameObjectManager.Instance.AddGameObject(testCard);
 
-        Button testButton = new Button(new Vector2(300, 100), "Test Button", "", buttonTestTexture, fonts["Arial24"]);
-        GameObjectManager.Instance.AddGUIElement(testButton);
-
+        Button testButton = new Button(new Vector2(300, 100), "Test Button", "Test Button", buttonTestTexture, fonts["Arial24"]);
+        GameObjectManager.Instance.AddGameObject(testButton);
         testButton.LeftClick += testCard.Toggle;
 
         TestEffect effect = new TestEffect("Effect used!");
@@ -71,20 +70,24 @@ public class Game1 : Game
             GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
             || Keyboard.GetState().IsKeyDown(Keys.Escape)
         )
+        {
             Exit();
+        }
+            
 
-        // proc effect
+        // proc tets effect
         if (Keyboard.GetState().IsKeyDown(Keys.Space))
         {
             Card card = (Card)GameObjectManager.Instance.GetGameObject("Test Card");
             card.Play();
         }
 
+        // check for left click events
         if (SingleLeftClick())
         {
-            foreach (GameObject uiElement in GameObjectManager.Instance.GetAllGameObjects())
+            foreach (GameObject gameObject in GameObjectManager.Instance.GetAllGameObjects())
             {
-                IClickable clickable = uiElement as IClickable;
+                IClickable clickable = gameObject as IClickable;
 
                 if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
                 {
@@ -112,6 +115,11 @@ public class Game1 : Game
         base.Draw(gameTime);
     }
 
+    /// <summary>
+    /// Checks if the left button on the mouse was clicked this frame and none before
+    /// </summary>
+    /// <returns>True if clicked this frame, false otherwise</returns>
+    // Move to an input manager in the future
     private bool SingleLeftClick()
     {
         return (prevMouseState.LeftButton == ButtonState.Released) && (Mouse.GetState().LeftButton == ButtonState.Pressed);
