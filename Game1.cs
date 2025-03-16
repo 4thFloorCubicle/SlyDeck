@@ -17,10 +17,6 @@ public class Game1 : Game
     private Texture2D queenOfSpades; // test texture
     private Texture2D buttonTestTexture;
 
-    //todo: move to input manager
-    private MouseState prevMouseState;
-    private KeyboardState prevKeyState;
-
     private Dictionary<string, SpriteFont> fonts;
 
     public Game1()
@@ -115,15 +111,5 @@ public class Game1 : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
-    }
-
-    /// <summary>
-    /// Checks if the left button on the mouse was clicked this frame and none before
-    /// </summary>
-    /// <returns>True if clicked this frame, false otherwise</returns>
-    // Move to an input manager in the future
-    private bool SingleLeftClick()
-    {
-        return (prevMouseState.LeftButton == ButtonState.Released) && (Mouse.GetState().LeftButton == ButtonState.Pressed);
     }
 }
