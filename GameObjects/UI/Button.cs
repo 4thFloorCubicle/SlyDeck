@@ -6,18 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.UI
 {
     /// <summary>
-    /// Authors: Cooper Fleishman
-    /// 
     /// Class for Button UI objects.
     /// </summary>
     internal class Button : GameObject, IClickable
     {
         private string displayText; // text contained within the UI element shown to the user
         private Texture2D backTexture; // texture for the button
-        private SpriteFont font;
+        private SpriteFont font; // font for rendering displaytext
 
         public event ClickedDelegate LeftClick;
         public event ClickedDelegate MiddleClick;
@@ -48,7 +47,7 @@ namespace SlyDeck.GameObjects.UI
         {
             spriteBatch.Draw(backTexture, Bounds, backTexture.Bounds, Color.White, 0f, Vector2.Zero, SpriteEffects.None, .5f);
 
-            // no reason to draw it when the string is empty
+            // no reason to draw text when there is none to be drawn
             if (displayText.Length > 0)
             {
                 spriteBatch.DrawString(font, displayText, Position, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, .501f);

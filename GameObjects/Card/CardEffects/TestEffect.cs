@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card.CardEffects
 {
     /// <summary>

@@ -14,9 +14,10 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    private Texture2D queenOfSpades;
+    private Texture2D queenOfSpades; // test texture
     private Texture2D buttonTestTexture;
 
+    //todo: move to input manager
     private MouseState prevMouseState;
     private KeyboardState prevKeyState;
 

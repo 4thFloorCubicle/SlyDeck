@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects
 {
     /// <summary>
@@ -37,7 +38,7 @@ namespace SlyDeck.GameObjects
         public abstract void Draw(SpriteBatch spriteBatch);
         
         /// <summary>
-        /// Toggles the enabled property of this gameobject
+        /// Toggles if the object if enabled or not
         /// </summary>
         public virtual void Toggle()
         {
