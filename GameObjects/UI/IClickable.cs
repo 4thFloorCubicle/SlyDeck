@@ -11,6 +11,7 @@ namespace SlyDeck.GameObjects.UI
     /// <summary>
     /// Represents the different mouse buttons to be used as controls within the game
     /// </summary>
+    /// Move to input manager in the future
     public enum MouseButton
     {
         Left,
