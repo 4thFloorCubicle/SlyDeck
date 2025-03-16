@@ -89,8 +89,9 @@ public class Game1 : Game
             foreach (GameObject gameObject in GameObjectManager.Instance.GetAllGameObjects())
             {
                 IClickable clickable = gameObject as IClickable;
-
-                if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
+                
+                // check if a gameobject is a clickable, and if mouse is within the bounds of the clickable
+                if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position)) 
                 {
                     clickable.OnLeftClick();
                 }
