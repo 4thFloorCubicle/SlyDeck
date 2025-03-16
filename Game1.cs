@@ -63,6 +63,8 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        InputManager.Instance.RefreshInput();
+
         if (
             GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
             || Keyboard.GetState().IsKeyDown(Keys.Escape)
@@ -80,7 +82,7 @@ public class Game1 : Game
         }
 
         // check for left click events
-        if (SingleLeftClick())
+        if (InputManager.Instance.SingleMousePress(MouseButton.Left))
         {
             foreach (GameObject gameObject in GameObjectManager.Instance.GetAllGameObjects())
             {
@@ -93,9 +95,6 @@ public class Game1 : Game
                 }
             }
         }
-
-        prevKeyState = Keyboard.GetState();
-        prevMouseState = Mouse.GetState();
 
         base.Update(gameTime);
     }
