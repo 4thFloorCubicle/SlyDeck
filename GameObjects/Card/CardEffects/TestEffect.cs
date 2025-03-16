@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card.CardEffects
 {
     /// <summary>
@@ -23,7 +24,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         
         public void Perform()
         {
-            Label label = (Label)GameObjectManager.Instance.GetGUIElement("Test Label");
+            Label label = (Label)GameObjectManager.Instance.GetGameObject("Test Label");
 
             label.Text = text; 
             label.TextColor = Color.LightBlue;
