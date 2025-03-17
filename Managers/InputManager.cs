@@ -1,4 +1,4 @@
-﻿//System Imports
+//System Imports
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace SlyDeck.Managers
     {
         //Singleton Params
         private static InputManager instance;
-        public static InputManager Instance { get { return GetInstance() ; } }
+        public static InputManager Instance { get { return GetInstance(); } }
 
         //Button States
         private MouseState prevMouseState;
@@ -56,7 +56,7 @@ namespace SlyDeck.Managers
 
             return instance;
         }
-        
+
         /// <summary>
         /// Checks if a mouse button was pressed this frame and NOT last frame
         /// </summary>
@@ -89,25 +89,54 @@ namespace SlyDeck.Managers
         }
 
         /// <summary>
+        /// Checks if the mouse button pressed LAST FRAME was released THIS frame
+        /// </summary>
+        /// <param name="mouseButton">The mouse button to be checked</param>
+        /// <returns>True if the button is released this frame, false otherwise</returns>
+        /// <exception cref="ArgumentException">Thrown when an invalid MouseButton is supplied</exception>
+        public bool ReleaseMouse(MouseButton mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButton.Left:
+                    return (prevMouseState.LeftButton == ButtonState.Pressed) && (currentMouseState.LeftButton == ButtonState.Released);
+                case MouseButton.Middle:
+                    return (prevMouseState.MiddleButton == ButtonState.Pressed) && (currentMouseState.MiddleButton == ButtonState.Released);
+                case MouseButton.Right:
+                    return (prevMouseState.RightButton == ButtonState.Pressed) && (currentMouseState.RightButton == ButtonState.Released);
+                default:
+                    throw new ArgumentException($"{nameof(mouseButton)} is not an acceptable input");
+            }
+        }
+
+        /// <summary>
+        /// Checks if the key pressed LAST FRAME was released THIS frame
+        /// </summary>
+        /// <param name="key">The key to be checked</param>
+        /// <returns>True if the key is released this frame, false otherwise</returns>
+        public bool ReleaseKey(Keys key)
+        {
+            return (prevKeyState.IsKeyDown(key)) && (currentKeyboardState.IsKeyUp(key));
+        }
+
+
+        /// <summary>
         /// Checks for Mouse Input
         /// </summary>
         /// <returns>Whether the button supplied was pressed or not</returns>
         public bool CheckMousePress(MouseButton btnPressed)
         {
-            if (btnPressed == MouseButton.Left)
+            switch (btnPressed)
             {
-                prevMouseState = currentMouseState;
-                return (currentMouseState.LeftButton == ButtonState.Pressed);
-            }
-            else if (btnPressed == MouseButton.Middle)
-            {
-                prevMouseState = currentMouseState;
-                return (currentMouseState.MiddleButton == ButtonState.Pressed);
-            }
-            else
-            {
-                prevMouseState = currentMouseState;
-                return (currentMouseState.RightButton == ButtonState.Pressed);
+                case MouseButton.Left:
+                    prevMouseState = currentMouseState;
+                    return currentMouseState.LeftButton == ButtonState.Pressed;
+                case MouseButton.Middle:
+                    prevMouseState = currentMouseState;
+                    return currentMouseState.MiddleButton == ButtonState.Pressed;
+                default:
+                    prevMouseState = currentMouseState;
+                    return currentMouseState.RightButton == ButtonState.Pressed;
             }
         }
 
