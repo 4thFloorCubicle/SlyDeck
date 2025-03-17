@@ -89,7 +89,7 @@ namespace SlyDeck.Managers
         }
 
         /// <summary>
-        /// Checks if the mouse button pressed LAST FRAME was released THIS frame
+        /// Checks if a mouse button was pressed LAST FRAME and released THIS frame
         /// </summary>
         /// <param name="mouseButton">The mouse button to be checked</param>
         /// <returns>True if the button is released this frame, false otherwise</returns>
@@ -110,7 +110,7 @@ namespace SlyDeck.Managers
         }
 
         /// <summary>
-        /// Checks if the key pressed LAST FRAME was released THIS frame
+        /// Checks if a was key pressed LAST FRAME and released THIS frame
         /// </summary>
         /// <param name="key">The key to be checked</param>
         /// <returns>True if the key is released this frame, false otherwise</returns>
@@ -121,7 +121,7 @@ namespace SlyDeck.Managers
 
 
         /// <summary>
-        /// Checks for Mouse Input
+        /// Checks for if a specific mouse button is pressed THIS frame
         /// </summary>
         /// <returns>Whether the button supplied was pressed or not</returns>
         public bool CheckMousePress(MouseButton btnPressed)
@@ -151,7 +151,7 @@ namespace SlyDeck.Managers
         }
 
         /// <summary>
-        /// 'Refreshes' the keyboard states
+        /// 'Refreshes' the keyboard/mouse states
         /// </summary>
         public void RefreshInput()
         {
