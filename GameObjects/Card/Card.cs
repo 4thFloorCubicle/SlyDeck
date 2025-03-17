@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.GameObjects.Card.CardEffects;
+using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
 {
     internal enum CardType
@@ -24,17 +27,25 @@ namespace SlyDeck.GameObjects.Card
     internal class Card : GameObject
     {
         private string description;
-        private int stat1;
+        private int power;
         private Texture2D cardTexture;
         private CardType type;
         private Dictionary<string, ICardEffect> effects;
+        private Dictionary<string, Label> labels; // labels for displaying text
+        private Button playButton; // button used to play the card
 
-        public Card(Vector2 position, string name, Texture2D cardTexture, string description, int stat1, CardType type) : base(position, name)
+        public Card(Vector2 position, string name, Texture2D cardTexture, string description, int power, CardType type) : base(position, name)
         {
             this.cardTexture = cardTexture;
             this.description = description;
-            this.stat1 = stat1;
+            this.power = power;
             this.type = type;
+
+            labels = new Dictionary<string, Label>();
+
+            //Label lbName = new Label(Position, "Card Name", name);
+
+            //labels.Add();
 
             effects = new Dictionary<string, ICardEffect>();
         }
@@ -43,10 +54,9 @@ namespace SlyDeck.GameObjects.Card
         /// Draws the card to a spritebatch
         /// </summary>
         /// <param name="spriteBatch">The spritebatch to draw to</param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(cardTexture, Position, cardTexture.Bounds, Color.White, 0, Position, 1, SpriteEffects.None, .9f);
+            spriteBatch.Draw(cardTexture, Position, cardTexture.Bounds, Color.White, 0, Position, 1, SpriteEffects.None, .1f);
         }
 
         /// <summary>
