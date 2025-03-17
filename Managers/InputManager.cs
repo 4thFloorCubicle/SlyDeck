@@ -20,7 +20,7 @@ namespace SlyDeck.Managers
         Left,
         Middle,
         Right,
-        None
+        None,
     }
 
     // Authors: Vinny Keeler, Cooper Fleishman
@@ -28,7 +28,10 @@ namespace SlyDeck.Managers
     {
         //Singleton Params
         private static InputManager instance;
-        public static InputManager Instance { get { return GetInstance(); } }
+        public static InputManager Instance
+        {
+            get { return GetInstance(); }
+        }
 
         //Button States
         private MouseState prevMouseState;
@@ -68,13 +71,18 @@ namespace SlyDeck.Managers
             switch (mouseButton)
             {
                 case MouseButton.Left:
-                    return (prevMouseState.LeftButton == ButtonState.Released) && (currentMouseState.LeftButton == ButtonState.Pressed);
+                    return (prevMouseState.LeftButton == ButtonState.Released)
+                        && (currentMouseState.LeftButton == ButtonState.Pressed);
                 case MouseButton.Middle:
-                    return (prevMouseState.MiddleButton == ButtonState.Released) && (currentMouseState.MiddleButton == ButtonState.Pressed);
+                    return (prevMouseState.MiddleButton == ButtonState.Released)
+                        && (currentMouseState.MiddleButton == ButtonState.Pressed);
                 case MouseButton.Right:
-                    return (prevMouseState.RightButton == ButtonState.Released) && (currentMouseState.RightButton == ButtonState.Pressed);
+                    return (prevMouseState.RightButton == ButtonState.Released)
+                        && (currentMouseState.RightButton == ButtonState.Pressed);
                 default:
-                    throw new ArgumentException($"{nameof(mouseButton)} is not an acceptable input"); // not totally sure what a good message would be here
+                    throw new ArgumentException(
+                        $"{nameof(mouseButton)} is not an acceptable input"
+                    ); // not totally sure what a good message would be here
             }
         }
 
@@ -99,13 +107,18 @@ namespace SlyDeck.Managers
             switch (mouseButton)
             {
                 case MouseButton.Left:
-                    return (prevMouseState.LeftButton == ButtonState.Pressed) && (currentMouseState.LeftButton == ButtonState.Released);
+                    return (prevMouseState.LeftButton == ButtonState.Pressed)
+                        && (currentMouseState.LeftButton == ButtonState.Released);
                 case MouseButton.Middle:
-                    return (prevMouseState.MiddleButton == ButtonState.Pressed) && (currentMouseState.MiddleButton == ButtonState.Released);
+                    return (prevMouseState.MiddleButton == ButtonState.Pressed)
+                        && (currentMouseState.MiddleButton == ButtonState.Released);
                 case MouseButton.Right:
-                    return (prevMouseState.RightButton == ButtonState.Pressed) && (currentMouseState.RightButton == ButtonState.Released);
+                    return (prevMouseState.RightButton == ButtonState.Pressed)
+                        && (currentMouseState.RightButton == ButtonState.Released);
                 default:
-                    throw new ArgumentException($"{nameof(mouseButton)} is not an acceptable input");
+                    throw new ArgumentException(
+                        $"{nameof(mouseButton)} is not an acceptable input"
+                    );
             }
         }
 
@@ -118,7 +131,6 @@ namespace SlyDeck.Managers
         {
             return (prevKeyState.IsKeyDown(key)) && (currentKeyboardState.IsKeyUp(key));
         }
-
 
         /// <summary>
         /// Checks for if a specific mouse button is pressed THIS frame

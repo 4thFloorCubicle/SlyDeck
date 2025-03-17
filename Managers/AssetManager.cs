@@ -15,7 +15,10 @@ namespace SlyDeck.Managers
     {
         //Singleton
         private static AssetManager instance;
-        public static AssetManager Instance { get { return instance; } }
+        public static AssetManager Instance
+        {
+            get { return GetInstance(); }
+        }
 
         private static AssetManager GetInstance()
         {
@@ -72,7 +75,9 @@ namespace SlyDeck.Managers
             }
 
             //Error is thrown when the asset isn't found or the wrong type of object was requested
-            throw new KeyNotFoundException($"Asset '{assetName}' of type {typeof(T).Name} not found");
+            throw new KeyNotFoundException(
+                $"Asset '{assetName}' of type {typeof(T).Name} not found"
+            );
         }
 
         /// <summary>

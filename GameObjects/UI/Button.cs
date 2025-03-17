@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.UI
@@ -22,7 +22,18 @@ namespace SlyDeck.GameObjects.UI
         public event ClickedDelegate MiddleClick;
         public event ClickedDelegate RightClick;
 
-        public Rectangle Bounds { get { return new Rectangle((int)Position.X, (int)Position.Y, backTexture.Width, backTexture.Height); } }
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)Position.X,
+                    (int)Position.Y,
+                    backTexture.Width,
+                    backTexture.Height
+                );
+            }
+        }
 
         /// <summary>
         /// Creates a new button
@@ -32,7 +43,14 @@ namespace SlyDeck.GameObjects.UI
         /// <param name="displayText">The text the user sees ontop of the button</param>
         /// <param name="backTexture">The texture of the button</param>
         /// <param name="font">The font of the display text</param>
-        public Button(Vector2 position, string name, string displayText, Texture2D backTexture, SpriteFont font) : base(position, name)
+        public Button(
+            Vector2 position,
+            string name,
+            string displayText,
+            Texture2D backTexture,
+            SpriteFont font
+        )
+            : base(position, name)
         {
             this.backTexture = backTexture;
             this.displayText = displayText;
@@ -45,14 +63,32 @@ namespace SlyDeck.GameObjects.UI
         /// <param name="spriteBatch">The spritebatch to draw to</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(backTexture, Bounds, backTexture.Bounds, Color.White, 0f, Vector2.Zero, SpriteEffects.None, .5f);
+            spriteBatch.Draw(
+                backTexture,
+                Bounds,
+                backTexture.Bounds,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                SpriteEffects.None,
+                .5f
+            );
 
             // no reason to draw text when there is none to be drawn
             if (displayText.Length > 0)
             {
-                spriteBatch.DrawString(font, displayText, Position, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, .501f);
+                spriteBatch.DrawString(
+                    font,
+                    displayText,
+                    Position,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    1,
+                    SpriteEffects.None,
+                    .501f
+                );
             }
-            
         }
 
         /// <summary>
