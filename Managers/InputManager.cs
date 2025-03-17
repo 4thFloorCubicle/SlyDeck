@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+// Authors: Vinny Keeler, Cooper Fleishman
 namespace SlyDeck.Managers
 {
     //enums
@@ -23,7 +24,7 @@ namespace SlyDeck.Managers
         None
     }
 
-    // Authors: Vinny Keeler, Cooper Fleishman
+    
     internal class InputManager
     {
         //Singleton Params

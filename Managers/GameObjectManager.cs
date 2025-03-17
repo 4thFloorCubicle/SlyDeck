@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+// Authors: Cooper Fleishman
 namespace SlyDeck.Managers
 {
     /// <summary>
-    /// Manager for all GameObjects
+    /// Manager for all GameObjects.
     /// </summary>
     internal class GameObjectManager
     {
@@ -60,13 +61,23 @@ namespace SlyDeck.Managers
         /// Adds a gameobject to a lookup table
         /// </summary>
         /// <param name="gameObject">The gameobject to add</param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException">If the gameobject could not be added</exception>
         public void AddGameObject(GameObject gameObject)
         {
             if (!gameObjects.TryAdd(gameObject.Name, gameObject))
             {
-                throw new ArgumentException($"Element \"{gameObject.Name}\" was not added successfuly to GUI dictionary. (Is this element already present in the dictionary?)");
+                throw new ArgumentException($"Element \"{gameObject.Name}\" was not added successfuly to GameObject dictionary. (Is this element already present in the dictionary?)");
             }
+        }
+
+        /// <summary>
+        /// Attempts to add a gameobject to the lookup table
+        /// </summary>
+        /// <param name="gameObject">The gameobject to try to add</param>
+        /// <returns>True if the gameobject was added, false otherwise</returns>
+        public bool TryAddGameObject(GameObject gameObject)
+        {
+            return gameObjects.TryAdd(gameObject.Name, gameObject);
         }
 
         /// <summary>
@@ -74,7 +85,7 @@ namespace SlyDeck.Managers
         /// </summary>
         /// <param name="name">The name of the gameobject</param>
         /// <returns>The gameobject found</returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the name does not exist in the dictionary</exception>
         public GameObject GetGameObject(string name)
         {
             if (gameObjects.TryGetValue(name, out GameObject value))
@@ -85,6 +96,17 @@ namespace SlyDeck.Managers
             {
                 throw new ArgumentOutOfRangeException("name", $"{name} is not a valid key in the dictionary");
             }
+        }
+
+        /// <summary>
+        /// Attempts to get a gameobject by a specified name
+        /// </summary>
+        /// <param name="name">The name of the gameobject</param>
+        /// <param name="value">When this method returns, contains the game object with the provided name, if found. Returns a default GameObject otherwise.</param>
+        /// <returns>True if the gameobject was found, false otherwise</returns>
+        public bool TryGetGameObject(string name, out GameObject value)
+        {
+            return gameObjects.TryGetValue(name, out value); // what does a default gameobject even look like??
         }
         
         /// <summary>
