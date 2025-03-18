@@ -1,13 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SlyDeck.GameObjects.Card.CardEffects;
-using SlyDeck.GameObjects.UI;
-using SlyDeck.Managers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.Managers;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
@@ -18,7 +16,7 @@ namespace SlyDeck.GameObjects.Card
         List,
         Picture,
         Graph,
-        Transition
+        Transition,
     }
 
     /// <summary>
@@ -34,7 +32,15 @@ namespace SlyDeck.GameObjects.Card
         private Dictionary<string, Label> labels; // labels for displaying text
         private Button playButton; // button used to play the card
 
-        public Card(Vector2 position, string name, Texture2D cardTexture, string description, int power, CardType type) : base(position, name)
+        public Card(
+            Vector2 position,
+            string name,
+            Texture2D cardTexture,
+            string description,
+            int stat1,
+            CardType type
+        )
+            : base(position, name)
         {
             this.cardTexture = cardTexture;
             this.description = description;
@@ -56,13 +62,23 @@ namespace SlyDeck.GameObjects.Card
         /// <param name="spriteBatch">The spritebatch to draw to</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(cardTexture, Position, cardTexture.Bounds, Color.White, 0, Position, 1, SpriteEffects.None, .1f);
+            spriteBatch.Draw(
+                cardTexture,
+                Position,
+                cardTexture.Bounds,
+                Color.White,
+                0,
+                Position,
+                1,
+                SpriteEffects.None,
+                .9f
+            );
         }
 
         /// <summary>
         /// Adds an effect to this card
-        /// 
-        /// NOTE: we may remove effect name if its not necessary, 
+        ///
+        /// NOTE: we may remove effect name if its not necessary,
         ///     i just have it in here for the time being so refactoring doesnt become a nightmare
         /// </summary>
         /// <param name="effectName">The name of the effect</param>

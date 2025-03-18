@@ -8,9 +8,8 @@ using Microsoft.Xna.Framework;
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.UI
 {
-
     public delegate void ClickedDelegate();
-    
+
     /// <summary>
     /// Interface defining clicking functionality via mouse (a 'clickable')
     /// </summary>

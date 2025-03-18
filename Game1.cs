@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
-using SlyDeck.GameObjects.UI;
 using SlyDeck.GameObjects;
-using SlyDeck.Managers;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
+using SlyDeck.GameObjects.UI;
+using SlyDeck.Managers;
 
 namespace SlyDeck;
 
@@ -14,10 +14,6 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    private Texture2D queenOfSpades; // test texture
-    private Texture2D buttonTestTexture;
-
-    private Dictionary<string, SpriteFont> fonts;
 
     public Game1()
     {
@@ -28,11 +24,11 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        fonts = new Dictionary<string, SpriteFont>();
-
         _graphics.IsFullScreen = false;
-        _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
-        _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
+        _graphics.PreferredBackBufferWidth =
+            GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
+        _graphics.PreferredBackBufferHeight =
+            GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
         _graphics.ApplyChanges();
 
         base.Initialize();
@@ -42,18 +38,39 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        fonts["Arial24"] = Content.Load<SpriteFont>("Arial24");
+        //load assets into AssetManager
+        AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
+        AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
+        AssetManager.Instance.AddTexture(
+            "buttonTestTexture",
+            Content.Load<Texture2D>("testButton")
+        );
 
-        queenOfSpades = Content.Load<Texture2D>("QueenOfSpades");
-        buttonTestTexture = Content.Load<Texture2D>("TestButton");
-
-        Label testLabel = new Label(new Vector2(100, 100), "Test Label", "Hi!", fonts["Arial24"]);
+        Label testLabel = new Label(
+            new Vector2(100, 100),
+            "Test Label",
+            "Hi!",
+            AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+        );
         GameObjectManager.Instance.AddGameObject(testLabel);
 
-        Card testCard = new Card(new Vector2(200, 200), "Test Card", queenOfSpades, "This card has a test effect", 2, CardType.Title);
+        Card testCard = new Card(
+            new Vector2(200, 200),
+            "Test Card",
+            AssetManager.Instance.GetAsset<Texture2D>("QueenOfSpades"),
+            "This card has a test effect",
+            2,
+            CardType.Title
+        );
         GameObjectManager.Instance.AddGameObject(testCard);
 
-        Button testButton = new Button(new Vector2(300, 100), "Test Button", "Test Button", buttonTestTexture, fonts["Arial24"]);
+        Button testButton = new Button(
+            new Vector2(300, 100),
+            "Test Button",
+            "Test Button",
+            AssetManager.Instance.GetAsset<Texture2D>("buttonTestTexture"),
+            AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+        );
         GameObjectManager.Instance.AddGameObject(testButton);
         testButton.LeftClick += testCard.Toggle;
 
@@ -72,7 +89,6 @@ public class Game1 : Game
         {
             Exit();
         }
-            
 
         // proc tets effect
         if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -87,9 +103,9 @@ public class Game1 : Game
             foreach (GameObject gameObject in GameObjectManager.Instance.GetAllGameObjects())
             {
                 IClickable clickable = gameObject as IClickable;
-                
+
                 // check if a gameobject is a clickable, and if mouse is within the bounds of the clickable
-                if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position)) 
+                if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
                 {
                     clickable.OnLeftClick();
                 }
