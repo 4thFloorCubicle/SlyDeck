@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.Managers;
+using SlyDeck.GameObjects.UI;
+using SlyDeck.GameObjects.Card.CardEffects;
+
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
@@ -22,22 +25,31 @@ namespace SlyDeck.GameObjects.Card
     /// <summary>
     /// Class that represents cards to be played within the game
     /// </summary>
-    internal class Card : GameObject
+    internal class Card : GameObject, IClickable
     {
         private string description;
         private int power;
         private Texture2D cardTexture;
         private CardType type;
         private Dictionary<string, ICardEffect> effects;
-        private Dictionary<string, Label> labels; // labels for displaying text
         private Button playButton; // button used to play the card
+
+        private Label lbName;
+        private Label lbPower;
+        private Label lbType;
+
+        public Rectangle Bounds { get { return new Rectangle((int)Position.X, (int)Position.Y, cardTexture.Width, cardTexture.Height); } }
+
+        public event ClickedDelegate LeftClick;
+        public event ClickedDelegate MiddleClick;
+        public event ClickedDelegate RightClick;
 
         public Card(
             Vector2 position,
             string name,
             Texture2D cardTexture,
             string description,
-            int stat1,
+            int power,
             CardType type
         )
             : base(position, name)
@@ -47,11 +59,13 @@ namespace SlyDeck.GameObjects.Card
             this.power = power;
             this.type = type;
 
-            labels = new Dictionary<string, Label>();
+            // create the labels
+            // TODO, figure out where they need to be placed later (along with font size)
+            //lbName = new Label(Position, $"Card Name Label-{name}", name, AssetManager.Instance.GetAsset<SpriteFont>("Arial24"));
+            //lbType = new Label(Position, $"Card Type Label-{name}", $"{type}", AssetManager.Instance.GetAsset<SpriteFont>("Arial24"));
+            //lbPower = new Label(Position, $"Card Power Label-{name}", $"{type}", AssetManager.Instance.GetAsset<SpriteFont>("Arial24"));
 
-            //Label lbName = new Label(Position, "Card Name", name);
-
-            //labels.Add();
+            
 
             effects = new Dictionary<string, ICardEffect>();
         }
@@ -97,6 +111,21 @@ namespace SlyDeck.GameObjects.Card
             {
                 effect.Perform();
             }
+        }
+
+        public void OnLeftClick()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnRightClick()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnMiddleClick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

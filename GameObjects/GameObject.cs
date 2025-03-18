@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.Managers;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects
@@ -43,6 +44,7 @@ namespace SlyDeck.GameObjects
             this.name = name;
 
             enabled = true;
+            GameObjectManager.Instance.TryAddGameObject(this);
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);

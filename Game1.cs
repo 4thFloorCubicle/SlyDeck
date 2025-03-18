@@ -52,7 +52,6 @@ public class Game1 : Game
             "Hi!",
             AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
         );
-        GameObjectManager.Instance.AddGameObject(testLabel);
 
         Card testCard = new Card(
             new Vector2(200, 200),
@@ -62,7 +61,6 @@ public class Game1 : Game
             2,
             CardType.Title
         );
-        GameObjectManager.Instance.AddGameObject(testCard);
 
         Button testButton = new Button(
             new Vector2(300, 100),
@@ -71,7 +69,6 @@ public class Game1 : Game
             AssetManager.Instance.GetAsset<Texture2D>("buttonTestTexture"),
             AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
         );
-        GameObjectManager.Instance.AddGameObject(testButton);
         testButton.LeftClick += testCard.Toggle;
 
         TestEffect effect = new TestEffect("Effect used!");
