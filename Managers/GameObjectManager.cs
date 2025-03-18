@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using SlyDeck.GameObjects;
-using SlyDeck.GameObjects.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.GameObjects;
+using SlyDeck.GameObjects.UI;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.Managers
@@ -21,7 +21,10 @@ namespace SlyDeck.Managers
 
         // Singleton
         private static GameObjectManager instance;
-        public static GameObjectManager Instance { get { return GetInstance(); } }
+        public static GameObjectManager Instance
+        {
+            get { return GetInstance(); }
+        }
 
         private GameObjectManager()
         {
@@ -66,7 +69,9 @@ namespace SlyDeck.Managers
         {
             if (!gameObjects.TryAdd(gameObject.Name, gameObject))
             {
-                throw new ArgumentException($"Element \"{gameObject.Name}\" was not added successfuly to GameObject dictionary. (Is this element already present in the dictionary?)");
+                throw new ArgumentException(
+                    $"Element \"{gameObject.Name}\" was not added successfuly to GUI dictionary. (Is this element already present in the dictionary?)"
+                );
             }
         }
 
@@ -94,9 +99,13 @@ namespace SlyDeck.Managers
             }
             else
             {
-                throw new ArgumentOutOfRangeException("name", $"{name} is not a valid key in the dictionary");
+                throw new ArgumentOutOfRangeException(
+                    "name",
+                    $"{name} is not a valid key in the dictionary"
+                );
             }
         }
+
 
         /// <summary>
         /// Attempts to get a gameobject by a specified name
