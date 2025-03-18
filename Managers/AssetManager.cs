@@ -52,7 +52,7 @@ namespace SlyDeck.Managers
         /// <typeparam name="T">The type of the asset requested</typeparam>
         /// <param name="assetName">The key name of the asset requested</param>
         /// <returns>The asset requested</returns>
-        /// <exception cref="KeyNotFoundException">//Error is thrown when the asset isn't found or the wrong type of object was requested</exception>
+        /// <exception cref="KeyNotFoundException">Error is thrown when the asset isn't found or the wrong type of object was requested</exception>
         public T GetAsset<T>(string assetName)
         {
             //If the object requested is a Texture2D
