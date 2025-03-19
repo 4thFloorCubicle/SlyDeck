@@ -18,16 +18,37 @@ namespace SlyDeck.GameObjects
         private Vector2 position;
         private bool enabled;
         private string name;
+        private Dictionary<string, GameObject> childObjects;
+        private GameObject? parent;
 
+        /// <summary>
+        /// A list of all the children of this GameObject
+        /// </summary>
+        public List<GameObject> Children
+        {
+            get { return childObjects.Values.ToList(); }
+        }
+
+        /// <summary>
+        /// Position of this GameObject
+        /// </summary>
         public Vector2 Position
         {
             get { return position; }
         }
+
+        /// <summary>
+        /// True if this GameObject is enabled, false otherwise
+        /// </summary>
         public bool Enabled
         {
             get { return enabled; }
             set { enabled = value; }
         }
+
+        /// <summary>
+        /// The name of this GameObject
+        /// </summary>
         public string Name
         {
             get { return name; }
@@ -44,17 +65,61 @@ namespace SlyDeck.GameObjects
             this.name = name;
 
             enabled = true;
+            childObjects = new Dictionary<string, GameObject>();
+
             GameObjectManager.Instance.TryAddGameObject(this);
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);
 
         /// <summary>
-        /// Toggles if the object if enabled or not
+        /// Toggles if the object if enabled or not, and sets all child objects equal to its toggled state
         /// </summary>
         public virtual void Toggle()
         {
-            enabled = !enabled;
+            // Check if parent exists
+            if (parent != null)
+            {
+                enabled = parent.enabled;
+            }
+            else
+            {
+                enabled = !enabled;
+            }
+
+            foreach (GameObject child in childObjects.Values)
+            {
+                child.Toggle();
+            }
+        }
+
+        /// <summary>
+        /// Adds a child object to this parent
+        /// </summary>
+        /// <param name="child">The child GameObject to add</param>
+        public void AddChildObject(GameObject child)
+        {
+            childObjects.Add(child.name, child);
+            child.parent = this;
+        }
+
+        /// <summary>
+        /// Gets a child object by name
+        /// </summary>
+        /// <param name="name">The name of the child object</param>
+        /// <returns>The retrieved GameObject</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If the name is not a valid name of a child object</exception>
+        public GameObject GetChildObject(string name)
+        {
+            if (childObjects.TryGetValue(name, out GameObject child))
+            {
+                return child;
+            }
+
+            throw new ArgumentOutOfRangeException(
+                "name",
+                $"{name} is not a name for a child object (is it being added to the children upon construction?)"
+            );
         }
     }
 }

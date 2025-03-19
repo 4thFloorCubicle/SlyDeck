@@ -91,25 +91,16 @@ namespace SlyDeck.GameObjects.UI
             }
         }
 
-        /// <summary>
-        /// Calls all subscribers to the LeftClicked event.
-        /// </summary>
         public void OnLeftClick()
         {
             LeftClick?.Invoke(); // optional for null safety, could be clicked w/o any subscribers
         }
 
-        /// <summary>
-        /// Calls all subscribers to the RightClicked event;
-        /// </summary>
         public void OnRightClick()
         {
             RightClick?.Invoke();
         }
 
-        /// <summary>
-        /// Calls all subscribers to the MiddleClicked event;
-        /// </summary>
         public void OnMiddleClick()
         {
             MiddleClick?.Invoke();

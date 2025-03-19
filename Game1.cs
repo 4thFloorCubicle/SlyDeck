@@ -42,7 +42,7 @@ public class Game1 : Game
         AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
         AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
         AssetManager.Instance.AddTexture(
-            "buttonTestTexture",
+            "testButton",
             Content.Load<Texture2D>("testButton")
         );
 
@@ -61,12 +61,13 @@ public class Game1 : Game
             2,
             CardType.Title
         );
+        testCard.LeftClick += testLabel.Toggle;
 
         Button testButton = new Button(
             new Vector2(300, 100),
             "Test Button",
             "Test Button",
-            AssetManager.Instance.GetAsset<Texture2D>("buttonTestTexture"),
+            AssetManager.Instance.GetAsset<Texture2D>("testButton"),
             AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
         );
         testButton.LeftClick += testCard.Toggle;
@@ -105,6 +106,7 @@ public class Game1 : Game
                 if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
                 {
                     clickable.OnLeftClick();
+                    break;
                 }
             }
         }

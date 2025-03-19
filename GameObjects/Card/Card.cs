@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SlyDeck.Managers;
-using SlyDeck.GameObjects.UI;
 using SlyDeck.GameObjects.Card.CardEffects;
-
+using SlyDeck.GameObjects.UI;
+using SlyDeck.Managers;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
@@ -31,14 +30,25 @@ namespace SlyDeck.GameObjects.Card
         private int power;
         private Texture2D cardTexture;
         private CardType type;
-        private Dictionary<string, ICardEffect> effects;
+        private Dictionary<string, ICardEffect> effects; // different effect the card has
+        
         private Button playButton; // button used to play the card
+        private Label lbName; // label to display name of card
+        private Label lbPower; // label to display power of card
+        private Label lbType; // label to display type of card
 
-        private Label lbName;
-        private Label lbPower;
-        private Label lbType;
-
-        public Rectangle Bounds { get { return new Rectangle((int)Position.X, (int)Position.Y, cardTexture.Width, cardTexture.Height); } }
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)Position.X,
+                    (int)Position.Y,
+                    cardTexture.Width,
+                    cardTexture.Height
+                );
+            }
+        }
 
         public event ClickedDelegate LeftClick;
         public event ClickedDelegate MiddleClick;
@@ -61,11 +71,38 @@ namespace SlyDeck.GameObjects.Card
 
             // create the labels
             // TODO, figure out where they need to be placed later (along with font size)
-            //lbName = new Label(Position, $"Card Name Label-{name}", name, AssetManager.Instance.GetAsset<SpriteFont>("Arial24"));
-            //lbType = new Label(Position, $"Card Type Label-{name}", $"{type}", AssetManager.Instance.GetAsset<SpriteFont>("Arial24"));
-            //lbPower = new Label(Position, $"Card Power Label-{name}", $"{type}", AssetManager.Instance.GetAsset<SpriteFont>("Arial24"));
+            lbName = new Label(
+                Position,
+                $"Card Name Label-{name}",
+                name,
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+            );
+            AddChildObject(lbName);
 
-            
+            lbType = new Label(
+                Position,
+                $"Card Type Label-{name}",
+                $"{type}",
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+            );
+            AddChildObject(lbType);
+
+            lbPower = new Label(
+                Position,
+                $"Card Power Label-{name}",
+                $"{type}",
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+            );
+            AddChildObject(lbPower);
+
+            playButton = new Button(
+               Position,
+               $"Card Play Button-{name}",
+               $"Play card",
+               AssetManager.Instance.GetAsset<Texture2D>("testButton"),
+               AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+            );
+            AddChildObject(playButton);
 
             effects = new Dictionary<string, ICardEffect>();
         }
@@ -87,6 +124,10 @@ namespace SlyDeck.GameObjects.Card
                 SpriteEffects.None,
                 .9f
             );
+
+            lbName.Draw(spriteBatch);
+            lbPower.Draw(spriteBatch);
+            lbType.Draw(spriteBatch);
         }
 
         /// <summary>
@@ -115,17 +156,17 @@ namespace SlyDeck.GameObjects.Card
 
         public void OnLeftClick()
         {
-            throw new NotImplementedException();
+            LeftClick?.Invoke();
         }
 
         public void OnRightClick()
         {
-            throw new NotImplementedException();
+            RightClick?.Invoke();
         }
 
         public void OnMiddleClick()
         {
-            throw new NotImplementedException();
+            MiddleClick?.Invoke();
         }
     }
 }
