@@ -26,9 +26,11 @@ public class Game1 : Game
     {
         _graphics.IsFullScreen = false;
         _graphics.PreferredBackBufferWidth =
-            GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
+            1920; // testing width
+        //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
         _graphics.PreferredBackBufferHeight =
-            GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
+            //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
+            1080; // testing height
         _graphics.ApplyChanges();
 
         base.Initialize();
