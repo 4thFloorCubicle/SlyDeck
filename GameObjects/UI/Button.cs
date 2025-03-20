@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.Managers;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.UI
@@ -17,6 +18,11 @@ namespace SlyDeck.GameObjects.UI
         private string displayText; // text contained within the UI element shown to the user
         private Texture2D backTexture; // texture for the button
         private SpriteFont font; // font for rendering displaytext
+
+        public Texture2D BackTexture
+        {
+            get { return backTexture; }
+        }
 
         public event ClickedDelegate LeftClick;
         public event ClickedDelegate MiddleClick;
@@ -36,7 +42,7 @@ namespace SlyDeck.GameObjects.UI
         }
 
         /// <summary>
-        /// Creates a new button
+        /// Creates a new button with text
         /// </summary>
         /// <param name="position">Position of the button</param>
         /// <param name="name">The name of the button</param>
@@ -56,6 +62,15 @@ namespace SlyDeck.GameObjects.UI
             this.displayText = displayText;
             this.font = font;
         }
+
+        public Button(Vector2 position, string name, Texture2D backTexture)
+            : this(
+                position,
+                name,
+                "",
+                backTexture,
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+            ) { }
 
         /// <summary>
         /// Draws the button to the provided spritebatch

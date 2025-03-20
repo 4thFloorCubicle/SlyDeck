@@ -25,8 +25,7 @@ public class Game1 : Game
     protected override void Initialize()
     {
         _graphics.IsFullScreen = false;
-        _graphics.PreferredBackBufferWidth =
-            1920; // testing width
+        _graphics.PreferredBackBufferWidth = 1920; // testing width
         //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
         _graphics.PreferredBackBufferHeight =
             //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
@@ -42,11 +41,10 @@ public class Game1 : Game
 
         //load assets into AssetManager
         AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
+        AssetManager.Instance.AddFont("Arial12", Content.Load<SpriteFont>("Arial12"));
         AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
-        AssetManager.Instance.AddTexture(
-            "testButton",
-            Content.Load<Texture2D>("testButton")
-        );
+        AssetManager.Instance.AddTexture("testButton", Content.Load<Texture2D>("testButton"));
+        AssetManager.Instance.AddTexture("CardDraft", Content.Load<Texture2D>("CardDraft"));
 
         Label testLabel = new Label(
             new Vector2(100, 100),
@@ -58,23 +56,13 @@ public class Game1 : Game
         Card testCard = new Card(
             new Vector2(200, 200),
             "Test Card",
-            AssetManager.Instance.GetAsset<Texture2D>("QueenOfSpades"),
+            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
             "This card has a test effect",
             2,
             CardType.Title
         );
-        testCard.LeftClick += testLabel.Toggle;
 
-        Button testButton = new Button(
-            new Vector2(300, 100),
-            "Test Button",
-            "Test Button",
-            AssetManager.Instance.GetAsset<Texture2D>("testButton"),
-            AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
-        );
-        testButton.LeftClick += testCard.Toggle;
-
-        TestEffect effect = new TestEffect("Effect used!");
+        TestEffect effect = new TestEffect();
         testCard.AddEffect("Test Effect", effect);
     }
 

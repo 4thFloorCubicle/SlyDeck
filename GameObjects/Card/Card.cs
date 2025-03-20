@@ -31,7 +31,7 @@ namespace SlyDeck.GameObjects.Card
         private Texture2D cardTexture;
         private CardType type;
         private Dictionary<string, ICardEffect> effects; // different effect the card has
-        
+
         private Button playButton; // button used to play the card
         private Label lbName; // label to display name of card
         private Label lbPower; // label to display power of card
@@ -88,20 +88,27 @@ namespace SlyDeck.GameObjects.Card
             AddChildObject(lbType);
 
             lbPower = new Label(
-                Position,
+                new Vector2(Position.X + 327, Position.Y + 515), // NOTE: Position will not work
+                // once power goes beyond a single digit, itll leave the little circle on the card
                 $"Card Power Label-{name}",
-                $"{type}",
+                $"{power}",
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
             );
             AddChildObject(lbPower);
 
             playButton = new Button(
-               Position,
-               $"Card Play Button-{name}",
-               $"Play card",
-               AssetManager.Instance.GetAsset<Texture2D>("testButton"),
-               AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+                new Vector2(position.X, position.Y - 50),
+                $"Card Play Button-{name}",
+                $"Play card",
+                AssetManager.Instance.GetAsset<Texture2D>("testButton"),
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
             );
+            playButton.Position = new Vector2(
+                playButton.Position.X + playButton.BackTexture.Width / 2,
+                playButton.Position.Y
+            );
+            playButton.LeftClick += Play;
+            LeftClick += playButton.Toggle; // toggle play button whenever the card is clicked
             AddChildObject(playButton);
 
             effects = new Dictionary<string, ICardEffect>();
@@ -119,10 +126,10 @@ namespace SlyDeck.GameObjects.Card
                 cardTexture.Bounds,
                 Color.White,
                 0,
-                Position,
+                Vector2.Zero,
                 1,
                 SpriteEffects.None,
-                .9f
+                .1f
             );
 
             lbName.Draw(spriteBatch);
