@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.GameObjects;
+using SlyDeck.GameObjects.Card;
+using SlyDeck.GameObjects.Card.CardEffects;
+using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 
 // Authors: Cooper Fleishman

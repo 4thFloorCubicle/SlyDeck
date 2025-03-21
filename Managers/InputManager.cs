@@ -24,7 +24,6 @@ namespace SlyDeck.Managers
         None,
     }
 
-    
     internal class InputManager
     {
         //Singleton Params
