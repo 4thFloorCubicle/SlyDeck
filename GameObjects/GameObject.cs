@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
+// Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects
 {
     /// <summary>
@@ -17,10 +18,20 @@ namespace SlyDeck.GameObjects
         private bool enabled;
         private string name;
 
-        public Vector2 Position { get { return position; } }
-        public bool Enabled { get { return enabled; } set { enabled = value; } }
-        public string Name { get { return name; } set { name = value; } }
-
+        public Vector2 Position
+        {
+            get { return position; }
+        }
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; }
+        }
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
         /// <summary>
         /// Creates a new GameObject
@@ -30,8 +41,18 @@ namespace SlyDeck.GameObjects
         {
             this.position = position;
             this.name = name;
+
+            enabled = true;
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);
+
+        /// <summary>
+        /// Toggles if the object if enabled or not
+        /// </summary>
+        public virtual void Toggle()
+        {
+            enabled = !enabled;
+        }
     }
 }

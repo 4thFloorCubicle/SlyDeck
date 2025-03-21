@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
-using SlyDeck.GameObjects.UI;
 using SlyDeck.GameObjects;
+using SlyDeck.GameObjects.Card;
+using SlyDeck.GameObjects.Card.CardEffects;
+using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
-using SlyDeck.GameObjects.GameObjects.Card;
-using SlyDeck.GameObjects.GameObjects.Card.CardEffects;
 
 namespace SlyDeck;
 
@@ -14,8 +14,6 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
-    private Dictionary<string, SpriteFont> fonts;
 
     public Game1()
     {
@@ -26,7 +24,12 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        fonts = new Dictionary<string, SpriteFont>();
+        _graphics.IsFullScreen = false;
+        _graphics.PreferredBackBufferWidth =
+            GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
+        _graphics.PreferredBackBufferHeight =
+            GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
+        _graphics.ApplyChanges();
 
         base.Initialize();
     }
@@ -35,13 +38,41 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        fonts["Arial24"] = Content.Load<SpriteFont>("Arial24");
+        //load assets into AssetManager
+        AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
+        AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
+        AssetManager.Instance.AddTexture(
+            "buttonTestTexture",
+            Content.Load<Texture2D>("testButton")
+        );
 
-        Label testLabel = new Label(new Vector2(100, 100), "Test Label", "Hi!", fonts["Arial24"]);
-        GameObjectManager.Instance.AddGUIElement(testLabel);
+        Label testLabel = new Label(
+            new Vector2(100, 100),
+            "Test Label",
+            "Hi!",
+            AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+        );
+        GameObjectManager.Instance.AddGameObject(testLabel);
 
-        Card testCard = new Card(new Vector2(200, 200), "Test Card", "This card has a test effect", 2, 4, 2, CardType.Title);
+        Card testCard = new Card(
+            new Vector2(200, 200),
+            "Test Card",
+            AssetManager.Instance.GetAsset<Texture2D>("QueenOfSpades"),
+            "This card has a test effect",
+            2,
+            CardType.Title
+        );
         GameObjectManager.Instance.AddGameObject(testCard);
+
+        Button testButton = new Button(
+            new Vector2(300, 100),
+            "Test Button",
+            "Test Button",
+            AssetManager.Instance.GetAsset<Texture2D>("buttonTestTexture"),
+            AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+        );
+        GameObjectManager.Instance.AddGameObject(testButton);
+        testButton.LeftClick += testCard.Toggle;
 
         TestEffect effect = new TestEffect("Effect used!");
         testCard.AddEffect("Test Effect", effect);
@@ -49,17 +80,36 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        InputManager.Instance.RefreshInput();
+
         if (
             GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
             || Keyboard.GetState().IsKeyDown(Keys.Escape)
         )
+        {
             Exit();
+        }
 
-        // proc effect
+        // proc tets effect
         if (Keyboard.GetState().IsKeyDown(Keys.Space))
         {
             Card card = (Card)GameObjectManager.Instance.GetGameObject("Test Card");
             card.Play();
+        }
+
+        // check for left click events
+        if (InputManager.Instance.SingleMousePress(MouseButton.Left))
+        {
+            foreach (GameObject gameObject in GameObjectManager.Instance.GetAllGameObjects())
+            {
+                IClickable clickable = gameObject as IClickable;
+
+                // check if a gameobject is a clickable, and if mouse is within the bounds of the clickable
+                if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
+                {
+                    clickable.OnLeftClick();
+                }
+            }
         }
 
         base.Update(gameTime);
@@ -71,9 +121,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
-        Label label = (Label)GameObjectManager.Instance.GetGUIElement("Test Label");
-        label.Draw(_spriteBatch);
-        //GameObjectManager.Instance.DrawAll(_spriteBatch);
+        GameObjectManager.Instance.DrawAll(_spriteBatch);
 
         _spriteBatch.End();
 
