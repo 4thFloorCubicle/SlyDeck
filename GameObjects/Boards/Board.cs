@@ -1,14 +1,14 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.Decks;
 using SlyDeck.DiscardPiles;
 using SlyDeck.Enemies;
+
 // Author: Ben Haines
 namespace SlyDeck.GameObjects.Boards
 {
@@ -25,15 +25,21 @@ namespace SlyDeck.GameObjects.Boards
 
         // -- Constructor -- \\
 
-        public Board(Vector2 position, string name, Deck playerDeck, string enemyName, Deck enemyDeck) : base(position, name)
+        public Board(
+            Vector2 position,
+            string name,
+            Deck playerDeck,
+            string enemyName,
+            Deck enemyDeck
+        )
+            : base(position, name)
         {
             this.playerDeck = playerDeck;
             lastPlayedPlayer = null;
             playerDiscardPile = new();
-            
+
             enemyDiscardPile = new();
             currentEnemy = new(enemyName, enemyDeck);
-
         }
 
         // -- Methods -- \\
@@ -63,7 +69,8 @@ namespace SlyDeck.GameObjects.Boards
             playerDeck.Shuffle();
 
             return finalCard;
-;       }
+            ;
+        }
 
         /// <summary>
         /// Draw everything in the board onto the screen.

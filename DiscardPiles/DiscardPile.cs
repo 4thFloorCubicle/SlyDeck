@@ -17,19 +17,22 @@ namespace SlyDeck.DiscardPiles
         /// <summary>
         /// Return the number of cards currently in the discard pile.
         /// </summary>
-        public int Count { get { return pile.Count; } }
-        
+        public int Count
+        {
+            get { return pile.Count; }
+        }
+
         /// <summary>
         /// Return the current top card on the discard pile, do not remove it.
         /// </summary>
-        public Card TopCard 
-        { 
-            get 
+        public Card TopCard
+        {
+            get
             {
                 if (Count != 0)
                     return pile.Peek();
                 throw new Exception("Cannot view the top card as the discard pile is empty.");
-            } 
+            }
         }
 
         // -- Constructor -- \\

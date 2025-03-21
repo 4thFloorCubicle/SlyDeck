@@ -1,12 +1,13 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.GameObjects.Card;
+
 // Author: Ben Haines
 
 namespace SlyDeck.Decks
@@ -23,12 +24,18 @@ namespace SlyDeck.Decks
         /// <summary>
         /// Gets the size of the deck.
         /// </summary>
-        public int DeckSize { get { return cards.Count; } }
+        public int DeckSize
+        {
+            get { return cards.Count; }
+        }
+
         /// <summary>
         /// Gets the top card of the deck
         /// </summary>
-        public Card TopCard { get { return cards[0]; } }
-
+        public Card TopCard
+        {
+            get { return cards[0]; }
+        }
 
         // -- Constructor -- \\
 

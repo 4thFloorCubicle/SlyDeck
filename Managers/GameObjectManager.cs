@@ -106,7 +106,6 @@ namespace SlyDeck.Managers
             }
         }
 
-
         /// <summary>
         /// Attempts to get a gameobject by a specified name
         /// </summary>
@@ -117,7 +116,7 @@ namespace SlyDeck.Managers
         {
             return gameObjects.TryGetValue(name, out value); // what does a default gameobject even look like??
         }
-        
+
         /// <summary>
         /// Gets all game objects added to the lookup table
         /// </summary>
