@@ -44,6 +44,12 @@ namespace SlyDeck.GameObjects.UI
             color = Color.White;
         }
 
+        public Label(Vector2 position, string name, string text, SpriteFont font, Color color)
+            : this(position, name, text, font)
+        {
+            this.color = color;
+        }
+
         /// <summary>
         /// Draws this object to a spritebatch
         /// </summary>

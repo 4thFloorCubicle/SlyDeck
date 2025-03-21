@@ -36,6 +36,7 @@ namespace SlyDeck.GameObjects.Card
         private Label lbName; // label to display name of card
         private Label lbPower; // label to display power of card
         private Label lbType; // label to display type of card
+        private Label lbDescription;
 
         public Rectangle Bounds
         {
@@ -72,7 +73,7 @@ namespace SlyDeck.GameObjects.Card
             // create the labels
             // TODO, figure out where they need to be placed later (along with font size)
             lbName = new Label(
-                Position,
+                new Vector2(position.X + cardTexture.Width / 4, position.Y + 30),
                 $"Card Name Label-{name}",
                 name,
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
@@ -80,21 +81,30 @@ namespace SlyDeck.GameObjects.Card
             AddChildObject(lbName);
 
             lbType = new Label(
-                Position,
+                new Vector2(Position.X + cardTexture.Width / 4, position.Y + 375),
                 $"Card Type Label-{name}",
-                $"{type}",
-                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+                $"{type} slide",
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24"),
+                Color.Gray
             );
             AddChildObject(lbType);
 
             lbPower = new Label(
-                new Vector2(Position.X + 327, Position.Y + 515), // NOTE: Position will not work
+                new Vector2(position.X + 327, position.Y + 515), // NOTE: Position will not work
                 // once power goes beyond a single digit, itll leave the little circle on the card
                 $"Card Power Label-{name}",
                 $"{power}",
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
             );
             AddChildObject(lbPower);
+
+            lbDescription = new Label(
+                new Vector2(position.X + cardTexture.Width / 4, position.Y + 425),
+                $"Card Description Label ${name}",
+                $"{description}",
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial12"),
+                Color.Gray
+            );
 
             playButton = new Button(
                 new Vector2(position.X, position.Y - 50),
@@ -139,9 +149,6 @@ namespace SlyDeck.GameObjects.Card
 
         /// <summary>
         /// Adds an effect to this card
-        ///
-        /// NOTE: we may remove effect name if its not necessary,
-        ///     i just have it in here for the time being so refactoring doesnt become a nightmare
         /// </summary>
         /// <param name="effectName">The name of the effect</param>
         /// <param name="effect">The effect itself</param>

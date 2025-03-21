@@ -18,7 +18,7 @@ namespace SlyDeck.GameObjects.UI
         private string displayText; // text contained within the UI element shown to the user
         private Texture2D backTexture; // texture for the button
         private SpriteFont font; // font for rendering displaytext
-
+        private Color textColor;
         public Texture2D BackTexture
         {
             get { return backTexture; }
@@ -56,21 +56,46 @@ namespace SlyDeck.GameObjects.UI
             Texture2D backTexture,
             SpriteFont font
         )
+            : this(position, name, backTexture)
+        {
+            this.displayText = displayText;
+            this.font = font;
+            textColor = Color.White;
+        }
+
+        /// <summary>
+        /// Creates a new button without text
+        /// </summary>
+        /// <param name="position">Position of the button</param>
+        /// <param name="name">The name of the button</param>
+        /// <param name="backTexture">The texture of the button</param>
+        public Button(Vector2 position, string name, Texture2D backTexture)
             : base(position, name)
         {
             this.backTexture = backTexture;
-            this.displayText = displayText;
-            this.font = font;
         }
 
-        public Button(Vector2 position, string name, Texture2D backTexture)
-            : this(
-                position,
-                name,
-                "",
-                backTexture,
-                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
-            ) { }
+        /// <summary>
+        /// Creates a new button with text
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="name"></param>
+        /// <param name="displayText"></param>
+        /// <param name="backTexture"></param>
+        /// <param name="font"></param>
+        /// <param name="textColor"></param>
+        public Button(
+            Vector2 position,
+            string name,
+            string displayText,
+            Texture2D backTexture,
+            SpriteFont font,
+            Color textColor
+        )
+            : this(position, name, displayText, backTexture, font)
+        {
+            this.textColor = textColor;
+        }
 
         /// <summary>
         /// Draws the button to the provided spritebatch
@@ -96,7 +121,7 @@ namespace SlyDeck.GameObjects.UI
                     font,
                     displayText,
                     Position,
-                    Color.White,
+                    textColor,
                     0f,
                     Vector2.Zero,
                     1,

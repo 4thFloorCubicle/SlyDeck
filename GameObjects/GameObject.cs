@@ -15,11 +15,12 @@ namespace SlyDeck.GameObjects
     /// </summary>
     internal abstract class GameObject
     {
-        private Vector2 position;
-        private bool enabled;
-        private string name;
-        private Dictionary<string, GameObject> childObjects;
-        private GameObject? parent;
+        private Vector2 position; // the position of this gameobject
+        private bool globallyEnabled; // if the object is enable with respect to the parent
+        private bool locallyEnabled; // if the object is enabled with respect to itself
+        private string name; // the name of this gameobject
+        private Dictionary<string, GameObject> childObjects; // the children of this gameobject
+        private GameObject? parent; // the parent of this gameobject
 
         /// <summary>
         /// A list of all the children of this GameObject
@@ -39,12 +40,27 @@ namespace SlyDeck.GameObjects
         }
 
         /// <summary>
-        /// True if this GameObject is enabled, false otherwise
+        /// True if this GameObject is both locally and globally enabled, false otherwise
         /// </summary>
         public bool Enabled
         {
-            get { return enabled; }
-            set { enabled = value; }
+            get { return globallyEnabled && locallyEnabled; }
+        }
+
+        /// <summary>
+        /// True if this GmaeObject is enabled locally (with respect to itself), false otherwise
+        /// </summary>
+        public bool LocallyEnabled
+        {
+            get { return locallyEnabled; }
+        }
+
+        /// <summary>
+        /// True if this GameObject is enabled globally (with respect to its parent), false otherwise
+        /// </summary>
+        public bool GloballyEnabled
+        {
+            get { return globallyEnabled; }
         }
 
         /// <summary>
@@ -53,7 +69,6 @@ namespace SlyDeck.GameObjects
         public string Name
         {
             get { return name; }
-            set { name = value; }
         }
 
         /// <summary>
@@ -65,7 +80,8 @@ namespace SlyDeck.GameObjects
             this.position = position;
             this.name = name;
 
-            enabled = true;
+            globallyEnabled = true;
+            locallyEnabled = true;
             childObjects = new Dictionary<string, GameObject>();
 
             GameObjectManager.Instance.TryAddGameObject(this);
@@ -78,14 +94,15 @@ namespace SlyDeck.GameObjects
         /// </summary>
         public virtual void Toggle()
         {
-            // Check if parent exists
+            locallyEnabled = !locallyEnabled;
+
             if (parent != null)
             {
-                enabled = parent.enabled;
+                globallyEnabled = parent.Enabled;
             }
             else
             {
-                enabled = !enabled;
+                globallyEnabled = !globallyEnabled;
             }
 
             foreach (GameObject child in childObjects.Values)

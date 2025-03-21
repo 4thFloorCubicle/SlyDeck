@@ -78,11 +78,10 @@ public class Game1 : Game
             Exit();
         }
 
-        // proc tets effect
-        if (Keyboard.GetState().IsKeyDown(Keys.Space))
+        if (InputManager.Instance.SingleKeyPress(Keys.Space))
         {
             Card card = (Card)GameObjectManager.Instance.GetGameObject("Test Card");
-            card.Play();
+            card.Toggle();
         }
 
         // check for left click events
