@@ -55,7 +55,7 @@ public class Game1 : Game
 
         Card testCard = new Card(
             new Vector2(200, 200),
-            "Test Card",
+            "Blank Slide",
             AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
             "This card has a test effect",
             2,
@@ -92,7 +92,7 @@ public class Game1 : Game
                 IClickable clickable = gameObject as IClickable;
 
                 // check if a gameobject is a clickable, and if mouse is within the bounds of the clickable
-                if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
+                if (gameObject.Enabled && clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
                 {
                     clickable.OnLeftClick();
                     break;
