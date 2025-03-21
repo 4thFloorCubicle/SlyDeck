@@ -1,32 +1,36 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using SlyDeck.GameObjects.Card;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using SlyDeck.Deck;
 
+// Author: Ben Haines
 namespace SlyDeck.GameObjects.Board
 {
     internal class Board : GameObject
     {
         // -- Fields -- \\
 
-        //DiscardPile playerDiscardPile
+        DiscardPile.DiscardPile playerDiscardPile;
         Deck.Deck playerDeck;
         Card.Card lastPlayedPlayer;
 
-        //Enemy currentEnemy
-        //DiscardPile enemyDiscardPile
+        Enemy.Enemy currentEnemy;
+        DiscardPile.DiscardPile enemyDiscardPile;
 
         // -- Constructor -- \\
 
-        public Board(Vector2 position, string name, Deck.Deck playerDeck) : base(position, name)
+        public Board(Vector2 position, string name, Deck.Deck playerDeck, string enemyName, Deck.Deck enemyDeck) : base(position, name)
         {
             this.playerDeck = playerDeck;
             lastPlayedPlayer = null;
+            playerDiscardPile = new();
+            
+            enemyDiscardPile = new();
+            currentEnemy = new(enemyName, enemyDeck);
+
         }
 
         // -- Methods -- \\

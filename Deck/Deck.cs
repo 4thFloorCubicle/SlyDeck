@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using SlyDeck.GameObjects.Card;
+// Author: Ben Haines
 
 namespace SlyDeck.Deck
 {
