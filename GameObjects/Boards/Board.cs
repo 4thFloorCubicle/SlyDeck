@@ -6,23 +6,26 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
+using SlyDeck.Decks;
+using SlyDeck.DiscardPiles;
+using SlyDeck.Enemies;
 // Author: Ben Haines
-namespace SlyDeck.GameObjects.Board
+namespace SlyDeck.GameObjects.Boards
 {
     internal class Board : GameObject
     {
         // -- Fields -- \\
 
-        DiscardPile.DiscardPile playerDiscardPile;
-        Deck.Deck playerDeck;
+        DiscardPile playerDiscardPile;
+        Deck playerDeck;
         Card.Card lastPlayedPlayer;
 
-        Enemy.Enemy currentEnemy;
-        DiscardPile.DiscardPile enemyDiscardPile;
+        Enemy currentEnemy;
+        DiscardPile enemyDiscardPile;
 
         // -- Constructor -- \\
 
-        public Board(Vector2 position, string name, Deck.Deck playerDeck, string enemyName, Deck.Deck enemyDeck) : base(position, name)
+        public Board(Vector2 position, string name, Deck playerDeck, string enemyName, Deck enemyDeck) : base(position, name)
         {
             this.playerDeck = playerDeck;
             lastPlayedPlayer = null;

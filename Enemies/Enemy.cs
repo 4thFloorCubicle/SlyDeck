@@ -5,15 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SlyDeck.GameObjects.Card;
+using SlyDeck.Decks;
 
 // Author: Ben Haines
-namespace SlyDeck.Enemy
+namespace SlyDeck.Enemies
 {
     internal class Enemy
     {
         // -- Fields -- \\
         private string name;
-        private Deck.Deck deck;
+        private Deck deck;
         private Card lastPlayed;
 
         // -- Properties -- \\
@@ -25,7 +26,7 @@ namespace SlyDeck.Enemy
         /// <summary>
         /// Get returns the enemy's current deck, set allows for the deck to be changed.
         /// </summary>
-        public Deck.Deck Deck { get { return deck; } set { deck = value; } }
+        public Deck Deck { get { return deck; } set { deck = value; } }
 
         /// <summary>
         /// Returns the name of the enemy.
@@ -38,7 +39,7 @@ namespace SlyDeck.Enemy
         /// </summary>
         /// <param name="name">The name of the enemy.</param>
         /// <param name="deck">The starting deck for the enemy.</param>
-        public Enemy(string name, Deck.Deck deck)
+        public Enemy(string name, Deck deck)
         {
             this.name = name;
             this.deck = deck;
