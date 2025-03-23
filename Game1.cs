@@ -45,6 +45,7 @@ public class Game1 : Game
         AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
         AssetManager.Instance.AddTexture("testButton", Content.Load<Texture2D>("testButton"));
         AssetManager.Instance.AddTexture("CardDraft", Content.Load<Texture2D>("CardDraft"));
+        AssetManager.Instance.AddTexture("blankSlide", Content.Load<Texture2D>("blankSlide"));
 
         Label testLabel = new Label(
             new Vector2(100, 100),
@@ -59,7 +60,8 @@ public class Game1 : Game
             AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
             "This card has a test effect",
             2,
-            CardType.Title
+            CardType.Title,
+            AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
         );
 
         TestEffect effect = new TestEffect();
@@ -80,7 +82,7 @@ public class Game1 : Game
 
         if (InputManager.Instance.SingleKeyPress(Keys.Space))
         {
-            Card card = (Card)GameObjectManager.Instance.GetGameObject("Test Card");
+            Card card = (Card)GameObjectManager.Instance.GetGameObject("Blank Slide");
             card.Toggle();
         }
 
@@ -92,7 +94,11 @@ public class Game1 : Game
                 IClickable clickable = gameObject as IClickable;
 
                 // check if a gameobject is enabled, is a clickable, and if mouse is within the bounds of the clickable
-                if (gameObject.Enabled && clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
+                if (
+                    gameObject.Enabled
+                    && clickable != null
+                    && clickable.Bounds.Contains(Mouse.GetState().Position)
+                )
                 {
                     clickable.OnLeftClick();
                     break;

@@ -36,7 +36,8 @@ namespace SlyDeck.GameObjects.Card
         private Label lbName; // label to display name of card
         private Label lbPower; // label to display power of card
         private Label lbType; // label to display type of card
-        private Label lbDescription;
+        private Label lbDescription; // label to display description of card
+        private Texture2D cardArt; // art associated with the card
 
         public Rectangle Bounds
         {
@@ -61,7 +62,8 @@ namespace SlyDeck.GameObjects.Card
             Texture2D cardTexture,
             string description,
             int power,
-            CardType type
+            CardType type,
+            Texture2D cardArt
         )
             : base(position, name)
         {
@@ -69,6 +71,7 @@ namespace SlyDeck.GameObjects.Card
             this.description = description;
             this.power = power;
             this.type = type;
+            this.cardArt = cardArt;
 
             // create the labels
             // TODO, figure out where they need to be placed later (along with font size)
@@ -140,6 +143,18 @@ namespace SlyDeck.GameObjects.Card
                 1,
                 SpriteEffects.None,
                 .1f
+            );
+
+            spriteBatch.Draw(
+                cardArt,
+                new Vector2(Position.X + 40, Position.Y + 80),
+                cardArt.Bounds,
+                Color.Wheat,
+                0,
+                Vector2.Zero,
+                .23f,
+                SpriteEffects.None,
+                .15f
             );
 
             lbName.Draw(spriteBatch);
