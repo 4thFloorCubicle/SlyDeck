@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.GameObjects;
-using SlyDeck.GameObjects.UI;
 using SlyDeck.GameObjects.Card.CardEffects;
+using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 
 // Authors: Cooper Fleishman
@@ -28,7 +28,8 @@ namespace SlyDeck.GameObjects.Card
     internal class Card : GameObject, IClickable
     {
         private string description;
-        private int power;
+        private float power;
+        private float basePower;
         private Texture2D cardTexture;
         private CardType type;
         private Dictionary<string, ICardEffect> effects; // different effect the card has
@@ -39,6 +40,18 @@ namespace SlyDeck.GameObjects.Card
         private Label lbType; // label to display type of card
         private Label lbDescription; // label to display description of card
         private Texture2D cardArt; // art associated with the card
+
+        public float Power
+        {
+            get { return power; }
+            set { power = value; }
+        }
+
+        public float BasePower
+        {
+            get { return basePower; }
+            set { basePower = value; }
+        }
 
         public Rectangle Bounds
         {
@@ -62,7 +75,7 @@ namespace SlyDeck.GameObjects.Card
             string name,
             Texture2D cardTexture,
             string description,
-            int power,
+            float basePower,
             CardType type,
             Texture2D cardArt
         )
@@ -70,7 +83,8 @@ namespace SlyDeck.GameObjects.Card
         {
             this.cardTexture = cardTexture;
             this.description = description;
-            this.power = power;
+            this.basePower = basePower;
+            power = basePower;
             this.type = type;
             this.cardArt = cardArt;
 
@@ -97,7 +111,7 @@ namespace SlyDeck.GameObjects.Card
                 new Vector2(position.X + 327, position.Y + 515), // NOTE: Position will not work
                 // once power goes beyond a single digit, itll leave the little circle on the card
                 $"Card Power Label-{name}",
-                $"{power}",
+                $"{basePower}",
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
             );
             AddChildObject(lbPower);
@@ -171,6 +185,7 @@ namespace SlyDeck.GameObjects.Card
         public void AddEffect(string effectName, ICardEffect effect)
         {
             effects.Add(effectName, effect);
+            effect.Owner = this;
         }
 
         /// <summary>
