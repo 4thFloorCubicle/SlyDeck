@@ -15,19 +15,15 @@ namespace SlyDeck.GameObjects.Card.CardEffects
     /// </summary>
     internal class TestEffect : ICardEffect
     {
-        private string text;
-
-        public TestEffect(string text)
-        {
-            this.text = text;
-        }
+        private int procCount;
 
         public void Perform()
         {
+            procCount++;
             Label label = (Label)GameObjectManager.Instance.GetGameObject("Test Label");
 
-            label.Text = text;
-            label.TextColor = Color.LightBlue;
+            label.Text = $"Effect use count: {procCount}";
+            label.TextColor = Color.Red;
         }
     }
 }

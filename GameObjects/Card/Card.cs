@@ -7,9 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.GameObjects;
 using SlyDeck.GameObjects.Card;
-using SlyDeck.GameObjects.Card.CardEffects;
-using SlyDeck.GameObjects.UI;
-using SlyDeck.Managers;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
@@ -26,23 +23,46 @@ namespace SlyDeck.GameObjects.Card
     /// <summary>
     /// Class that represents cards to be played within the game
     /// </summary>
-    internal class Card : GameObject
+    internal class Card : GameObject, IClickable
     {
         private string description;
         private int power;
         private Texture2D cardTexture;
         private CardType type;
-        private Dictionary<string, ICardEffect> effects;
-        private Dictionary<string, Label> labels; // labels for displaying text
+        private Dictionary<string, ICardEffect> effects; // different effect the card has
+
         private Button playButton; // button used to play the card
+        private Label lbName; // label to display name of card
+        private Label lbPower; // label to display power of card
+        private Label lbType; // label to display type of card
+        private Label lbDescription; // label to display description of card
+        private Texture2D cardArt; // art associated with the card
+
+        public Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)Position.X,
+                    (int)Position.Y,
+                    cardTexture.Width,
+                    cardTexture.Height
+                );
+            }
+        }
+
+        public event ClickedDelegate LeftClick;
+        public event ClickedDelegate MiddleClick;
+        public event ClickedDelegate RightClick;
 
         public Card(
             Vector2 position,
             string name,
             Texture2D cardTexture,
             string description,
-            int stat1,
-            CardType type
+            int power,
+            CardType type,
+            Texture2D cardArt
         )
             : base(position, name)
         {
@@ -50,12 +70,58 @@ namespace SlyDeck.GameObjects.Card
             this.description = description;
             this.power = power;
             this.type = type;
+            this.cardArt = cardArt;
 
-            labels = new Dictionary<string, Label>();
+            // create the labels
+            // TODO, figure out where they need to be placed later (along with font size)
+            lbName = new Label(
+                new Vector2(position.X + cardTexture.Width / 4, position.Y + 30),
+                $"Card Name Label-{name}",
+                name,
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+            );
+            AddChildObject(lbName);
 
-            //Label lbName = new Label(Position, "Card Name", name);
+            lbType = new Label(
+                new Vector2(Position.X + cardTexture.Width / 4, position.Y + 375),
+                $"Card Type Label-{name}",
+                $"{type} slide",
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24"),
+                Color.Gray
+            );
+            AddChildObject(lbType);
 
-            //labels.Add();
+            lbPower = new Label(
+                new Vector2(position.X + 327, position.Y + 515), // NOTE: Position will not work
+                // once power goes beyond a single digit, itll leave the little circle on the card
+                $"Card Power Label-{name}",
+                $"{power}",
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+            );
+            AddChildObject(lbPower);
+
+            lbDescription = new Label(
+                new Vector2(position.X + cardTexture.Width / 4, position.Y + 425),
+                $"Card Description Label ${name}",
+                $"{description}",
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial12"),
+                Color.Gray
+            );
+
+            playButton = new Button(
+                new Vector2(position.X, position.Y - 50),
+                $"Card Play Button-{name}",
+                $"Play card",
+                AssetManager.Instance.GetAsset<Texture2D>("testButton"),
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+            );
+            playButton.Position = new Vector2(
+                playButton.Position.X + playButton.BackTexture.Width / 2,
+                playButton.Position.Y
+            );
+            playButton.LeftClick += Play;
+            LeftClick += playButton.Toggle; // toggle play button whenever the card is clicked
+            AddChildObject(playButton);
 
             effects = new Dictionary<string, ICardEffect>();
         }
@@ -72,18 +138,31 @@ namespace SlyDeck.GameObjects.Card
                 cardTexture.Bounds,
                 Color.White,
                 0,
-                Position,
+                Vector2.Zero,
                 1,
                 SpriteEffects.None,
-                .9f
+                .1f
             );
+
+            spriteBatch.Draw(
+                cardArt,
+                new Vector2(Position.X + 40, Position.Y + 80),
+                cardArt.Bounds,
+                Color.Wheat,
+                0,
+                Vector2.Zero,
+                .23f,
+                SpriteEffects.None,
+                .15f
+            );
+
+            lbName.Draw(spriteBatch);
+            lbPower.Draw(spriteBatch);
+            lbType.Draw(spriteBatch);
         }
 
         /// <summary>
         /// Adds an effect to this card
-        ///
-        /// NOTE: we may remove effect name if its not necessary,
-        ///     i just have it in here for the time being so refactoring doesnt become a nightmare
         /// </summary>
         /// <param name="effectName">The name of the effect</param>
         /// <param name="effect">The effect itself</param>
@@ -101,6 +180,21 @@ namespace SlyDeck.GameObjects.Card
             {
                 effect.Perform();
             }
+        }
+
+        public void OnLeftClick()
+        {
+            LeftClick?.Invoke();
+        }
+
+        public void OnRightClick()
+        {
+            RightClick?.Invoke();
+        }
+
+        public void OnMiddleClick()
+        {
+            MiddleClick?.Invoke();
         }
     }
 }

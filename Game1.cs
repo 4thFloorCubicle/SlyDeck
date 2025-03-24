@@ -25,10 +25,11 @@ public class Game1 : Game
     protected override void Initialize()
     {
         _graphics.IsFullScreen = false;
-        _graphics.PreferredBackBufferWidth =
-            GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
+        _graphics.PreferredBackBufferWidth = 1920; // testing width
+        //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2;
         _graphics.PreferredBackBufferHeight =
-            GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
+            //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
+            1080; // testing height
         _graphics.ApplyChanges();
 
         base.Initialize();
@@ -40,11 +41,11 @@ public class Game1 : Game
 
         //load assets into AssetManager
         AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
+        AssetManager.Instance.AddFont("Arial12", Content.Load<SpriteFont>("Arial12"));
         AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
-        AssetManager.Instance.AddTexture(
-            "buttonTestTexture",
-            Content.Load<Texture2D>("testButton")
-        );
+        AssetManager.Instance.AddTexture("testButton", Content.Load<Texture2D>("testButton"));
+        AssetManager.Instance.AddTexture("CardDraft", Content.Load<Texture2D>("CardDraft"));
+        AssetManager.Instance.AddTexture("blankSlide", Content.Load<Texture2D>("blankSlide"));
 
         Label testLabel = new Label(
             new Vector2(100, 100),
@@ -52,29 +53,18 @@ public class Game1 : Game
             "Hi!",
             AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
         );
-        GameObjectManager.Instance.AddGameObject(testLabel);
 
         Card testCard = new Card(
             new Vector2(200, 200),
-            "Test Card",
-            AssetManager.Instance.GetAsset<Texture2D>("QueenOfSpades"),
+            "Blank Slide",
+            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
             "This card has a test effect",
             2,
-            CardType.Title
+            CardType.Title,
+            AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
         );
-        GameObjectManager.Instance.AddGameObject(testCard);
 
-        Button testButton = new Button(
-            new Vector2(300, 100),
-            "Test Button",
-            "Test Button",
-            AssetManager.Instance.GetAsset<Texture2D>("buttonTestTexture"),
-            AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
-        );
-        GameObjectManager.Instance.AddGameObject(testButton);
-        testButton.LeftClick += testCard.Toggle;
-
-        TestEffect effect = new TestEffect("Effect used!");
+        TestEffect effect = new TestEffect();
         testCard.AddEffect("Test Effect", effect);
     }
 
@@ -90,11 +80,10 @@ public class Game1 : Game
             Exit();
         }
 
-        // proc tets effect
-        if (Keyboard.GetState().IsKeyDown(Keys.Space))
+        if (InputManager.Instance.SingleKeyPress(Keys.Space))
         {
-            Card card = (Card)GameObjectManager.Instance.GetGameObject("Test Card");
-            card.Play();
+            Card card = (Card)GameObjectManager.Instance.GetGameObject("Blank Slide");
+            card.Toggle();
         }
 
         // check for left click events
@@ -104,10 +93,15 @@ public class Game1 : Game
             {
                 IClickable clickable = gameObject as IClickable;
 
-                // check if a gameobject is a clickable, and if mouse is within the bounds of the clickable
-                if (clickable != null && clickable.Bounds.Contains(Mouse.GetState().Position))
+                // check if a gameobject is enabled, is a clickable, and if mouse is within the bounds of the clickable
+                if (
+                    gameObject.Enabled
+                    && clickable != null
+                    && clickable.Bounds.Contains(Mouse.GetState().Position)
+                )
                 {
                     clickable.OnLeftClick();
+                    break;
                 }
             }
         }

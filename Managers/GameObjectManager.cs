@@ -118,6 +118,15 @@ namespace SlyDeck.Managers
         }
 
         /// <summary>
+        /// Removes a gameobject by a specified name
+        /// </summary>
+        /// <param name="name">The name of the gamobject to remove</param>
+        public void RemoveGameObject(string name)
+        {
+            gameObjects.Remove(name);
+        }
+
+        /// <summary>
         /// Gets all game objects added to the lookup table
         /// </summary>
         /// <returns>A list containing all game objects</returns>
