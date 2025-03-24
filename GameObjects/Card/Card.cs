@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.GameObjects;
-using SlyDeck.GameObjects.Card;
+using SlyDeck.GameObjects.UI;
+using SlyDeck.GameObjects.Card.CardEffects;
+using SlyDeck.Managers;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
