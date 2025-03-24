@@ -69,7 +69,6 @@ namespace SlyDeck.GameObjects.Boards
             playerDeck.Shuffle();
 
             return finalCard;
-            ;
         }
 
         /// <summary>

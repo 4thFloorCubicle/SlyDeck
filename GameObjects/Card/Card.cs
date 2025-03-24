@@ -28,8 +28,8 @@ namespace SlyDeck.GameObjects.Card
     internal class Card : GameObject, IClickable
     {
         private string description;
-        private float power;
-        private float basePower;
+        private float basePower; // power from the card itself. permanant gains/losses
+        private float effectPower; // power granted from effects. temporary gains/losses.
         private Texture2D cardTexture;
         private CardType type;
         private Dictionary<string, ICardEffect> effects; // different effect the card has
@@ -41,16 +41,21 @@ namespace SlyDeck.GameObjects.Card
         private Label lbDescription; // label to display description of card
         private Texture2D cardArt; // art associated with the card
 
-        public float Power
+        public float TotalPower
         {
-            get { return power; }
-            set { power = value; }
+            get { return basePower + effectPower; }
         }
 
         public float BasePower
         {
             get { return basePower; }
             set { basePower = value; }
+        }
+
+        public float EffectPower
+        {
+            get { return effectPower; }
+            set { effectPower = value; }
         }
 
         public Rectangle Bounds
@@ -84,7 +89,6 @@ namespace SlyDeck.GameObjects.Card
             this.cardTexture = cardTexture;
             this.description = description;
             this.basePower = basePower;
-            power = basePower;
             this.type = type;
             this.cardArt = cardArt;
 
@@ -123,6 +127,7 @@ namespace SlyDeck.GameObjects.Card
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial12"),
                 Color.Gray
             );
+            AddChildObject(lbDescription);
 
             playButton = new Button(
                 new Vector2(position.X, position.Y - 50),
@@ -177,6 +182,24 @@ namespace SlyDeck.GameObjects.Card
             lbType.Draw(spriteBatch);
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            lbPower.Text = $"{TotalPower}";
+
+            if (effectPower > 0)
+            {
+                lbPower.TextColor = Color.Green;
+            }
+            else if (effectPower < 0)
+            {
+                lbPower.TextColor = Color.Red;
+            }
+            else
+            {
+                lbPower.TextColor = Color.White;
+            }
+        }
+
         /// <summary>
         /// Adds an effect to this card
         /// </summary>
@@ -186,6 +209,15 @@ namespace SlyDeck.GameObjects.Card
         {
             effects.Add(effectName, effect);
             effect.Owner = this;
+        }
+
+        /// <summary>
+        /// Removes an effect from this card
+        /// </summary>
+        /// <param name="effectName">The name of effect to remove</param>
+        public void RemoveEffect(string effectName)
+        {
+            effects.Remove(effectName);
         }
 
         /// <summary>

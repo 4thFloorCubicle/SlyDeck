@@ -16,7 +16,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         TotalPower,
     }
 
-    internal class PowerBoostEffect : ICardEffect
+    internal class AdditivePowerEffect : ICardEffect
     {
         private float powerIncrease; // value to boost by
         private PowerType powerType;
@@ -31,7 +31,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         }
         public Card Owner { get; set; }
 
-        public PowerBoostEffect(float powerIncrease, PowerType powerType)
+        public AdditivePowerEffect(float powerIncrease, PowerType powerType)
         {
             this.powerIncrease = powerIncrease;
             this.powerType = powerType;
@@ -45,7 +45,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     Owner.BasePower += powerIncrease;
                     break;
                 case PowerType.TotalPower:
-                    Owner.Power += powerIncrease;
+                    Owner.EffectPower += powerIncrease;
                     break;
             }
         }

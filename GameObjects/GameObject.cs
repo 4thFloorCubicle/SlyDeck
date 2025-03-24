@@ -111,6 +111,11 @@ namespace SlyDeck.GameObjects
             }
         }
 
+        public virtual void Update(GameTime gameTime)
+        {
+            // do nothing, let classes implement own update as needed
+        }
+
         /// <summary>
         /// Adds a child object to this parent
         /// </summary>
