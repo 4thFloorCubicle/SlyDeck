@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.GameObjects;
 using SlyDeck.GameObjects.Card;
 
-
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
 {

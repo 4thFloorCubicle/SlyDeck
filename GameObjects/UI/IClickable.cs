@@ -19,15 +19,17 @@ namespace SlyDeck.GameObjects.UI
         event ClickedDelegate MiddleClick;
         event ClickedDelegate RightClick;
         Rectangle Bounds { get; } // bounds for which this clickable can be clicked
-        
+
         /// <summary>
         /// Calls all subscribers to the LeftClicked event.
         /// </summary>
         void OnLeftClick();
+
         /// <summary>
         /// Calls all subscribers to the RightClicked event;
         /// </summary>
         void OnRightClick();
+
         /// <summary>
         /// Calls all subscribers to the MiddleClicked event;
         /// </summary>
