@@ -7,15 +7,6 @@ using System.Threading.Tasks;
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card.CardEffects
 {
-    /// <summary>
-    /// Enum representing the 2 different types of power in the game
-    /// </summary>
-    public enum PowerType
-    {
-        BasePower,
-        TotalPower,
-    }
-
     internal class AdditivePowerEffect : ICardEffect
     {
         private float powerIncrease; // value to boost by
@@ -31,8 +22,12 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         }
         public Card Owner { get; set; }
 
+        public string Name { get; }
+
         public AdditivePowerEffect(float powerIncrease, PowerType powerType)
         {
+            Name = $"Add {powerIncrease} ({powerType})";
+
             this.powerIncrease = powerIncrease;
             this.powerType = powerType;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SlyDeck.GameObjects.Card;
+using SlyDeck.GameObjects.Card.CardEffects;
 
 // Author: Ben Haines
 
@@ -98,6 +99,18 @@ namespace SlyDeck.Decks
                 cards.RemoveAt(randomIndex);
             }
             cards.AddRange(newCards);
+        }
+
+        /// <summary>
+        /// Adds a supplied card effect to the entire deck
+        /// </summary>
+        /// <param name="effect"></param>
+        public void ApplyDeckwideEffect(ICardEffect effect)
+        {
+            foreach (Card card in cards)
+            {
+                card.AddEffect(effect);
+            }
         }
     }
 }

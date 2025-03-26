@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SlyDeck.GameObjects.Card;
 
 // Author: Ben Haines
-namespace SlyDeck.DiscardPiles
+namespace SlyDeck.Piles
 {
     internal class DiscardPile
     {

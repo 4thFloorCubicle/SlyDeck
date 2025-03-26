@@ -18,6 +18,11 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         Card Owner { get; set; }
 
         /// <summary>
+        /// Name of the effect
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Performs the logic this effect contains
         /// </summary>
         public void Perform();

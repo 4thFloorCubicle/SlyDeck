@@ -13,6 +13,15 @@ using SlyDeck.Managers;
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
 {
+    /// <summary>
+    /// Enum representing the 2 different types of power in the game
+    /// </summary>
+    public enum PowerType
+    {
+        BasePower,
+        EffectPower,
+    }
+
     internal enum CardType
     {
         Title,
@@ -28,8 +37,8 @@ namespace SlyDeck.GameObjects.Card
     internal class Card : GameObject, IClickable
     {
         private string description;
-        private float basePower; // power from the card itself. permanant gains/losses
-        private float effectPower; // power granted from effects. temporary gains/losses.
+        private float basePower; // power from the card itself OR granted by permanant. permanant gains/losses
+        private float effectPower; // power granted from temporary effects. temporary gains/losses.
         private Texture2D cardTexture;
         private CardType type;
         private Dictionary<string, ICardEffect> effects; // different effect the card has
@@ -203,11 +212,10 @@ namespace SlyDeck.GameObjects.Card
         /// <summary>
         /// Adds an effect to this card
         /// </summary>
-        /// <param name="effectName">The name of the effect</param>
         /// <param name="effect">The effect itself</param>
-        public void AddEffect(string effectName, ICardEffect effect)
+        public void AddEffect(ICardEffect effect)
         {
-            effects.Add(effectName, effect);
+            effects.Add(effect.Name, effect);
             effect.Owner = this;
         }
 
