@@ -13,6 +13,15 @@ using SlyDeck.Managers;
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
 {
+    /// <summary>
+    /// Enum representing the 2 different types of power in the game
+    /// </summary>
+    public enum PowerType
+    {
+        BasePower,
+        TotalPower,
+    }
+
     internal enum CardType
     {
         Title,
@@ -203,11 +212,10 @@ namespace SlyDeck.GameObjects.Card
         /// <summary>
         /// Adds an effect to this card
         /// </summary>
-        /// <param name="effectName">The name of the effect</param>
         /// <param name="effect">The effect itself</param>
-        public void AddEffect(string effectName, ICardEffect effect)
+        public void AddEffect(ICardEffect effect)
         {
-            effects.Add(effectName, effect);
+            effects.Add(effect.Name, effect);
             effect.Owner = this;
         }
 

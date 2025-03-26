@@ -66,8 +66,8 @@ public class Game1 : Game
 
         TestEffect testEffect = new TestEffect();
         AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.TotalPower);
-        testCard.AddEffect("Test Effect", testEffect);
-        testCard.AddEffect("Add 2", add2);
+        testCard.AddEffect(testEffect);
+        testCard.AddEffect(add2);
     }
 
     protected override void Update(GameTime gameTime)
@@ -107,7 +107,6 @@ public class Game1 : Game
                 }
             }
         }
-
 
         // Question: does it make more sense to loop through it once and conditionally apply logic? or just add loops for each step
         foreach (GameObject gameObject in GameObjectManager.Instance.GetAllGameObjects())
