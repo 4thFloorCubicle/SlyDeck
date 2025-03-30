@@ -65,7 +65,7 @@ public class Game1 : Game
         );
 
         TestEffect testEffect = new TestEffect();
-        AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.TotalPower);
+        AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.EffectPower);
         testCard.AddEffect(testEffect);
         testCard.AddEffect(add2);
     }

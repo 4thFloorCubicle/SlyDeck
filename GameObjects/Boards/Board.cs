@@ -31,8 +31,17 @@ namespace SlyDeck.GameObjects.Boards
         private Enemy currentEnemy;
         private DiscardPile enemyDiscardPile;
 
-        // -- Constructor -- \\
+        public Deck PlayerDeck
+        {
+            get { return playerDeck; }
+        }
 
+        public Enemy CurrentEnemy
+        {
+            get { return currentEnemy; }
+        }
+
+        // -- Constructor -- \\
         public Board(
             Vector2 position,
             string name,

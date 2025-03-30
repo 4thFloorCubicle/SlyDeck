@@ -39,7 +39,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                 case PowerType.BasePower:
                     Owner.BasePower += powerIncrease;
                     break;
-                case PowerType.TotalPower:
+                case PowerType.EffectPower:
                     Owner.EffectPower += powerIncrease;
                     break;
             }

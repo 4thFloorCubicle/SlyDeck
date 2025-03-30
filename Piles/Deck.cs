@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
 
-// Author: Ben Haines
-
+// Authors: Ben Haines, Cooper Fleishman
 namespace SlyDeck.Decks
 {
     internal class Deck
@@ -15,6 +14,11 @@ namespace SlyDeck.Decks
         private Random shuffle;
 
         // -- Properties -- \\
+
+        public List<Card> Cards
+        {
+            get { return cards; }
+        }
 
         /// <summary>
         /// Gets the size of the deck.
