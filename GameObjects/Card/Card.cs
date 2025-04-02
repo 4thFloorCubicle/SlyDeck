@@ -229,8 +229,6 @@ namespace SlyDeck.GameObjects.Card
                 {
                     attachers.Add(effect.Name, new List<AttacherEffect> { (AttacherEffect)effect });
                 }
-
-                attachers[effect.Name].Add((AttacherEffect)effect);
             }
             else
             {
