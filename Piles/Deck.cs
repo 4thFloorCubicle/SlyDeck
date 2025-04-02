@@ -15,6 +15,9 @@ namespace SlyDeck.Decks
 
         // -- Properties -- \\
 
+        /// <summary>
+        /// Gets the cards this deck contains
+        /// </summary>
         public List<Card> Cards
         {
             get { return cards; }

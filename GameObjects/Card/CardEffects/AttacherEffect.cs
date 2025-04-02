@@ -17,6 +17,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         EnemyDeck,
         NextCard,
         EnemyNextCard,
+        Self,
     }
 
     /// <summary>
@@ -46,7 +47,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         /// <param name="target"></param>
         public AttacherEffect(ICardEffect attachment, TargetMode target)
         {
-            Name = $"Attach @{target}: {attachment.Name}";
+            Name = $"Attach @{target}: {attachment.Name}"; // naming convention up for change
             this.target = target;
             this.attachment = attachment;
         }
@@ -72,6 +73,9 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     break;
                 case TargetMode.EnemyNextCard:
                     Board.Instance.CurrentEnemy.Deck.TopCard.AddEffect(attachment);
+                    break;
+                case TargetMode.Self:
+                    Owner.AddEffect(attachment);
                     break;
             }
         }

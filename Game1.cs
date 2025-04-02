@@ -66,8 +66,9 @@ public class Game1 : Game
 
         TestEffect testEffect = new TestEffect();
         AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.EffectPower);
+        AttacherEffect add2Attacher = new AttacherEffect(add2, TargetMode.Self);
         testCard.AddEffect(testEffect);
-        testCard.AddEffect(add2);
+        testCard.AddEffect(add2Attacher);
     }
 
     protected override void Update(GameTime gameTime)

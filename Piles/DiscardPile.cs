@@ -22,6 +22,7 @@ namespace SlyDeck.Piles
         /// <summary>
         /// Return the current top card on the discard pile, do not remove it.
         /// </summary>
+        /// <exception cref="Exception">If the discard pile is empty, then there is no card on top to peek.</exception>
         public Card TopCard
         {
             get
@@ -52,7 +53,7 @@ namespace SlyDeck.Piles
         /// Remove the top card from the discard pile and return it.
         /// </summary>
         /// <returns>The card that was on top of the discard pile.</returns>
-        /// <exception cref="Exception">If the discard pile is empty, then there is no card on top.</exception>
+        /// <exception cref="Exception">If the discard pile is empty, then there is no card on top to return.</exception>
         public Card RecardCard()
         {
             if (Count != 0)

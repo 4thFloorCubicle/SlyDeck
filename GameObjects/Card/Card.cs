@@ -41,7 +41,10 @@ namespace SlyDeck.GameObjects.Card
         private float effectPower; // power granted from temporary effects. temporary gains/losses.
         private Texture2D cardTexture;
         private CardType type;
-        private Dictionary<string, ICardEffect> effects; // different effect the card has
+
+        // 2 dictionaries required for effects. one for any attachers this card has, the other for card effects.
+        private Dictionary<string, List<ICardEffect>> effects; // different effects the card has
+        private Dictionary<string, List<AttacherEffect>> attachers; // different attachments this card has
 
         private Button playButton; // button used to play the card
         private Label lbName; // label to display name of card
@@ -153,7 +156,8 @@ namespace SlyDeck.GameObjects.Card
             LeftClick += playButton.Toggle; // toggle play button whenever the card is clicked
             AddChildObject(playButton);
 
-            effects = new Dictionary<string, ICardEffect>();
+            effects = new Dictionary<string, List<ICardEffect>>();
+            attachers = new Dictionary<string, List<AttacherEffect>>();
         }
 
         /// <summary>
@@ -215,7 +219,31 @@ namespace SlyDeck.GameObjects.Card
         /// <param name="effect">The effect itself</param>
         public void AddEffect(ICardEffect effect)
         {
-            effects.Add(effect.Name, effect);
+            if (effect is AttacherEffect)
+            {
+                if (effects.ContainsKey(effect.Name))
+                {
+                    attachers[effect.Name].Add((AttacherEffect)effect);
+                }
+                else
+                {
+                    attachers.Add(effect.Name, new List<AttacherEffect> { (AttacherEffect)effect });
+                }
+
+                attachers[effect.Name].Add((AttacherEffect)effect);
+            }
+            else
+            {
+                if (effects.ContainsKey(effect.Name))
+                {
+                    effects[effect.Name].Add(effect);
+                }
+                else
+                {
+                    effects.Add(effect.Name, new List<ICardEffect> { effect });
+                }
+            }
+
             effect.Owner = this;
         }
 
@@ -233,9 +261,25 @@ namespace SlyDeck.GameObjects.Card
         /// </summary>
         public void Play()
         {
-            foreach (ICardEffect effect in effects.Values)
+            // attachment step
+            if (attachers.Count > 0)
             {
-                effect.Perform();
+                foreach (List<AttacherEffect> attacherSet in attachers.Values)
+                {
+                    foreach (AttacherEffect attacher in attacherSet)
+                    {
+                        attacher.Perform();
+                    }
+                }
+            }
+
+            // effect step
+            foreach (List<ICardEffect> effectSet in effects.Values)
+            {
+                foreach (ICardEffect effect in effectSet)
+                {
+                    effect.Perform();
+                }
             }
         }
 
