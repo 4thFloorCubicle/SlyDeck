@@ -56,7 +56,7 @@ namespace SlyDeck.Managers
         /// <summary>
         /// RoundManager constructor
         /// </summary>
-        public RoundManager()
+        private RoundManager()
         {
             ts = TurnState.Player;
         }
