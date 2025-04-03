@@ -64,8 +64,12 @@ public class Game1 : Game
             AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
         );
 
-        TestEffect effect = new TestEffect();
-        testCard.AddEffect("Test Effect", effect);
+        TestEffect testEffect = new TestEffect();
+        AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.EffectPower);
+        AttacherEffect add2Attacher = new AttacherEffect(add2, TargetMode.Self);
+
+        testCard.AddEffect(testEffect);
+        testCard.AddEffect(add2Attacher);
     }
 
     protected override void Update(GameTime gameTime)
@@ -104,6 +108,12 @@ public class Game1 : Game
                     break;
                 }
             }
+        }
+
+        // Question: does it make more sense to loop through it once and conditionally apply logic? or just add loops for each step
+        foreach (GameObject gameObject in GameObjectManager.Instance.GetAllGameObjects())
+        {
+            gameObject.Update(gameTime);
         }
 
         base.Update(gameTime);

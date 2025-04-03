@@ -13,6 +13,15 @@ using SlyDeck.Managers;
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
 {
+    /// <summary>
+    /// Enum representing the 2 different types of power in the game
+    /// </summary>
+    public enum PowerType
+    {
+        BasePower,
+        EffectPower,
+    }
+
     internal enum CardType
     {
         Title,
@@ -28,10 +37,14 @@ namespace SlyDeck.GameObjects.Card
     internal class Card : GameObject, IClickable
     {
         private string description;
-        private int power;
+        private float basePower; // power from the card itself OR granted by permanant. permanant gains/losses
+        private float effectPower; // power granted from temporary effects. temporary gains/losses.
         private Texture2D cardTexture;
         private CardType type;
-        private Dictionary<string, ICardEffect> effects; // different effect the card has
+
+        // 2 dictionaries required for effects. one for any attachers this card has, the other for card effects.
+        private Dictionary<string, List<ICardEffect>> effects; // different effects the card has
+        private Dictionary<string, List<AttacherEffect>> attachers; // different attachments this card has
 
         private Button playButton; // button used to play the card
         private Label lbName; // label to display name of card
@@ -39,6 +52,23 @@ namespace SlyDeck.GameObjects.Card
         private Label lbType; // label to display type of card
         private Label lbDescription; // label to display description of card
         private Texture2D cardArt; // art associated with the card
+
+        public float TotalPower
+        {
+            get { return basePower + effectPower; }
+        }
+
+        public float BasePower
+        {
+            get { return basePower; }
+            set { basePower = value; }
+        }
+
+        public float EffectPower
+        {
+            get { return effectPower; }
+            set { effectPower = value; }
+        }
 
         public Rectangle Bounds
         {
@@ -62,7 +92,7 @@ namespace SlyDeck.GameObjects.Card
             string name,
             Texture2D cardTexture,
             string description,
-            int power,
+            float basePower,
             CardType type,
             Texture2D cardArt
         )
@@ -70,7 +100,7 @@ namespace SlyDeck.GameObjects.Card
         {
             this.cardTexture = cardTexture;
             this.description = description;
-            this.power = power;
+            this.basePower = basePower;
             this.type = type;
             this.cardArt = cardArt;
 
@@ -97,7 +127,7 @@ namespace SlyDeck.GameObjects.Card
                 new Vector2(position.X + 327, position.Y + 515), // NOTE: Position will not work
                 // once power goes beyond a single digit, itll leave the little circle on the card
                 $"Card Power Label-{name}",
-                $"{power}",
+                $"{basePower}",
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
             );
             AddChildObject(lbPower);
@@ -109,6 +139,7 @@ namespace SlyDeck.GameObjects.Card
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial12"),
                 Color.Gray
             );
+            AddChildObject(lbDescription);
 
             playButton = new Button(
                 new Vector2(position.X, position.Y - 50),
@@ -125,7 +156,8 @@ namespace SlyDeck.GameObjects.Card
             LeftClick += playButton.Toggle; // toggle play button whenever the card is clicked
             AddChildObject(playButton);
 
-            effects = new Dictionary<string, ICardEffect>();
+            effects = new Dictionary<string, List<ICardEffect>>();
+            attachers = new Dictionary<string, List<AttacherEffect>>();
         }
 
         /// <summary>
@@ -163,14 +195,64 @@ namespace SlyDeck.GameObjects.Card
             lbType.Draw(spriteBatch);
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            lbPower.Text = $"{TotalPower}";
+
+            if (effectPower > 0)
+            {
+                lbPower.TextColor = Color.Green;
+            }
+            else if (effectPower < 0)
+            {
+                lbPower.TextColor = Color.Red;
+            }
+            else
+            {
+                lbPower.TextColor = Color.White;
+            }
+        }
+
         /// <summary>
         /// Adds an effect to this card
         /// </summary>
-        /// <param name="effectName">The name of the effect</param>
         /// <param name="effect">The effect itself</param>
-        public void AddEffect(string effectName, ICardEffect effect)
+        public void AddEffect(ICardEffect effect)
         {
-            effects.Add(effectName, effect);
+            if (effect is AttacherEffect)
+            {
+                if (attachers.ContainsKey(effect.Name))
+                {
+                    attachers[effect.Name].Add((AttacherEffect)effect);
+                }
+                else
+                {
+                    attachers.Add(effect.Name, new List<AttacherEffect> { (AttacherEffect)effect });
+                }
+            }
+            else
+            {
+                if (effects.ContainsKey(effect.Name))
+                {
+                    effects[effect.Name].Add(effect);
+                }
+                else
+                {
+                    effects.Add(effect.Name, new List<ICardEffect> { effect });
+                }
+            }
+
+            effect.Owner = this;
+        }
+
+        /// <summary>
+        /// Removes an effect from this card
+        /// </summary>
+        /// <param name="effectName">The name of effect to remove</param>
+        public void RemoveEffect(string effectName)
+        {
+            effects.Remove(effectName);
+            attachers.Remove(effectName);
         }
 
         /// <summary>
@@ -178,9 +260,25 @@ namespace SlyDeck.GameObjects.Card
         /// </summary>
         public void Play()
         {
-            foreach (ICardEffect effect in effects.Values)
+            // attachment step
+            if (attachers.Count > 0)
             {
-                effect.Perform();
+                foreach (List<AttacherEffect> attacherSet in attachers.Values)
+                {
+                    foreach (AttacherEffect attacher in attacherSet)
+                    {
+                        attacher.Perform();
+                    }
+                }
+            }
+
+            // effect step
+            foreach (List<ICardEffect> effectSet in effects.Values)
+            {
+                foreach (ICardEffect effect in effectSet)
+                {
+                    effect.Perform();
+                }
             }
         }
 

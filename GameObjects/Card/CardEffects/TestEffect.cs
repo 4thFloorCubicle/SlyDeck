@@ -17,6 +17,14 @@ namespace SlyDeck.GameObjects.Card.CardEffects
     {
         private int procCount;
 
+        public Card Owner { get; set; }
+        public string Name { get; }
+
+        public TestEffect()
+        {
+            Name = "Test Effect";
+        }
+
         public void Perform()
         {
             procCount++;

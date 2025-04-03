@@ -6,25 +6,42 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.Decks;
-using SlyDeck.DiscardPiles;
 using SlyDeck.Enemies;
+using SlyDeck.GameObjects.Card;
+using SlyDeck.Piles;
 
-// Author: Ben Haines
+// Authors: Ben Haines, Cooper Fleishman
 namespace SlyDeck.GameObjects.Boards
 {
+    /// <summary>
+    /// Represents state of the game
+    /// </summary>
     internal class Board : GameObject
     {
         // -- Fields -- \\
 
-        DiscardPile playerDiscardPile;
-        Deck playerDeck;
-        Card.Card lastPlayedPlayer;
+        // Singleton
+        public static Board Instance { get; private set; }
 
-        Enemy currentEnemy;
-        DiscardPile enemyDiscardPile;
+        // Player
+        private DiscardPile playerDiscardPile;
+        private Deck playerDeck;
+        private Card.Card lastPlayedPlayer;
+
+        private Enemy currentEnemy;
+        private DiscardPile enemyDiscardPile;
+
+        public Deck PlayerDeck
+        {
+            get { return playerDeck; }
+        }
+
+        public Enemy CurrentEnemy
+        {
+            get { return currentEnemy; }
+        }
 
         // -- Constructor -- \\
-
         public Board(
             Vector2 position,
             string name,
@@ -34,6 +51,16 @@ namespace SlyDeck.GameObjects.Boards
         )
             : base(position, name)
         {
+            // Because board is a gameobject, implementation of a singleton must be done slightly differently
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                throw new Exception("Cannot initiallize a second instance of the board class.");
+            }
+
             this.playerDeck = playerDeck;
             lastPlayedPlayer = null;
             playerDiscardPile = new();
@@ -45,7 +72,7 @@ namespace SlyDeck.GameObjects.Boards
         // -- Methods -- \\
 
         /// <summary>
-        /// Present the user with the choice of three cards, chossing one re-shuffles the other two back into the players deck.
+        /// Present the user with the choice of three cards, choosing one re-shuffles the other two back into the players deck.
         /// </summary>
         /// <returns></returns>
         public Card.Card CardChoice()
@@ -69,7 +96,6 @@ namespace SlyDeck.GameObjects.Boards
             playerDeck.Shuffle();
 
             return finalCard;
-            ;
         }
 
         /// <summary>

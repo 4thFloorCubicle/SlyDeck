@@ -13,6 +13,16 @@ namespace SlyDeck.GameObjects.Card.CardEffects
     internal interface ICardEffect
     {
         /// <summary>
+        /// 'Owner' of the effect (the card the effect is attached to)
+        /// </summary>
+        Card Owner { get; set; }
+
+        /// <summary>
+        /// Name of the effect
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Performs the logic this effect contains
         /// </summary>
         public void Perform();

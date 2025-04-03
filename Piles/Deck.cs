@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using SlyDeck.GameObjects.Card;
+using SlyDeck.GameObjects.Card.CardEffects;
 
-// Author: Ben Haines
-
+// Authors: Ben Haines, Cooper Fleishman
 namespace SlyDeck.Decks
 {
     internal class Deck
@@ -14,6 +14,14 @@ namespace SlyDeck.Decks
         private Random shuffle;
 
         // -- Properties -- \\
+
+        /// <summary>
+        /// Gets the cards this deck contains
+        /// </summary>
+        public List<Card> Cards
+        {
+            get { return cards; }
+        }
 
         /// <summary>
         /// Gets the size of the deck.
@@ -98,6 +106,18 @@ namespace SlyDeck.Decks
                 cards.RemoveAt(randomIndex);
             }
             cards.AddRange(newCards);
+        }
+
+        /// <summary>
+        /// Adds a supplied card effect to the entire deck
+        /// </summary>
+        /// <param name="effect"></param>
+        public void ApplyDeckwideEffect(ICardEffect effect)
+        {
+            foreach (Card card in cards)
+            {
+                card.AddEffect(effect);
+            }
         }
     }
 }
