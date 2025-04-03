@@ -221,7 +221,7 @@ namespace SlyDeck.GameObjects.Card
         {
             if (effect is AttacherEffect)
             {
-                if (effects.ContainsKey(effect.Name))
+                if (attachers.ContainsKey(effect.Name))
                 {
                     attachers[effect.Name].Add((AttacherEffect)effect);
                 }
