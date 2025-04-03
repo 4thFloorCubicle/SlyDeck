@@ -252,6 +252,7 @@ namespace SlyDeck.GameObjects.Card
         public void RemoveEffect(string effectName)
         {
             effects.Remove(effectName);
+            attachers.Remove(effectName);
         }
 
         /// <summary>
