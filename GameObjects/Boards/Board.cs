@@ -56,7 +56,8 @@ namespace SlyDeck.GameObjects.Boards
             Deck playerDeck,
             string enemyName,
             Deck enemyDeck,
-            GraphicsDevice GD
+            GraphicsDevice GD,
+            Card.Card testCard
         )
             : base(position, name)
         {
@@ -71,7 +72,7 @@ namespace SlyDeck.GameObjects.Boards
             }
 
             this.playerDeck = playerDeck;
-            lastPlayedPlayer = null;
+            lastPlayedPlayer = testCard;
             playerDiscardPile = new();
             playerPersuasion = 100;
 
@@ -123,11 +124,14 @@ namespace SlyDeck.GameObjects.Boards
             // Draw the current player and enemy's persuasion values to the screen
             SpriteFont numberFont = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
             numberFont.MeasureString(playerPersuasion.ToString());
-            Vector2 playerNumberPosition = new(GD.Viewport.Width / 2 - numberFont.MeasureString(playerPersuasion.ToString()).X / 2, 0);
-            Vector2 enemyNumberPosition = new(GD.Viewport.Width / 2 - numberFont.MeasureString(enemyPersuasion.ToString()).X / 2, GD.Viewport.Height - 69);
+            Vector2 playerNumberPosition = new(GD.Viewport.Width / 2 - numberFont.MeasureString(playerPersuasion.ToString()).X / 2, 30);
+            Vector2 enemyNumberPosition = new(GD.Viewport.Width / 2 - numberFont.MeasureString(enemyPersuasion.ToString()).X / 2, GD.Viewport.Height - 100);
 
             spriteBatch.DrawString(numberFont, playerPersuasion.ToString(), playerNumberPosition, Color.White);
             spriteBatch.DrawString(numberFont, enemyPersuasion.ToString(), enemyNumberPosition, Color.White);
+
+            // Last played player card
+            lastPlayedPlayer.Draw(spriteBatch);
         }
     }
 }

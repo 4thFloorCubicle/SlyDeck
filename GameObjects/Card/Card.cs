@@ -87,7 +87,8 @@ namespace SlyDeck.GameObjects.Card
         public event ClickedDelegate MiddleClick;
         public event ClickedDelegate RightClick;
 
-        public Card(
+        pub
+                lic Card(
             Vector2 position,
             string name,
             Texture2D cardTexture,

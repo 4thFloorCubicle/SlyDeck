@@ -35,7 +35,6 @@ public class Game1 : Game
             1080; // testing height
         _graphics.ApplyChanges();
 
-        testBoard = new(new Vector2(0, 0), "Testboard", null, "Bob", null, GraphicsDevice);
 
         base.Initialize();
     }
@@ -75,6 +74,8 @@ public class Game1 : Game
 
         testCard.AddEffect(testEffect);
         testCard.AddEffect(add2Attacher);
+
+        testBoard = new(new Vector2(0, 0), "Testboard", null, "Bob", null, GraphicsDevice, testCard);
     }
 
     protected override void Update(GameTime gameTime)
