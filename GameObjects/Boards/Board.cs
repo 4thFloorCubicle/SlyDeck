@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.Decks;
 using SlyDeck.Enemies;
 using SlyDeck.GameObjects.Card;
+using SlyDeck.Managers;
 using SlyDeck.Piles;
 
 // Authors: Ben Haines, Cooper Fleishman
@@ -27,10 +28,17 @@ namespace SlyDeck.GameObjects.Boards
         private DiscardPile playerDiscardPile;
         private Deck playerDeck;
         private Card.Card lastPlayedPlayer;
+        private int playerPersuasion;
 
+        // Enemy
         private Enemy currentEnemy;
         private DiscardPile enemyDiscardPile;
+        private int enemyPersuasion;
 
+        // Graphics Device for Drawing
+        private GraphicsDevice GD;
+
+        // -- Properties -- \\
         public Deck PlayerDeck
         {
             get { return playerDeck; }
@@ -47,7 +55,8 @@ namespace SlyDeck.GameObjects.Boards
             string name,
             Deck playerDeck,
             string enemyName,
-            Deck enemyDeck
+            Deck enemyDeck,
+            GraphicsDevice GD
         )
             : base(position, name)
         {
@@ -58,21 +67,25 @@ namespace SlyDeck.GameObjects.Boards
             }
             else
             {
-                throw new Exception("Cannot initiallize a second instance of the board class.");
+                throw new Exception("Cannot initialize a second instance of the board class.");
             }
 
             this.playerDeck = playerDeck;
             lastPlayedPlayer = null;
             playerDiscardPile = new();
+            playerPersuasion = 100;
 
             enemyDiscardPile = new();
             currentEnemy = new(enemyName, enemyDeck);
+            enemyPersuasion = 20000;
+
+            this.GD = GD;
         }
 
         // -- Methods -- \\
 
         /// <summary>
-        /// Present the user with the choice of three cards, choosing one re-shuffles the other two back into the players deck.
+        /// Present the user with the choice of three cards, choosing one and re-shuffles the other two back into the players deck.
         /// </summary>
         /// <returns></returns>
         public Card.Card CardChoice()
@@ -89,10 +102,11 @@ namespace SlyDeck.GameObjects.Boards
             int pretendInput = 1;
             finalCard = cardOptions[pretendInput];
 
-            // Add the two unchoosen cards back into the deck and shuffle it.
+            // Add the two unchosen cards back into the deck and shuffle it.
             cardOptions.RemoveAt(pretendInput);
             playerDeck.AddCardBottom(cardOptions[0]);
             playerDeck.AddCardBottom(cardOptions[1]);
+            cardOptions.Clear();
             playerDeck.Shuffle();
 
             return finalCard;
@@ -105,7 +119,15 @@ namespace SlyDeck.GameObjects.Boards
         /// <exception cref="NotImplementedException">Not implimented yet.</exception>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+
+            // Draw the current player and enemy's persuasion values to the screen
+            SpriteFont numberFont = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
+            numberFont.MeasureString(playerPersuasion.ToString());
+            Vector2 playerNumberPosition = new(GD.Viewport.Width / 2 - numberFont.MeasureString(playerPersuasion.ToString()).X / 2, 0);
+            Vector2 enemyNumberPosition = new(GD.Viewport.Width / 2 - numberFont.MeasureString(enemyPersuasion.ToString()).X / 2, GD.Viewport.Height - 69);
+
+            spriteBatch.DrawString(numberFont, playerPersuasion.ToString(), playerNumberPosition, Color.White);
+            spriteBatch.DrawString(numberFont, enemyPersuasion.ToString(), enemyNumberPosition, Color.White);
         }
     }
 }

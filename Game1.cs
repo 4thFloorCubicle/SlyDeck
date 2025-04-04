@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SlyDeck.GameObjects;
+using SlyDeck.GameObjects.Boards;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
@@ -14,6 +15,8 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    Board testBoard;
 
     public Game1()
     {
@@ -31,6 +34,8 @@ public class Game1 : Game
             //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2;
             1080; // testing height
         _graphics.ApplyChanges();
+
+        testBoard = new(new Vector2(0, 0), "Testboard", null, "Bob", null, GraphicsDevice);
 
         base.Initialize();
     }
@@ -125,7 +130,8 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
-        GameObjectManager.Instance.DrawAll(_spriteBatch);
+        testBoard.Draw(_spriteBatch);
+        //GameObjectManager.Instance.DrawAll(_spriteBatch);
 
         _spriteBatch.End();
 
