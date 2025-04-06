@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.GameObjects.Card.CardEffects;
 
 // Authors: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card
@@ -19,6 +20,7 @@ namespace SlyDeck.GameObjects.Card
         private float basePower;
         private CardType type;
         private Texture2D cardArt;
+        private List<ICardEffect> effects;
 
         /// <summary>
         /// Name of the card
@@ -68,6 +70,11 @@ namespace SlyDeck.GameObjects.Card
             get { return cardArt; }
         }
 
+        public List<ICardEffect> Effects
+        {
+            get { return effects; }
+        }
+
         public CardData(
             string name,
             Texture2D backTexture,
@@ -83,6 +90,20 @@ namespace SlyDeck.GameObjects.Card
             this.basePower = basePower;
             this.type = type;
             this.cardArt = cardArt;
+        }
+
+        public CardData(
+            string name,
+            Texture2D backTexture,
+            string description,
+            float basePower,
+            CardType type,
+            Texture2D cardArt,
+            List<ICardEffect> effects
+        )
+            : this(name, backTexture, description, basePower, type, cardArt)
+        {
+            this.effects = effects;
         }
     }
 }

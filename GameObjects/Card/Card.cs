@@ -126,6 +126,7 @@ namespace SlyDeck.GameObjects.Card
             lbPower = new Label(
                 new Vector2(position.X + 327, position.Y + 515), // NOTE: Position will not work
                 // once power goes beyond a single digit, itll leave the little circle on the card
+                // we can change the
                 $"Card Power Label-{name}",
                 $"{basePower}",
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
@@ -169,7 +170,13 @@ namespace SlyDeck.GameObjects.Card
                 cardData.BasePower,
                 cardData.Type,
                 cardData.CardArt
-            ) { }
+            )
+        {
+            foreach (ICardEffect effect in cardData.Effects)
+            {
+                AddEffect(effect);
+            }
+        }
 
         /// <summary>
         /// Draws the card to a spritebatch
