@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -21,6 +22,7 @@ namespace SlyDeck.GameObjects
         private string name; // the name of this gameobject
         private Dictionary<string, GameObject> childObjects; // the children of this gameobject
         private GameObject? parent; // the parent of this gameobject
+        private float scale; // The scale of the gameobject when drawing to the screen
 
         /// <summary>
         /// A list of all the children of this GameObject
@@ -37,6 +39,12 @@ namespace SlyDeck.GameObjects
         {
             get { return position; }
             set { position = value; }
+        }
+
+        public virtual float Scale
+        {
+            get { return scale; }
+            set { scale = value; }
         }
 
         /// <summary>
@@ -79,6 +87,8 @@ namespace SlyDeck.GameObjects
         {
             this.position = position;
             this.name = name;
+
+            scale = 1;
 
             globallyEnabled = true;
             locallyEnabled = true;

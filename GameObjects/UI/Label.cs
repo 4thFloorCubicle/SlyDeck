@@ -56,7 +56,7 @@ namespace SlyDeck.GameObjects.UI
         /// <param name="spriteBatch">The spriteback to draw to</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(spriteFont, text, Position, color);
+            spriteBatch.DrawString(spriteFont, text, Position, color, 0, Vector2.Zero, Scale, SpriteEffects.None, .5f);
         }
     }
 }

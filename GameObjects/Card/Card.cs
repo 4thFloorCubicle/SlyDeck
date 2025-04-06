@@ -70,6 +70,24 @@ namespace SlyDeck.GameObjects.Card
             set { effectPower = value; }
         }
 
+        public override float Scale 
+        {
+            get { return base.Scale; }
+            set 
+            {
+                base.Scale = value;
+                lbName.Position = new(Position.X + cardTexture.Width / 4 * value, Position.Y + 30 * value);
+                lbPower.Position = new(Position.X + cardTexture.Width / 4 * value, Position.Y + 375 * value);
+                lbType.Position = new(Position.X + cardTexture.Width / 4 * value, Position.Y + 375 * value);
+                lbDescription.Position = new(Position.X + 327 * value, Position.Y + 515 * value);
+
+                lbName.Scale = value;
+                lbPower.Scale = value;
+                lbType.Scale = value;
+                lbDescription.Scale = value;
+            }
+        }
+
         public Rectangle Bounds
         {
             get
@@ -87,8 +105,7 @@ namespace SlyDeck.GameObjects.Card
         public event ClickedDelegate MiddleClick;
         public event ClickedDelegate RightClick;
 
-        pub
-                lic Card(
+        public Card(
             Vector2 position,
             string name,
             Texture2D cardTexture,
@@ -104,6 +121,7 @@ namespace SlyDeck.GameObjects.Card
             this.basePower = basePower;
             this.type = type;
             this.cardArt = cardArt;
+
 
             // create the labels
             // TODO, figure out where they need to be placed later (along with font size)
@@ -174,19 +192,19 @@ namespace SlyDeck.GameObjects.Card
                 Color.White,
                 0,
                 Vector2.Zero,
-                1,
+                Scale,
                 SpriteEffects.None,
                 .1f
             );
 
             spriteBatch.Draw(
                 cardArt,
-                new Vector2(Position.X + 40, Position.Y + 80),
+                new Vector2(Position.X + 40 * Scale, Position.Y + 80 * Scale),
                 cardArt.Bounds,
                 Color.Wheat,
                 0,
                 Vector2.Zero,
-                .23f,
+                .23f * Scale,
                 SpriteEffects.None,
                 .15f
             );

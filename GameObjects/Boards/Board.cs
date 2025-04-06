@@ -131,7 +131,13 @@ namespace SlyDeck.GameObjects.Boards
             spriteBatch.DrawString(numberFont, enemyPersuasion.ToString(), enemyNumberPosition, Color.White);
 
             // Last played player card
+            //lastPlayedPlayer.Scale = 1f;
+            //lastPlayedPlayer.Position *= 2f;
+            //lastPlayedPlayer.Draw(spriteBatch);
+            //lastPlayedPlayer.Position *= .5f;
+            lastPlayedPlayer.Scale = .5f;
             lastPlayedPlayer.Draw(spriteBatch);
+            //lastPlayedPlayer.
         }
     }
 }
