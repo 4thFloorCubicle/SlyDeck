@@ -160,6 +160,17 @@ namespace SlyDeck.GameObjects.Card
             attachers = new Dictionary<string, List<AttacherEffect>>();
         }
 
+        public Card(Vector2 position, CardData cardData)
+            : this(
+                position,
+                cardData.Name,
+                cardData.BackTexture,
+                cardData.Description,
+                cardData.BasePower,
+                cardData.Type,
+                cardData.CardArt
+            ) { }
+
         /// <summary>
         /// Draws the card to a spritebatch
         /// </summary>
