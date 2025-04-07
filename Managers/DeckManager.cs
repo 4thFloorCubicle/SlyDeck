@@ -5,6 +5,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.Decks;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
@@ -90,11 +92,34 @@ namespace SlyDeck.Managers
                     ICardEffect effect;
                     switch (keyword)
                     {
+                        case "Boost":
+                            effect = new AdditivePowerEffect(effectValue, PowerType.EffectPower);
+                            break;
                         default:
                             throw new NotImplementedException(
                                 "Effect names have not been declared"
                             );
                     }
+
+                    string effectDescription = cardValues[4];
+                    int basePower = int.Parse(cardValues[5]);
+                    string imageDirectory = cardValues[6];
+                    string imageName = imageDirectory.Split('\\')[1].Split('.')[0];
+                    Texture2D cardArt = AssetManager.Instance.GetAsset<Texture2D>(imageName);
+
+                    CardData data = new CardData(
+                        cardName,
+                        AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
+                        effectDescription,
+                        basePower,
+                        cardType,
+                        cardArt,
+                        new List<ICardEffect> { effect }
+                    );
+
+                    Card card = new Card(new Vector2(100, 100), data);
+                    card.Toggle();
+                    cards.Add(card);
                 }
             }
 
