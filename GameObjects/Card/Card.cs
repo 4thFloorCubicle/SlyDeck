@@ -24,11 +24,11 @@ namespace SlyDeck.GameObjects.Card
 
     internal enum CardType
     {
-        Title,
-        List,
-        Picture,
+        Header,
+        Footer,
+        Quote,
         Graph,
-        Transition,
+        Closer,
     }
 
     /// <summary>

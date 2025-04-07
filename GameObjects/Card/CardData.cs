@@ -51,7 +51,7 @@ namespace SlyDeck.GameObjects.Card
         /// </summary>
         public float BasePower
         {
-            get { return BasePower; }
+            get { return basePower; }
         }
 
         /// <summary>

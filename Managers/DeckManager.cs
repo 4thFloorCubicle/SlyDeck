@@ -54,6 +54,7 @@ namespace SlyDeck.Managers
         {
             List<Card> cards = new List<Card>();
 
+            // TODO: migrate from streamreader to use Content.Load
             using (StreamReader reader = new StreamReader(filepath))
             {
                 while (!reader.EndOfStream)
@@ -63,48 +64,35 @@ namespace SlyDeck.Managers
 
                     string cardName = cardValues[0];
 
-                    CardType cardType;
-                    switch (cardValues[1])
-                    {
-                        case "Title":
-                            cardType = CardType.Title;
-                            break;
-                        case "List":
-                            cardType = CardType.List;
-                            break;
-                        case "Picture":
-                            cardType = CardType.Picture;
-                            break;
-                        case "Graph":
-                            cardType = CardType.Graph;
-                            break;
-                        case "Transition":
-                            cardType = CardType.Transition;
-                            break;
-                        default:
-                            throw new FormatException(
-                                $"Invalid card type found in file {filepath}"
-                            );
-                    }
+                    CardType cardType = (CardType)Enum.Parse(typeof(CardType), cardValues[1]);
 
                     string keyword = cardValues[2];
                     int effectValue = int.Parse(cardValues[3]);
                     ICardEffect effect;
                     switch (keyword)
                     {
-                        case "Boost":
-                            effect = new AdditivePowerEffect(effectValue, PowerType.EffectPower);
-                            break;
+                        case "Keyword1": // confirm
+                            {
+                                ICardEffect attachment = new AdditivePowerEffect(effectValue, PowerType.EffectPower);
+                                effect = new AttacherEffect(attachment, TargetMode.Deck);
+                                break;
+                            }
+                        case "Keyword2": // rebute
+                            {
+                                ICardEffect attachment = new AdditivePowerEffect(effectValue, PowerType.EffectPower);
+                                effect = new AttacherEffect(attachment, TargetMode.EnemyDeck);
+                                break;
+                            }
                         default:
                             throw new NotImplementedException(
-                                "Effect names have not been declared"
+                                $"Effect keyword {keyword} have not been declared"
                             );
                     }
 
                     string effectDescription = cardValues[4];
                     int basePower = int.Parse(cardValues[5]);
                     string imageDirectory = cardValues[6];
-                    string imageName = imageDirectory.Split('\\')[1].Split('.')[0];
+                    string imageName = imageDirectory.Split('\\')[2].Split('.')[0];
                     Texture2D cardArt = AssetManager.Instance.GetAsset<Texture2D>(imageName);
 
                     CardData data = new CardData(
