@@ -12,6 +12,7 @@ namespace SlyDeck.Decks
 
         private List<Card> cards;
         private Random shuffle;
+        private string name;
 
         // -- Properties -- \\
 
@@ -39,14 +40,20 @@ namespace SlyDeck.Decks
             get { return cards[0]; }
         }
 
+        public string Name
+        {
+            get { return name; }
+        }
+
         // -- Constructor -- \\
 
         /// <summary>
         /// Create a new deck of cards.
         /// </summary>
         /// <param name="cards">The cards that the deck will use.</param>
-        public Deck(List<Card> cards)
+        public Deck(string name, List<Card> cards)
         {
+            this.name = name;
             this.cards = cards;
             shuffle = new Random();
             Shuffle();

@@ -51,7 +51,7 @@ public class Game1 : Game
         AssetManager.Instance.AddTexture("Quote", Content.Load<Texture2D>("cardImages\\Quote"));
         AssetManager.Instance.AddTexture("Graph", Content.Load<Texture2D>("cardImages\\Graph"));
         AssetManager.Instance.AddTexture("Closer", Content.Load<Texture2D>("cardImages\\Closer"));
-        AssetManager.Instance.AddDeckFile("TestDeck", "Z:\\IGMProfile\\Desktop\\Git Repos\\SlyDeck\\Content\\bin\\DesktopGL\\TestDeckCards.deck");
+        AssetManager.Instance.AddDeckFilePath("TestDeck", "Content\\TestDeckCards.deck");
 
         Label testLabel = new Label(
             new Vector2(100, 100),
@@ -77,7 +77,7 @@ public class Game1 : Game
         testCard.AddEffect(testEffect);
         testCard.AddEffect(add2Attacher);
 
-        DeckManager.Instance.DeckFromFile("Z:\\IGMProfile\\Desktop\\Git Repos\\SlyDeck\\Content\\bin\\DesktopGL\\TestDeckCards.deck");
+        DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("TestDeck"));
     }
 
     protected override void Update(GameTime gameTime)

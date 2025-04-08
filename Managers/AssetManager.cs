@@ -101,10 +101,15 @@ namespace SlyDeck.Managers
         {
             fonts[name] = font;
         }
-        
-        public void AddDeckFile(string name, string filepath)
+
+        public void AddDeckFilePath(string name, string filepath)
         {
             deckFiles[name] = filepath;
+        }
+
+        public string GetDeckFilePath(string name)
+        {
+            return deckFiles[name];
         }
     }
 }

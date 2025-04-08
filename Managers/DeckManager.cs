@@ -52,9 +52,9 @@ namespace SlyDeck.Managers
         /// <exception cref="FormatException">Thrown when part of the file is not in format</exception>
         public Deck DeckFromFile(string filepath)
         {
+            string deckName = filepath.Split('\\')[1].Split('.')[0]; // need to change to not rely on magic numbers
             List<Card> cards = new List<Card>();
 
-            // TODO: migrate from streamreader to use Content.Load
             using (StreamReader reader = new StreamReader(filepath))
             {
                 while (!reader.EndOfStream)
@@ -64,54 +64,73 @@ namespace SlyDeck.Managers
 
                     string cardName = cardValues[0];
 
-                    CardType cardType = (CardType)Enum.Parse(typeof(CardType), cardValues[1]);
+                    CardData data;
 
-                    string keyword = cardValues[2];
-                    int effectValue = int.Parse(cardValues[3]);
-                    ICardEffect effect;
-                    switch (keyword)
+                    // if card has already been read why reread the entire file vs reusing the already created data
+                    if (cardData.ContainsKey(cardName))
                     {
-                        case "Keyword1": // confirm
+                        data = cardData[cardName];
+                    }
+                    else
+                    {
+                        CardType cardType = (CardType)Enum.Parse(typeof(CardType), cardValues[1]);
+
+                        string keyword = cardValues[2];
+                        int effectValue = int.Parse(cardValues[3]);
+                        ICardEffect effect;
+                        switch (keyword)
+                        {
+                            case "Keyword1": // confirm
                             {
-                                ICardEffect attachment = new AdditivePowerEffect(effectValue, PowerType.EffectPower);
+                                ICardEffect attachment = new AdditivePowerEffect(
+                                    effectValue,
+                                    PowerType.EffectPower
+                                );
                                 effect = new AttacherEffect(attachment, TargetMode.Deck);
                                 break;
                             }
-                        case "Keyword2": // rebute
+                            case "Keyword2": // rebute
                             {
-                                ICardEffect attachment = new AdditivePowerEffect(effectValue, PowerType.EffectPower);
+                                ICardEffect attachment = new AdditivePowerEffect(
+                                    effectValue,
+                                    PowerType.EffectPower
+                                );
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyDeck);
                                 break;
                             }
-                        default:
-                            throw new NotImplementedException(
-                                $"Effect keyword {keyword} have not been declared"
-                            );
+                            default:
+                                throw new NotImplementedException(
+                                    $"Effect keyword {keyword} have not been declared"
+                                );
+                        }
+
+                        string effectDescription = cardValues[4];
+                        int basePower = int.Parse(cardValues[5]);
+                        string imageDirectory = cardValues[6];
+                        string imageName = imageDirectory.Split('\\')[2].Split('.')[0];
+                        Texture2D cardArt = AssetManager.Instance.GetAsset<Texture2D>(imageName);
+
+                        data = new CardData(
+                            cardName,
+                            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
+                            effectDescription,
+                            basePower,
+                            cardType,
+                            cardArt,
+                            new List<ICardEffect> { effect }
+                        );
                     }
 
-                    string effectDescription = cardValues[4];
-                    int basePower = int.Parse(cardValues[5]);
-                    string imageDirectory = cardValues[6];
-                    string imageName = imageDirectory.Split('\\')[2].Split('.')[0];
-                    Texture2D cardArt = AssetManager.Instance.GetAsset<Texture2D>(imageName);
-
-                    CardData data = new CardData(
-                        cardName,
-                        AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
-                        effectDescription,
-                        basePower,
-                        cardType,
-                        cardArt,
-                        new List<ICardEffect> { effect }
-                    );
-
+                    cardData.Add(data.Name, data);
                     Card card = new Card(new Vector2(100, 100), data);
                     card.Toggle();
                     cards.Add(card);
                 }
             }
 
-            return new Deck(cards);
+            Deck deck = new Deck(deckName, cards);
+            decks.Add(deck.Name, deck);
+            return deck;
         }
     }
 }
