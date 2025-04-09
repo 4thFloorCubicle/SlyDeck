@@ -133,8 +133,19 @@ namespace SlyDeck.Managers
                 }
             }
 
-            Deck deck = new Deck(deckName, cards);
-            decks.Add(deck.Name, deck);
+            Deck deck;
+
+            if (decks.ContainsKey(deckName))
+            {
+                deck = new Deck(deckName, cards);
+                decks.Add(deck.Name, deck);
+            }
+            else
+            {
+                deck = new Deck($"{deckName} (Copy)", cards);
+            }
+
+            
             return deck;
         }
     }
