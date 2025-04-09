@@ -37,12 +37,14 @@ namespace SlyDeck.Managers
         {
             textures = new Dictionary<string, Texture2D>();
             fonts = new Dictionary<string, SpriteFont>();
+            deckFiles = new Dictionary<string, string>();
         }
 
         //dictionaries
 
         private Dictionary<string, Texture2D> textures;
         private Dictionary<string, SpriteFont> fonts;
+        private Dictionary<string, string> deckFiles;
 
         //methods
 
@@ -98,6 +100,16 @@ namespace SlyDeck.Managers
         public void AddFont(string name, SpriteFont font)
         {
             fonts[name] = font;
+        }
+
+        public void AddDeckFilePath(string name, string filepath)
+        {
+            deckFiles[name] = filepath;
+        }
+
+        public string GetDeckFilePath(string name)
+        {
+            return deckFiles[name];
         }
     }
 }

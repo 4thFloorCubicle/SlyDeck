@@ -24,11 +24,11 @@ namespace SlyDeck.GameObjects.Card
 
     internal enum CardType
     {
-        Title,
-        List,
-        Picture,
+        Header,
+        Footer,
+        Quote,
         Graph,
-        Transition,
+        Closer,
     }
 
     /// <summary>
@@ -126,6 +126,7 @@ namespace SlyDeck.GameObjects.Card
             lbPower = new Label(
                 new Vector2(position.X + 327, position.Y + 515), // NOTE: Position will not work
                 // once power goes beyond a single digit, itll leave the little circle on the card
+                // we can change the label's position or font size dynamically to accommodate larger numbers
                 $"Card Power Label-{name}",
                 $"{basePower}",
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
@@ -158,6 +159,23 @@ namespace SlyDeck.GameObjects.Card
 
             effects = new Dictionary<string, List<ICardEffect>>();
             attachers = new Dictionary<string, List<AttacherEffect>>();
+        }
+
+        public Card(Vector2 position, CardData cardData)
+            : this(
+                position,
+                cardData.Name,
+                cardData.BackTexture,
+                cardData.Description,
+                cardData.BasePower,
+                cardData.Type,
+                cardData.CardArt
+            )
+        {
+            foreach (ICardEffect effect in cardData.Effects)
+            {
+                AddEffect(effect);
+            }
         }
 
         /// <summary>
