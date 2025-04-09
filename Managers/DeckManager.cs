@@ -99,6 +99,9 @@ namespace SlyDeck.Managers
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyDeck);
                                 break;
                             }
+                            case "No_Effect":
+                                effect = null;
+                                break;
                             default:
                                 throw new NotImplementedException(
                                     $"Effect keyword {keyword} have not been declared"
