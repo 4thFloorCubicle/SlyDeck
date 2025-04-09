@@ -145,7 +145,6 @@ namespace SlyDeck.Managers
                 deck = new Deck($"{deckName} (Copy)", cards);
             }
 
-            
             return deck;
         }
     }
