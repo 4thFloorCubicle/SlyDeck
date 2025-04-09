@@ -29,6 +29,7 @@ namespace SlyDeck.GameObjects.Boards
         private Deck playerDeck;
         private Card.Card lastPlayedPlayer;
         private int playerPersuasion;
+        private List<Card.Card> cardOptions = new List<Card.Card>(3);
 
         // Enemy
         private Enemy currentEnemy;
@@ -57,7 +58,8 @@ namespace SlyDeck.GameObjects.Boards
             string enemyName,
             Deck enemyDeck,
             GraphicsDevice GD,
-            Card.Card testCard
+            Card.Card testCard,
+            Card.Card testCard2
         )
             : base(position, name)
         {
@@ -76,8 +78,9 @@ namespace SlyDeck.GameObjects.Boards
             playerDiscardPile = new();
             playerPersuasion = 100;
 
-            enemyDiscardPile = new();
+            enemyDiscardPile = new();            
             currentEnemy = new(enemyName, enemyDeck);
+            currentEnemy.LastPlayed = testCard2;
             enemyPersuasion = 20000;
 
             this.GD = GD;
@@ -94,7 +97,6 @@ namespace SlyDeck.GameObjects.Boards
             Card.Card finalCard;
 
             // Draw the top three cards from the deck
-            List<Card.Card> cardOptions = new List<Card.Card>(3);
             cardOptions.Add(playerDeck.DrawCard());
             cardOptions.Add(playerDeck.DrawCard());
             cardOptions.Add(playerDeck.DrawCard());
@@ -123,21 +125,28 @@ namespace SlyDeck.GameObjects.Boards
 
             // Draw the current player and enemy's persuasion values to the screen
             SpriteFont numberFont = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
-            numberFont.MeasureString(playerPersuasion.ToString());
-            Vector2 playerNumberPosition = new(GD.Viewport.Width / 2 - numberFont.MeasureString(playerPersuasion.ToString()).X / 2, 30);
-            Vector2 enemyNumberPosition = new(GD.Viewport.Width / 2 - numberFont.MeasureString(enemyPersuasion.ToString()).X / 2, GD.Viewport.Height - 100);
 
-            spriteBatch.DrawString(numberFont, playerPersuasion.ToString(), playerNumberPosition, Color.White);
-            spriteBatch.DrawString(numberFont, enemyPersuasion.ToString(), enemyNumberPosition, Color.White);
+            Vector2 playerNumberPosition = new(80 - numberFont.MeasureString(playerPersuasion.ToString()).X / 2, GD.Viewport.Height / 1.8f);
+            Vector2 enemyNumberPosition = new(GD.Viewport.Width - 80 - numberFont.MeasureString(enemyPersuasion.ToString()).X / 2, GD.Viewport.Height / 2.2f);
 
-            // Last played player card
-            //lastPlayedPlayer.Scale = 1f;
-            //lastPlayedPlayer.Position *= 2f;
-            //lastPlayedPlayer.Draw(spriteBatch);
-            //lastPlayedPlayer.Position *= .5f;
+            spriteBatch.DrawString(numberFont, playerPersuasion.ToString(), playerNumberPosition, Color.Red);
+            spriteBatch.DrawString(numberFont, enemyPersuasion.ToString(), enemyNumberPosition, Color.Red);
+
+            // Last played player and enemy card
             lastPlayedPlayer.Scale = .5f;
+            currentEnemy.LastPlayed.Scale = .5f;
+
+            lastPlayedPlayer.Position = new(GD.Viewport.Width / 2 - lastPlayedPlayer.Bounds.Width / 2, GD.Viewport.Height / 2 - lastPlayedPlayer.Bounds.Height - 50);
             lastPlayedPlayer.Draw(spriteBatch);
-            //lastPlayedPlayer.
+
+            currentEnemy.LastPlayed.Position = new(GD.Viewport.Width / 2 - lastPlayedPlayer.Bounds.Width / 2, GD.Viewport.Height / 2 + 50);
+            currentEnemy.LastPlayed.Draw(spriteBatch);
+
+            // Player hand
+            for (int cur = 0; cur < 3; cur ++)
+            {
+                cardOptions[cur].Position = new();
+            }
         }
     }
 }

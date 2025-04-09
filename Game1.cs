@@ -68,6 +68,16 @@ public class Game1 : Game
             AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
         );
 
+        Card testCard2 = new Card(
+            new Vector2(200, 200),
+            "Blank Slide",
+            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
+            "This card has a test effect",
+            2,
+            CardType.Title,
+            AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
+        );
+
         TestEffect testEffect = new TestEffect();
         AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.EffectPower);
         AttacherEffect add2Attacher = new AttacherEffect(add2, TargetMode.Self);
@@ -75,7 +85,7 @@ public class Game1 : Game
         testCard.AddEffect(testEffect);
         testCard.AddEffect(add2Attacher);
 
-        testBoard = new(new Vector2(0, 0), "Testboard", null, "Bob", null, GraphicsDevice, testCard);
+        testBoard = new(new Vector2(0, 0), "Testboard", null, "Bob", null, GraphicsDevice, testCard, testCard2);
     }
 
     protected override void Update(GameTime gameTime)
