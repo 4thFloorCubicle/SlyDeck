@@ -27,7 +27,7 @@ namespace SlyDeck.Decks
         /// <summary>
         /// Gets the size of the deck.
         /// </summary>
-        public int DeckSize
+        public int Size
         {
             get { return cards.Count; }
         }

@@ -75,12 +75,13 @@ namespace SlyDeck.Managers
                     {
                         CardType cardType = (CardType)Enum.Parse(typeof(CardType), cardValues[1]);
 
+                        // construct card effect
                         string keyword = cardValues[2];
                         int effectValue = int.Parse(cardValues[3]);
                         ICardEffect effect;
                         switch (keyword)
                         {
-                            case "Keyword1": // confirm
+                            case "Confirm": // confirm
                             {
                                 ICardEffect attachment = new AdditivePowerEffect(
                                     effectValue,
@@ -89,7 +90,7 @@ namespace SlyDeck.Managers
                                 effect = new AttacherEffect(attachment, TargetMode.Deck);
                                 break;
                             }
-                            case "Keyword2": // rebute
+                            case "Rebute": // rebute
                             {
                                 ICardEffect attachment = new AdditivePowerEffect(
                                     effectValue,
@@ -110,6 +111,7 @@ namespace SlyDeck.Managers
                         string imageName = imageDirectory.Split('\\')[2].Split('.')[0];
                         Texture2D cardArt = AssetManager.Instance.GetAsset<Texture2D>(imageName);
 
+                        // construct card data from read values
                         data = new CardData(
                             cardName,
                             AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
