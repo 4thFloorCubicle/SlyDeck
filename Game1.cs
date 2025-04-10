@@ -80,7 +80,7 @@ public class Game1 : Game
             AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
             "This card has a test effect",
             2,
-            CardType.Title,
+            CardType.Header,
             AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
         );
 
