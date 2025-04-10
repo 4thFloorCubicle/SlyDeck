@@ -30,7 +30,7 @@ namespace SlyDeck.GameObjects.Boards
         // Player
         private DiscardPile playerDiscardPile;
         private Deck playerDeck;
-        private Stack<Card.Card> lastPlayedPlayer;
+        private List<Card.Card> lastPlayedPlayer;
         private int playerPersuasion;
         private List<Card.Card> cardOptions = new List<Card.Card>(3);
 
@@ -77,14 +77,22 @@ namespace SlyDeck.GameObjects.Boards
             }
 
             this.playerDeck = playerDeck;
-            lastPlayedPlayer = new Stack<Card.Card>();
-            lastPlayedPlayer.Push(testCard);
+            lastPlayedPlayer = new List<Card.Card>();
+            lastPlayedPlayer.Add(testCard);
+            lastPlayedPlayer.Add(lastPlayedPlayer[0]);
+            lastPlayedPlayer.Add(lastPlayedPlayer[0]);
+            lastPlayedPlayer.Add(lastPlayedPlayer[0]);
+            lastPlayedPlayer.Add(lastPlayedPlayer[0]);
             playerDiscardPile = new();
             playerPersuasion = 100;
 
             enemyDiscardPile = new();            
             currentEnemy = new(enemyName, enemyDeck);
-            currentEnemy.LastPlayed = testCard2;
+            currentEnemy.PlayCard(testCard2);
+            currentEnemy.PlayCard(lastPlayedPlayer[0]);
+            currentEnemy.PlayCard(lastPlayedPlayer[0]);
+            currentEnemy.PlayCard(lastPlayedPlayer[0]);
+            currentEnemy.PlayCard(lastPlayedPlayer[0]);
             enemyPersuasion = 20000;
 
             cardBack = AssetManager.Instance.GetAsset<Texture2D>("TempCardBack");
@@ -125,25 +133,9 @@ namespace SlyDeck.GameObjects.Boards
         /// Temporary form of cardChoice so the drawing works.
         public void CardChoice()
         {
-            //            Card.Card finalCard;
-
-            // Draw the top three cards from the deck
-            cardOptions.Add(lastPlayedPlayer.Peek());
-            cardOptions.Add(lastPlayedPlayer.Peek());
-            cardOptions.Add(lastPlayedPlayer.Peek());
-
-            // TEMPORARY SUBSTITUTE FOR USER INPUT, THIS NEEDS TO CHANGE.
-            //            int pretendInput = 1;
-            //            finalCard = cardOptions[pretendInput];
-
-            // Add the two unchosen cards back into the deck and shuffle it.
-            //           cardOptions.RemoveAt(pretendInput);
-            //           playerDeck.AddCardBottom(cardOptions[0]);
-            //           playerDeck.AddCardBottom(cardOptions[1]);
-            //           cardOptions.Clear();
-            //           playerDeck.Shuffle();
-
-            //           return finalCard;
+            cardOptions.Add(lastPlayedPlayer[0]);
+            cardOptions.Add(lastPlayedPlayer[0]);
+            cardOptions.Add(lastPlayedPlayer[0]);           
         }
 
         /// <summary>
@@ -156,22 +148,21 @@ namespace SlyDeck.GameObjects.Boards
 
             // Draw the current player and enemy's persuasion values to the screen
             SpriteFont numberFont = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
+            Vector2 playerNumberPosition = new(20, GD.Viewport.Height / 1.1f);
+            Vector2 enemyNumberPosition = new(GD.Viewport.Width - 150 - numberFont.MeasureString(enemyPersuasion.ToString()).X, 20);
 
-            Vector2 playerNumberPosition = new(80 - numberFont.MeasureString(playerPersuasion.ToString()).X / 2, GD.Viewport.Height / 1.8f);
-            Vector2 enemyNumberPosition = new(GD.Viewport.Width - 80 - numberFont.MeasureString(enemyPersuasion.ToString()).X / 2, GD.Viewport.Height / 2.2f);
-
-            spriteBatch.DrawString(numberFont, playerPersuasion.ToString(), playerNumberPosition, Color.Red);
-            spriteBatch.DrawString(numberFont, enemyPersuasion.ToString(), enemyNumberPosition, Color.Red);
+            spriteBatch.DrawString(numberFont, playerPersuasion.ToString(), playerNumberPosition, Color.SaddleBrown, 0, Vector2.Zero, 2, SpriteEffects.None, .5f);
+            spriteBatch.DrawString(numberFont, enemyPersuasion.ToString(), enemyNumberPosition, Color.SaddleBrown, 0, Vector2.Zero, 2, SpriteEffects.None, .5f);
 
             // Last played player and enemy card
-            lastPlayedPlayer.Peek().Scale = .5f;
-            currentEnemy.LastPlayed.Scale = .5f;
+            lastPlayedPlayer[0].Scale = .5f;
+            currentEnemy.LastPlayed[0].Scale = .5f;
 
-            lastPlayedPlayer.Peek().Position = new(GD.Viewport.Width / 2 - lastPlayedPlayer.Peek().Bounds.Width / 2, GD.Viewport.Height / 2 - lastPlayedPlayer.Peek().Bounds.Height - 50);
-            lastPlayedPlayer.Peek().Draw(spriteBatch);
+            lastPlayedPlayer[0].Position = new(GD.Viewport.Width / 2 - lastPlayedPlayer[0].Bounds.Width / 2, GD.Viewport.Height / 2 + 50);
+            lastPlayedPlayer[0].Draw(spriteBatch);
 
-            currentEnemy.LastPlayed.Position = new(GD.Viewport.Width / 2 - lastPlayedPlayer.Peek().Bounds.Width / 2, GD.Viewport.Height / 2 + 50);
-            currentEnemy.LastPlayed.Draw(spriteBatch);
+            currentEnemy.LastPlayed[0].Position = new(GD.Viewport.Width / 2 - lastPlayedPlayer[0].Bounds.Width / 2, GD.Viewport.Height / 2 - lastPlayedPlayer[0].Bounds.Height - 50);
+            currentEnemy.LastPlayed[0].Draw(spriteBatch);
 
             // Player hand
             if (cardOptions != null)
@@ -182,11 +173,32 @@ namespace SlyDeck.GameObjects.Boards
                     cardOptions[cur].Draw(spriteBatch);
                 }
 
-           // Enemy hand
-           for (int cur = 0; cur < 3; cur++)
+            // Enemy hand
+            for (int cur = 0; cur < 3; cur++)
             {
-                spriteBatch.Draw(cardBack, new Vector2(GD.Viewport.Width * 1/7 - (cardBack.Width * 66/100) * (cur - 1), 10), null, Color.White, 0, Vector2.Zero, .6f, SpriteEffects.None, 0);
+                // Saved for when the cards need to be flipped
+                //spriteBatch.Draw(cardBack, new Vector2(GD.Viewport.Width * 1/7 - (cardBack.Width * 66/100) * (cur - 1), 10), null, Color.White, (float)Math.PI, new(cardBack.Width, cardBack.Height), .6f, SpriteEffects.None, 0);
+                spriteBatch.Draw(cardBack, new Vector2(GD.Viewport.Width * 1 / 7 - (cardBack.Width * 66 / 100) * (cur - 1), 10), null, Color.White, 0, Vector2.Zero, .6f, SpriteEffects.None, 0);
             }
+
+            // Player Cards
+            for (int cur = 1; cur < lastPlayedPlayer.Count; cur++)
+            {
+                lastPlayedPlayer[cur].Scale = .4f;
+                lastPlayedPlayer[cur].Position = new(GD.Viewport.Width / 3 - (lastPlayedPlayer[cur].Bounds.Width * 1.1f) * (cur - 1), GD.Viewport.Height / 2 + 50);
+                lastPlayedPlayer[cur].Draw(spriteBatch);
+            }
+
+            // Enemy Cards
+            for (int cur = 1; cur < lastPlayedPlayer.Count; cur++)
+            {
+                currentEnemy.LastPlayed[cur].Scale = .4f;
+                currentEnemy.LastPlayed[cur].Position = new(GD.Viewport.Width * 2 / 3 + (currentEnemy.LastPlayed[cur].Bounds.Width * 1.1f) * (cur - 2), GD.Viewport.Height / 2 - lastPlayedPlayer[0].Bounds.Height - 50);
+                currentEnemy.LastPlayed[cur].Draw(spriteBatch);
+            }
+
+            // Line
+            spriteBatch.Draw(cardBack, new Rectangle(0, GD.Viewport.Height / 2, GD.Viewport.Width, 1), Color.Black);
         }
     }
 }

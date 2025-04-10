@@ -14,16 +14,15 @@ namespace SlyDeck.Enemies
         // -- Fields -- \\
         private string name;
         private Deck deck;
-        private Stack<Card> lastPlayed;
+        private List<Card> lastPlayed;
 
         // -- Properties -- \\
         /// <summary>
         /// Get returns the last played card by the enemy, set sets the last played card.
         /// </summary>
-        public Card LastPlayed
+        public List<Card> LastPlayed
         {
-            get { return lastPlayed.Peek(); }
-            set { lastPlayed.Push(value); }
+            get { return lastPlayed; }
         }
 
         /// <summary>
@@ -53,7 +52,17 @@ namespace SlyDeck.Enemies
         {
             this.name = name;
             this.deck = deck;
-            lastPlayed = new Stack<Card>();
+            lastPlayed = new List<Card>();
+        }
+
+        // -- Method -- \\
+        /// <summary>
+        /// Add a card into the list of played cards.
+        /// </summary>
+        /// <param name="card">The card to add.</param>
+        public void PlayCard(Card card) 
+        {
+            lastPlayed.Add(card);
         }
     }
 }
