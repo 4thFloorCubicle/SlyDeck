@@ -35,7 +35,6 @@ public class Game1 : Game
             1080; // testing height
         _graphics.ApplyChanges();
 
-
         base.Initialize();
     }
 
@@ -86,7 +85,16 @@ public class Game1 : Game
         testCard.AddEffect(testEffect);
         testCard.AddEffect(add2Attacher);
 
-        testBoard = new(new Vector2(0, 0), "Testboard", null, "Bob", null, GraphicsDevice, testCard, testCard2);
+        testBoard = new(
+            new Vector2(0, 0),
+            "Testboard",
+            null,
+            "Bob",
+            null,
+            GraphicsDevice,
+            testCard,
+            testCard2
+        );
         testBoard.CardChoice();
     }
 

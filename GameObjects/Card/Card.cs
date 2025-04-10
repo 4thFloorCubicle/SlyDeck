@@ -74,13 +74,13 @@ namespace SlyDeck.GameObjects.Card
         /// <summary>
         /// Property to handle scaling the card at smaller sizes, adjusting the text
         /// </summary>
-        public override float Scale 
+        public override float Scale
         {
             get { return base.Scale; }
-            set 
+            set
             {
                 base.Scale = value;
-                
+
                 // Set the scales for all of the text so they change in size
                 lbName.Scale = value;
                 lbPower.Scale = value;
@@ -93,12 +93,23 @@ namespace SlyDeck.GameObjects.Card
                 float typeOffset = Arial24.MeasureString(lbType.Text).X;
                 float descOffset = Arial24.MeasureString(lbDescription.Text).X;
 
-                // Adjust the position for all of the labels 
-                lbName.Position = new(Position.X + (cardTexture.Width - nameOffset) * value / 2, Position.Y + 30 * value);
-                lbPower.Position = new(Position.X + (cardTexture.Width - 65 - powerOffset / 2) * value, Position.Y + (cardTexture.Height - 83) * value);
-                lbType.Position = new(Position.X + (cardTexture.Width - typeOffset) * value / 2, Position.Y + 375 * value);
-                lbDescription.Position = new(Position.X + (cardTexture.Width - descOffset) * value / 2, Position.Y + 515 * value);
-
+                // Adjust the position for all of the labels
+                lbName.Position = new(
+                    Position.X + (cardTexture.Width - nameOffset) * value / 2,
+                    Position.Y + 30 * value
+                );
+                lbPower.Position = new(
+                    Position.X + (cardTexture.Width - 65 - powerOffset / 2) * value,
+                    Position.Y + (cardTexture.Height - 83) * value
+                );
+                lbType.Position = new(
+                    Position.X + (cardTexture.Width - typeOffset) * value / 2,
+                    Position.Y + 375 * value
+                );
+                lbDescription.Position = new(
+                    Position.X + (cardTexture.Width - descOffset) * value / 2,
+                    Position.Y + 515 * value
+                );
             }
         }
 
@@ -139,12 +150,7 @@ namespace SlyDeck.GameObjects.Card
             Arial24 = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
             // create the labels
             // TODO, figure out where they need to be placed later (along with font size)
-            lbName = new Label(
-                Vector2.Zero,
-                $"Card Name Label-{name}",
-                name,
-                Arial24
-            );
+            lbName = new Label(Vector2.Zero, $"Card Name Label-{name}", name, Arial24);
             AddChildObject(lbName);
 
             lbType = new Label(
@@ -156,12 +162,7 @@ namespace SlyDeck.GameObjects.Card
             );
             AddChildObject(lbType);
 
-            lbPower = new Label(
-                Vector2.Zero,
-                $"Card Power Label-{name}",
-                $"{basePower}",
-                Arial24
-            );
+            lbPower = new Label(Vector2.Zero, $"Card Power Label-{name}", $"{basePower}", Arial24);
             AddChildObject(lbPower);
 
             lbDescription = new Label(

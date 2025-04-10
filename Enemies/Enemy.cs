@@ -60,7 +60,7 @@ namespace SlyDeck.Enemies
         /// Add a card into the list of played cards.
         /// </summary>
         /// <param name="card">The card to add.</param>
-        public void PlayCard(Card card) 
+        public void PlayCard(Card card)
         {
             lastPlayed.Add(card);
         }
