@@ -14,7 +14,7 @@ namespace SlyDeck.Enemies
         // -- Fields -- \\
         private string name;
         private Deck deck;
-        private Card lastPlayed;
+        private Stack<Card> lastPlayed;
 
         // -- Properties -- \\
         /// <summary>
@@ -22,8 +22,8 @@ namespace SlyDeck.Enemies
         /// </summary>
         public Card LastPlayed
         {
-            get { return lastPlayed; }
-            set { lastPlayed = value; }
+            get { return lastPlayed.Peek(); }
+            set { lastPlayed.Push(value); }
         }
 
         /// <summary>
@@ -53,6 +53,7 @@ namespace SlyDeck.Enemies
         {
             this.name = name;
             this.deck = deck;
+            lastPlayed = new Stack<Card>();
         }
     }
 }

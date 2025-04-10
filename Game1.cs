@@ -86,6 +86,7 @@ public class Game1 : Game
         testCard.AddEffect(add2Attacher);
 
         testBoard = new(new Vector2(0, 0), "Testboard", null, "Bob", null, GraphicsDevice, testCard, testCard2);
+        testBoard.CardChoice();
     }
 
     protected override void Update(GameTime gameTime)
