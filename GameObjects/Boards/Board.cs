@@ -185,7 +185,7 @@ namespace SlyDeck.GameObjects.Boards
            // Enemy hand
            for (int cur = 0; cur < 3; cur++)
             {
-                spriteBatch.Draw(cardBack, new Vector2(GD.Viewport.Width * 1/7 - (cardBack.Width * 66/100) * cur, 10), null, Color.White, 0, Vector2.Zero, .6f, SpriteEffects.None, 0);
+                spriteBatch.Draw(cardBack, new Vector2(GD.Viewport.Width * 1/7 - (cardBack.Width * 66/100) * (cur - 1), 10), null, Color.White, 0, Vector2.Zero, .6f, SpriteEffects.None, 0);
             }
         }
     }

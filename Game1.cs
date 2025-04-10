@@ -46,6 +46,7 @@ public class Game1 : Game
         //load assets into AssetManager
         AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
         AssetManager.Instance.AddFont("Arial12", Content.Load<SpriteFont>("Arial12"));
+        AssetManager.Instance.AddTexture("TempCardBack", Content.Load<Texture2D>("TempCardBack"));
         AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
         AssetManager.Instance.AddTexture("testButton", Content.Load<Texture2D>("testButton"));
         AssetManager.Instance.AddTexture("CardDraft", Content.Load<Texture2D>("CardDraft"));
