@@ -50,6 +50,12 @@ public class Game1 : Game
         AssetManager.Instance.AddTexture("testButton", Content.Load<Texture2D>("testButton"));
         AssetManager.Instance.AddTexture("CardDraft", Content.Load<Texture2D>("CardDraft"));
         AssetManager.Instance.AddTexture("blankSlide", Content.Load<Texture2D>("blankSlide"));
+        AssetManager.Instance.AddTexture("Header", Content.Load<Texture2D>("cardImages\\Header"));
+        AssetManager.Instance.AddTexture("Footer", Content.Load<Texture2D>("cardImages\\Footer"));
+        AssetManager.Instance.AddTexture("Quote", Content.Load<Texture2D>("cardImages\\Quote"));
+        AssetManager.Instance.AddTexture("Graph", Content.Load<Texture2D>("cardImages\\Graph"));
+        AssetManager.Instance.AddTexture("Closer", Content.Load<Texture2D>("cardImages\\Closer"));
+        AssetManager.Instance.AddDeckFilePath("TestDeck", "Content\\TestDeckCards.deck");
 
         Label testLabel = new Label(
             new Vector2(100, 100),
@@ -64,7 +70,7 @@ public class Game1 : Game
             AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
             "This card has a test effect",
             2,
-            CardType.Title,
+            CardType.Header,
             AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
         );
 
@@ -96,6 +102,8 @@ public class Game1 : Game
             testCard2
         );
         testBoard.CardChoice();
+
+        DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("TestDeck"));
     }
 
     protected override void Update(GameTime gameTime)
