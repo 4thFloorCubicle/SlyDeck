@@ -24,11 +24,11 @@ namespace SlyDeck.GameObjects.Card
 
     internal enum CardType
     {
-        Title,
-        List,
-        Picture,
+        Header,
+        Footer,
+        Quote,
         Graph,
-        Transition,
+        Closer,
     }
 
     /// <summary>
@@ -192,6 +192,23 @@ namespace SlyDeck.GameObjects.Card
 
             effects = new Dictionary<string, List<ICardEffect>>();
             attachers = new Dictionary<string, List<AttacherEffect>>();
+        }
+
+        public Card(Vector2 position, CardData cardData)
+            : this(
+                position,
+                cardData.Name,
+                cardData.BackTexture,
+                cardData.Description,
+                cardData.BasePower,
+                cardData.Type,
+                cardData.CardArt
+            )
+        {
+            foreach (ICardEffect effect in cardData.Effects)
+            {
+                AddEffect(effect);
+            }
         }
 
         /// <summary>
