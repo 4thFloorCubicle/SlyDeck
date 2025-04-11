@@ -10,7 +10,7 @@ using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Ben Haines
 namespace SlyDeck.GameObjects.Card
 {
     /// <summary>
@@ -41,6 +41,7 @@ namespace SlyDeck.GameObjects.Card
         private float effectPower; // power granted from temporary effects. temporary gains/losses.
         private Texture2D cardTexture;
         private CardType type;
+        private SpriteFont Arial24;
 
         // 2 dictionaries required for effects. one for any attachers this card has, the other for card effects.
         private Dictionary<string, List<ICardEffect>> effects; // different effects the card has
@@ -70,6 +71,48 @@ namespace SlyDeck.GameObjects.Card
             set { effectPower = value; }
         }
 
+        /// <summary>
+        /// Property to handle scaling the card at smaller sizes, adjusting the text
+        /// </summary>
+        public override float Scale
+        {
+            get { return base.Scale; }
+            set
+            {
+                base.Scale = value;
+
+                // Set the scales for all of the text so they change in size
+                lbName.Scale = value;
+                lbPower.Scale = value;
+                lbType.Scale = value;
+                lbDescription.Scale = value;
+
+                // Figure out the offset for the font given the text
+                float nameOffset = Arial24.MeasureString(lbName.Text).X;
+                float powerOffset = Arial24.MeasureString(lbPower.Text).X;
+                float typeOffset = Arial24.MeasureString(lbType.Text).X;
+                float descOffset = Arial24.MeasureString(lbDescription.Text).X;
+
+                // Adjust the position for all of the labels
+                lbName.Position = new(
+                    Position.X + (cardTexture.Width - nameOffset) * value / 2,
+                    Position.Y + 30 * value
+                );
+                lbPower.Position = new(
+                    Position.X + (cardTexture.Width - 65 - powerOffset / 2) * value,
+                    Position.Y + (cardTexture.Height - 83) * value
+                );
+                lbType.Position = new(
+                    Position.X + (cardTexture.Width - typeOffset) * value / 2,
+                    Position.Y + 375 * value
+                );
+                lbDescription.Position = new(
+                    Position.X + (cardTexture.Width - descOffset) * value / 2,
+                    Position.Y + 515 * value
+                );
+            }
+        }
+
         public Rectangle Bounds
         {
             get
@@ -77,8 +120,8 @@ namespace SlyDeck.GameObjects.Card
                 return new Rectangle(
                     (int)Position.X,
                     (int)Position.Y,
-                    cardTexture.Width,
-                    cardTexture.Height
+                    (int)(cardTexture.Width * Scale),
+                    (int)(cardTexture.Height * Scale)
                 );
             }
         }
@@ -104,37 +147,26 @@ namespace SlyDeck.GameObjects.Card
             this.type = type;
             this.cardArt = cardArt;
 
+            Arial24 = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
             // create the labels
             // TODO, figure out where they need to be placed later (along with font size)
-            lbName = new Label(
-                new Vector2(position.X + cardTexture.Width / 4, position.Y + 30),
-                $"Card Name Label-{name}",
-                name,
-                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
-            );
+            lbName = new Label(Vector2.Zero, $"Card Name Label-{name}", name, Arial24);
             AddChildObject(lbName);
 
             lbType = new Label(
-                new Vector2(Position.X + cardTexture.Width / 4, position.Y + 375),
+                Vector2.Zero,
                 $"Card Type Label-{name}",
                 $"{type} slide",
-                AssetManager.Instance.GetAsset<SpriteFont>("Arial24"),
+                Arial24,
                 Color.Gray
             );
             AddChildObject(lbType);
 
-            lbPower = new Label(
-                new Vector2(position.X + 327, position.Y + 515), // NOTE: Position will not work
-                // once power goes beyond a single digit, itll leave the little circle on the card
-                // we can change the label's position or font size dynamically to accommodate larger numbers
-                $"Card Power Label-{name}",
-                $"{basePower}",
-                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
-            );
+            lbPower = new Label(Vector2.Zero, $"Card Power Label-{name}", $"{basePower}", Arial24);
             AddChildObject(lbPower);
 
             lbDescription = new Label(
-                new Vector2(position.X + cardTexture.Width / 4, position.Y + 425),
+                Vector2.Zero,
                 $"Card Description Label ${name}",
                 $"{description}",
                 AssetManager.Instance.GetAsset<SpriteFont>("Arial12"),
@@ -142,12 +174,14 @@ namespace SlyDeck.GameObjects.Card
             );
             AddChildObject(lbDescription);
 
+            Scale = 1;
+
             playButton = new Button(
                 new Vector2(position.X, position.Y - 50),
                 $"Card Play Button-{name}",
                 $"Play card",
                 AssetManager.Instance.GetAsset<Texture2D>("testButton"),
-                AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+                Arial24
             );
             playButton.Position = new Vector2(
                 playButton.Position.X + playButton.BackTexture.Width / 2,
@@ -191,19 +225,19 @@ namespace SlyDeck.GameObjects.Card
                 Color.White,
                 0,
                 Vector2.Zero,
-                1,
+                Scale,
                 SpriteEffects.None,
                 .1f
             );
 
             spriteBatch.Draw(
                 cardArt,
-                new Vector2(Position.X + 40, Position.Y + 80),
+                new Vector2(Position.X + 40 * Scale, Position.Y + 80 * Scale),
                 cardArt.Bounds,
                 Color.Wheat,
                 0,
                 Vector2.Zero,
-                .23f,
+                .23f * Scale,
                 SpriteEffects.None,
                 .15f
             );

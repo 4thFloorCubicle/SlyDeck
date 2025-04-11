@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SlyDeck.GameObjects;
+using SlyDeck.GameObjects.Boards;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
@@ -14,6 +15,8 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    Board testBoard;
 
     public Game1()
     {
@@ -42,6 +45,7 @@ public class Game1 : Game
         //load assets into AssetManager
         AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
         AssetManager.Instance.AddFont("Arial12", Content.Load<SpriteFont>("Arial12"));
+        AssetManager.Instance.AddTexture("TempCardBack", Content.Load<Texture2D>("TempCardBack"));
         AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
         AssetManager.Instance.AddTexture("testButton", Content.Load<Texture2D>("testButton"));
         AssetManager.Instance.AddTexture("CardDraft", Content.Load<Texture2D>("CardDraft"));
@@ -70,12 +74,34 @@ public class Game1 : Game
             AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
         );
 
+        Card testCard2 = new Card(
+            new Vector2(200, 200),
+            "Blank Slide",
+            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
+            "This card has a test effect",
+            2,
+            CardType.Header,
+            AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
+        );
+
         TestEffect testEffect = new TestEffect();
         AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.EffectPower);
         AttacherEffect add2Attacher = new AttacherEffect(add2, TargetMode.Self);
 
         testCard.AddEffect(testEffect);
         testCard.AddEffect(add2Attacher);
+
+        testBoard = new(
+            new Vector2(0, 0),
+            "Testboard",
+            null,
+            "Bob",
+            null,
+            GraphicsDevice,
+            testCard,
+            testCard2
+        );
+        testBoard.CardChoice();
 
         DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("TestDeck"));
     }
@@ -129,11 +155,12 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.BurlyWood);
 
         _spriteBatch.Begin();
 
-        GameObjectManager.Instance.DrawAll(_spriteBatch);
+        testBoard.Draw(_spriteBatch);
+        //GameObjectManager.Instance.DrawAll(_spriteBatch);
 
         _spriteBatch.End();
 
