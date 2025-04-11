@@ -80,7 +80,7 @@ namespace SlyDeck.GameObjects.Boards
             this.playerDeck = playerDeck;
             lastPlayedPlayer = new List<Card.Card>();
             playerDiscardPile = new();
-            playerPersuasion = 100;
+            playerPersuasion = 0;
             cardOptions = new List<Card.Card>(3);
             cardOptions.Add(playerDeck.DrawCard());
             cardOptions.Add(playerDeck.DrawCard());
@@ -89,7 +89,7 @@ namespace SlyDeck.GameObjects.Boards
 
             enemyDiscardPile = new();
             currentEnemy = new(enemyName, enemyDeck);
-            enemyPersuasion = 20000;
+            enemyPersuasion = 0;
 
             cardBack = AssetManager.Instance.GetAsset<Texture2D>("TempCardBack");
 
@@ -98,38 +98,14 @@ namespace SlyDeck.GameObjects.Boards
 
         // -- Methods -- \\
 
-        /// <summary>
-        /// Present the user with the choice of three cards, choosing one and re-shuffles the other two back into the players deck.
-        /// </summary>
-        /// <returns></returns>
-        /*public Card.Card CardChoice()
-        {
-            Card.Card finalCard;
-
-            // Draw the top three cards from the deck
-            cardOptions.Add(playerDeck.DrawCard());
-            cardOptions.Add(playerDeck.DrawCard());
-            cardOptions.Add(playerDeck.DrawCard());
-
-            // TEMPORARY SUBSTITUTE FOR USER INPUT, THIS NEEDS TO CHANGE.
-            int pretendInput = 1;
-            finalCard = cardOptions[pretendInput];
-            if (playerInput != 0)
-            {
-                // Add the two unchosen cards back into the deck and shuffle it.
-                cardOptions.RemoveAt(pretendInput);
-                playerDeck.AddCardBottom(cardOptions[0]);
-                playerDeck.AddCardBottom(cardOptions[1]);
-                cardOptions.Clear();
-                playerDeck.Shuffle();
-
-                return finalCard;
-            }
-        }*/
-
         public override void Update(GameTime gameTime)
         {
             Card.Card playedCard = null;
+
+            // Don't allow more than five cards played on the screen at once
+            if (lastPlayedPlayer.Count > 4)
+                return;
+
             if (InputManager.Instance.SingleKeyPress(Keys.Z))
             {
                 playedCard = cardOptions[0];
@@ -148,11 +124,13 @@ namespace SlyDeck.GameObjects.Boards
 
                 cardOptions.RemoveAt(2);
             }
+            // If no applicable button was pressed, don't continue
             else
                 return;
 
             playedCard.Play();
             lastPlayedPlayer.Insert(0, playedCard);
+
             // Add the two unchosen cards back into the deck and shuffle it.
             playerDeck.AddCardBottom(cardOptions[0]);
             playerDeck.AddCardBottom(cardOptions[1]);
@@ -161,6 +139,10 @@ namespace SlyDeck.GameObjects.Boards
             cardOptions.Add(playerDeck.DrawCard());
             cardOptions.Add(playerDeck.DrawCard());
             playerDeck.Shuffle();
+
+            // The enemy moves next.
+            Card.Card enemyPlayedCard = currentEnemy.Deck.DrawCard();
+            currentEnemy.PlayCard(enemyPlayedCard);
         }
 
         /// <summary>
