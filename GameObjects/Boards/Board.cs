@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +9,7 @@ using SlyDeck.Enemies;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.Managers;
 using SlyDeck.Piles;
+using SlyDeck.GameObjects.UI;
 
 // Authors: Ben Haines, Cooper Fleishman
 namespace SlyDeck.GameObjects.Boards
@@ -33,14 +31,19 @@ namespace SlyDeck.GameObjects.Boards
         private DiscardPile playerDiscardPile;
         private Deck playerDeck;
         private List<Card.Card> lastPlayedPlayer;
-        private int playerPersuasion;
+        private float playerPersuasion;
         private List<Card.Card> cardOptions = new List<Card.Card>(3);
         private Keys playerInput;
 
         // Enemy
         private Enemy currentEnemy;
         private DiscardPile enemyDiscardPile;
-        private int enemyPersuasion;
+        private float enemyPersuasion;
+
+        private int totalPlays;
+
+        // UI elements
+        private Label victoryLabel; // represents if a player wins/loses
 
         // Graphics Device for Drawing
         private GraphicsDevice GD;
@@ -94,6 +97,11 @@ namespace SlyDeck.GameObjects.Boards
             cardBack = AssetManager.Instance.GetAsset<Texture2D>("TempCardBack");
 
             this.GD = GD;
+
+            victoryLabel = new Label(new Vector2(GD.Viewport.Width / 2, 
+                GD.Viewport.Height / 2), 
+                "Victory Label", "You win (default)", AssetManager.Instance.GetAsset<SpriteFont>("Arial24"), Color.Green);
+            victoryLabel.Toggle();
         }
 
         // -- Methods -- \\
@@ -129,6 +137,7 @@ namespace SlyDeck.GameObjects.Boards
                 return;
 
             playedCard.Play();
+            playerPersuasion += playedCard.TotalPower;
             lastPlayedPlayer.Insert(0, playedCard);
 
             // Add the two unchosen cards back into the deck and shuffle it.
@@ -142,7 +151,27 @@ namespace SlyDeck.GameObjects.Boards
 
             // The enemy moves next.
             Card.Card enemyPlayedCard = currentEnemy.Deck.DrawCard();
+            enemyPersuasion += enemyPlayedCard.TotalPower;
             currentEnemy.PlayCard(enemyPlayedCard);
+
+            if (totalPlays == 4)
+            {
+                if (CheckVictory())
+                {
+                    victoryLabel.Text = "You win";
+                    victoryLabel.TextColor = Color.Green;
+                }
+                else
+                {
+                    victoryLabel.Text = "You lose";
+                    victoryLabel.TextColor = Color.Red;
+                }
+                victoryLabel.Toggle();
+            }
+            else
+            {
+                totalPlays++;
+            }
         }
 
         /// <summary>
@@ -265,6 +294,16 @@ namespace SlyDeck.GameObjects.Boards
                 new Rectangle(0, GD.Viewport.Height / 2, GD.Viewport.Width, 1),
                 Color.Black
             );
+
+            if (victoryLabel.Enabled)
+            {
+                victoryLabel.Draw(spriteBatch);
+            }
+        }
+
+        private bool CheckVictory()
+        {
+            return playerPersuasion > enemyPersuasion;
         }
     }
 }

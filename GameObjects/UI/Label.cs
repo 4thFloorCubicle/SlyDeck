@@ -65,7 +65,7 @@ namespace SlyDeck.GameObjects.UI
                 Vector2.Zero,
                 Scale,
                 SpriteEffects.None,
-                .5f
+                1f
             );
         }
     }
