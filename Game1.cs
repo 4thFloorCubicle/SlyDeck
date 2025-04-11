@@ -94,7 +94,7 @@ public class Game1 : Game
         testBoard = new(
             new Vector2(0, 0),
             "Testboard",
-            null,
+            DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("TestDeck")),
             "Bob",
             null,
             GraphicsDevice,
@@ -102,8 +102,6 @@ public class Game1 : Game
             testCard2
         );
         testBoard.CardChoice();
-
-        DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("TestDeck"));
     }
 
     protected override void Update(GameTime gameTime)

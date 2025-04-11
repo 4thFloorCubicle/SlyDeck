@@ -133,9 +133,9 @@ namespace SlyDeck.GameObjects.Boards
         /// Temporary form of cardChoice so the drawing works.
         public void CardChoice()
         {
-            cardOptions.Add(lastPlayedPlayer[0]);
-            cardOptions.Add(lastPlayedPlayer[0]);
-            cardOptions.Add(lastPlayedPlayer[0]);
+            cardOptions.Add(playerDeck.DrawCard());
+            cardOptions.Add(playerDeck.DrawCard());
+            cardOptions.Add(playerDeck.DrawCard());
         }
 
         /// <summary>
