@@ -108,9 +108,9 @@ namespace SlyDeck.GameObjects.Boards
 
             if (InputManager.Instance.SingleKeyPress(Keys.Z))
             {
-                playedCard = cardOptions[0];
+                playedCard = cardOptions[2];
 
-                cardOptions.RemoveAt(0);
+                cardOptions.RemoveAt(2);
             }
             else if (InputManager.Instance.SingleKeyPress(Keys.X))
             {
@@ -120,9 +120,9 @@ namespace SlyDeck.GameObjects.Boards
             }
             else if (InputManager.Instance.SingleKeyPress(Keys.C))
             {
-                playedCard = cardOptions[2];
+                playedCard = cardOptions[0];
 
-                cardOptions.RemoveAt(2);
+                cardOptions.RemoveAt(0);
             }
             // If no applicable button was pressed, don't continue
             else
