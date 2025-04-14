@@ -10,6 +10,7 @@ using SlyDeck.GameObjects.Card;
 using SlyDeck.Managers;
 using SlyDeck.Piles;
 using SlyDeck.GameObjects.UI;
+using SlyDeck.GameObjects.Card.CardEffects;
 
 // Authors: Ben Haines, Cooper Fleishman
 namespace SlyDeck.GameObjects.Boards
@@ -34,11 +35,13 @@ namespace SlyDeck.GameObjects.Boards
         private float playerPersuasion;
         private List<Card.Card> cardOptions = new List<Card.Card>(3);
         private Keys playerInput;
+        private ICardEffect playerEffectOnPlay;
 
         // Enemy
         private Enemy currentEnemy;
         private DiscardPile enemyDiscardPile;
         private float enemyPersuasion;
+        private ICardEffect enemyEffectOnPlay;
 
         private int totalPlays;
 
@@ -57,6 +60,18 @@ namespace SlyDeck.GameObjects.Boards
         public Enemy CurrentEnemy
         {
             get { return currentEnemy; }
+        }
+
+        public ICardEffect PlayerEffectOnPlay
+        {
+            get { return playerEffectOnPlay; }
+            set { playerEffectOnPlay = value; }
+        }
+        
+        public ICardEffect EnemyEffectOnPlay
+        {
+            get { return enemyEffectOnPlay; }
+            set { enemyEffectOnPlay = value; }
         }
 
         // -- Constructor -- \\
@@ -136,6 +151,12 @@ namespace SlyDeck.GameObjects.Boards
             else
                 return;
 
+            // apply effect to played card if one is queued;
+            if (playerEffectOnPlay != null)
+            {
+                playedCard.AddEffect(playerEffectOnPlay);
+            }
+
             playedCard.Play();
             playerPersuasion += playedCard.TotalPower;
             lastPlayedPlayer.Insert(0, playedCard);
@@ -150,9 +171,18 @@ namespace SlyDeck.GameObjects.Boards
             playerDeck.Shuffle();
 
             // The enemy moves next.
-            Card.Card enemyPlayedCard = currentEnemy.Deck.DrawCard();
-            enemyPersuasion += enemyPlayedCard.TotalPower;
-            currentEnemy.PlayCard(enemyPlayedCard);
+
+            
+
+            Card.Card enemyCard = currentEnemy.Deck.DrawCard();
+
+            if (enemyEffectOnPlay != null)
+            {
+                enemyCard.AddEffect(enemyEffectOnPlay);
+            }
+
+            enemyPersuasion += enemyCard.TotalPower;
+            currentEnemy.PlayCard(enemyCard);
 
             if (totalPlays == 4)
             {

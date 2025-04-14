@@ -57,22 +57,16 @@ namespace SlyDeck.GameObjects.Card.CardEffects
             switch (target)
             {
                 case TargetMode.Deck:
-                    foreach (Card card in Board.Instance.PlayerDeck.Cards)
-                    {
-                        card.AddEffect(attachment);
-                    }
+                    Board.Instance.PlayerDeck.ApplyDeckwideEffect(attachment);
                     break;
                 case TargetMode.EnemyDeck:
-                    foreach (Card card in Board.Instance.CurrentEnemy.Deck.Cards)
-                    {
-                        card.AddEffect(attachment);
-                    }
+                    Board.Instance.CurrentEnemy.Deck.ApplyDeckwideEffect(attachment);
                     break;
                 case TargetMode.NextCard:
-                    Board.Instance.PlayerDeck.TopCard.AddEffect(attachment);
+                    Board.Instance.PlayerEffectOnPlay = attachment;
                     break;
                 case TargetMode.EnemyNextCard:
-                    Board.Instance.CurrentEnemy.Deck.TopCard.AddEffect(attachment);
+                    Board.Instance.EnemyEffectOnPlay = attachment;
                     break;
                 case TargetMode.Self:
                     Owner.AddEffect(attachment);
