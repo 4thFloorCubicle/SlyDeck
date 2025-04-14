@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework.Input;
 using SlyDeck.Decks;
 using SlyDeck.Enemies;
 using SlyDeck.GameObjects.Card;
+using SlyDeck.GameObjects.Card.CardEffects;
+using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 using SlyDeck.Piles;
-using SlyDeck.GameObjects.UI;
-using SlyDeck.GameObjects.Card.CardEffects;
 
 // Authors: Ben Haines, Cooper Fleishman
 namespace SlyDeck.GameObjects.Boards
@@ -67,7 +67,7 @@ namespace SlyDeck.GameObjects.Boards
             get { return playerEffectOnPlay; }
             set { playerEffectOnPlay = value; }
         }
-        
+
         public ICardEffect EnemyEffectOnPlay
         {
             get { return enemyEffectOnPlay; }
@@ -113,9 +113,13 @@ namespace SlyDeck.GameObjects.Boards
 
             this.GD = GD;
 
-            victoryLabel = new Label(new Vector2(GD.Viewport.Width / 2, 
-                GD.Viewport.Height / 2), 
-                "Victory Label", "You win (default)", AssetManager.Instance.GetAsset<SpriteFont>("Arial24"), Color.Green);
+            victoryLabel = new Label(
+                new Vector2(GD.Viewport.Width / 2, GD.Viewport.Height / 2),
+                "Victory Label",
+                "You win (default)",
+                AssetManager.Instance.GetAsset<SpriteFont>("Arial24"),
+                Color.Green
+            );
             victoryLabel.Toggle();
         }
 
@@ -172,7 +176,7 @@ namespace SlyDeck.GameObjects.Boards
 
             // The enemy moves next.
 
-            
+
 
             Card.Card enemyCard = currentEnemy.Deck.DrawCard();
 
@@ -246,11 +250,11 @@ namespace SlyDeck.GameObjects.Boards
             if (lastPlayedPlayer.Count != 0)
             {
                 lastPlayedPlayer[0].Scale = .5f;
-            lastPlayedPlayer[0].Position = new(
-                GD.Viewport.Width / 2 - lastPlayedPlayer[0].Bounds.Width / 2,
-                GD.Viewport.Height / 2 + 50
-            );
-            lastPlayedPlayer[0].Draw(spriteBatch);
+                lastPlayedPlayer[0].Position = new(
+                    GD.Viewport.Width / 2 - lastPlayedPlayer[0].Bounds.Width / 2,
+                    GD.Viewport.Height / 2 + 50
+                );
+                lastPlayedPlayer[0].Draw(spriteBatch);
             }
             if (currentEnemy.LastPlayed.Count != 0)
             {
