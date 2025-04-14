@@ -2,12 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SlyDeck.Decks;
 using SlyDeck.GameObjects;
 using SlyDeck.GameObjects.Boards;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
-using SlyDeck.Decks;
 using SlyDeck.Managers;
 
 namespace SlyDeck;
@@ -91,18 +91,12 @@ public class Game1 : Game
 
         testCard.AddEffect(testEffect);
         testCard.AddEffect(add2Attacher);
-        
-        Deck deck = DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("TestDeck"));
 
-        testBoard = new(
-            new Vector2(0, 0),
-            "Testboard",
-            deck,
-            "Bob",
-            deck,
-            GraphicsDevice
+        Deck deck = DeckManager.Instance.DeckFromFile(
+            AssetManager.Instance.GetDeckFilePath("TestDeck")
         );
 
+        testBoard = new(new Vector2(0, 0), "Testboard", deck, "Bob", deck, GraphicsDevice);
     }
 
     protected override void Update(GameTime gameTime)
