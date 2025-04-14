@@ -13,10 +13,10 @@ namespace SlyDeck.GameObjects.Card.CardEffects
     /// </summary>
     public enum TargetMode
     {
-        Deck,
+        PlayerDeck,
         EnemyDeck,
-        NextCard,
-        EnemyNextCard,
+        PlayerNextCardPlayed,
+        EnemyNextCardPlayed,
         Self,
     }
 
@@ -56,16 +56,16 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         {
             switch (target)
             {
-                case TargetMode.Deck:
+                case TargetMode.PlayerDeck:
                     Board.Instance.PlayerDeck.ApplyDeckwideEffect(attachment);
                     break;
                 case TargetMode.EnemyDeck:
                     Board.Instance.CurrentEnemy.Deck.ApplyDeckwideEffect(attachment);
                     break;
-                case TargetMode.NextCard:
+                case TargetMode.PlayerNextCardPlayed:
                     Board.Instance.PlayerEffectOnPlay = attachment;
                     break;
-                case TargetMode.EnemyNextCard:
+                case TargetMode.EnemyNextCardPlayed:
                     Board.Instance.EnemyEffectOnPlay = attachment;
                     break;
                 case TargetMode.Self:
