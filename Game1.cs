@@ -56,41 +56,7 @@ public class Game1 : Game
         AssetManager.Instance.AddTexture("Quote", Content.Load<Texture2D>("cardImages\\Quote"));
         AssetManager.Instance.AddTexture("Graph", Content.Load<Texture2D>("cardImages\\Graph"));
         AssetManager.Instance.AddTexture("Closer", Content.Load<Texture2D>("cardImages\\Closer"));
-        AssetManager.Instance.AddDeckFilePath("TestDeck", "Content\\TestDeckCards.deck");
-
-        Label testLabel = new Label(
-            new Vector2(100, 100),
-            "Test Label",
-            "Hi!",
-            AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
-        );
-
-        Card testCard = new Card(
-            new Vector2(200, 200),
-            "Blank Slide",
-            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
-            "This card has a test effect",
-            2,
-            CardType.Header,
-            AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
-        );
-
-        Card testCard2 = new Card(
-            new Vector2(200, 200),
-            "Blank Slide",
-            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
-            "This card has a test effect",
-            2,
-            CardType.Header,
-            AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
-        );
-
-        TestEffect testEffect = new TestEffect();
-        AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.EffectPower);
-        AttacherEffect add2Attacher = new AttacherEffect(add2, TargetMode.Self);
-
-        testCard.AddEffect(testEffect);
-        testCard.AddEffect(add2Attacher);
+        AssetManager.Instance.AddDeckFilePath("TestDeck", "Content\\TestDeckCards.deck");        
 
         Deck deck = DeckManager.Instance.DeckFromFile(
             AssetManager.Instance.GetDeckFilePath("TestDeck")
@@ -152,8 +118,8 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
-        testBoard.Draw(_spriteBatch);
-        //GameObjectManager.Instance.DrawAll(_spriteBatch);
+        //testBoard.Draw(_spriteBatch);
+        GameObjectManager.Instance.DrawAll(_spriteBatch);
 
         _spriteBatch.End();
 

@@ -94,8 +94,11 @@ namespace SlyDeck.GameObjects.Boards
             {
                 throw new Exception("Cannot initialize a second instance of the board class.");
             }
+            this.GD = GD;
 
             this.playerDeck = playerDeck;
+            foreach (Card.Card card in playerDeck.Cards)
+                card.Position = new(GD.Viewport.Width, GD.Viewport.Height);
             lastPlayedPlayer = new List<Card.Card>();
             playerDiscardPile = new();
             playerPersuasion = 0;
@@ -107,11 +110,12 @@ namespace SlyDeck.GameObjects.Boards
 
             enemyDiscardPile = new();
             currentEnemy = new(enemyName, enemyDeck);
+            foreach (Card.Card card in currentEnemy.Deck.Cards)
+                card.Position = new(GD.Viewport.Width, GD.Viewport.Height);
             enemyPersuasion = 0;
 
             cardBack = AssetManager.Instance.GetAsset<Texture2D>("TempCardBack");
 
-            this.GD = GD;
 
             victoryLabel = new Label(
                 new Vector2(GD.Viewport.Width / 2, GD.Viewport.Height / 2),
