@@ -17,8 +17,6 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    Board testBoard;
-
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -56,13 +54,14 @@ public class Game1 : Game
         AssetManager.Instance.AddTexture("Quote", Content.Load<Texture2D>("cardImages\\Quote"));
         AssetManager.Instance.AddTexture("Graph", Content.Load<Texture2D>("cardImages\\Graph"));
         AssetManager.Instance.AddTexture("Closer", Content.Load<Texture2D>("cardImages\\Closer"));
-        AssetManager.Instance.AddDeckFilePath("TestDeck", "Content\\TestDeckCards.deck");        
+        AssetManager.Instance.AddDeckFilePath("PlayerDeck", "Content\\TestDeckCards.deck");
 
         Deck deck = DeckManager.Instance.DeckFromFile(
-            AssetManager.Instance.GetDeckFilePath("TestDeck")
+            AssetManager.Instance.GetDeckFilePath("PlayerDeck")
         );
+        Deck eDeck = deck;
 
-        testBoard = new(new Vector2(0, 0), "Testboard", deck, "Bob", deck, GraphicsDevice);
+        Board gameBoard = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GraphicsDevice);
     }
 
     protected override void Update(GameTime gameTime)
@@ -77,11 +76,13 @@ public class Game1 : Game
             Exit();
         }
 
+        /*        
         if (InputManager.Instance.SingleKeyPress(Keys.Space))
         {
             Card card = (Card)GameObjectManager.Instance.GetGameObject("Blank Slide");
             card.Toggle();
         }
+        */
 
         // check for left click events
         if (InputManager.Instance.SingleMousePress(MouseButton.Left))
@@ -118,7 +119,6 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
-        //testBoard.Draw(_spriteBatch);
         GameObjectManager.Instance.DrawAll(_spriteBatch);
 
         _spriteBatch.End();
