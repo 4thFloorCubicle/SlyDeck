@@ -86,29 +86,17 @@ namespace SlyDeck.GameObjects.Card
                 lbType.Scale = value;
                 lbDescription.Scale = value;
 
-                // Figure out the offset for the font given the text
-                float nameOffset = Arial24.MeasureString(lbName.Text).X;
-                float powerOffset = Arial24.MeasureString(lbPower.Text).X;
-                float typeOffset = Arial24.MeasureString(lbType.Text).X;
-                float descOffset = Arial24.MeasureString(lbDescription.Text).X;
+                AdjustLabels();
+            }
+        }
 
-                // Adjust the position for all of the labels
-                lbName.Position = new(
-                    Position.X + (cardTexture.Width - nameOffset) * value / 2,
-                    Position.Y + 30 * value
-                );
-                lbPower.Position = new(
-                    Position.X + (cardTexture.Width - 65 - powerOffset / 2) * value,
-                    Position.Y + (cardTexture.Height - 83) * value
-                );
-                lbType.Position = new(
-                    Position.X + (cardTexture.Width - typeOffset) * value / 2,
-                    Position.Y + 375 * value
-                );
-                lbDescription.Position = new(
-                    Position.X + (cardTexture.Width - descOffset) * value / 2,
-                    Position.Y + 515 * value
-                );
+        public override Vector2 Position
+        {
+            get { return base.Position; }
+            set
+            {
+                base.Position = value;
+                AdjustLabels();
             }
         }
 
@@ -318,6 +306,31 @@ namespace SlyDeck.GameObjects.Card
             }
         }
 
+        public void AdjustLabels()
+        {
+            float nameOffset = Arial24.MeasureString(lbName.Text).X;
+            float powerOffset = Arial24.MeasureString(lbPower.Text).X;
+            float typeOffset = Arial24.MeasureString(lbType.Text).X;
+            float descOffset = Arial24.MeasureString(lbDescription.Text).X;
+
+            // Adjust the position for all of the labels
+            lbName.Position = new(
+                Position.X + (cardTexture.Width - nameOffset) * Scale / 2,
+                Position.Y + 30 * Scale
+            );
+            lbPower.Position = new(
+                Position.X + (cardTexture.Width - 65 - powerOffset / 2) * Scale,
+                Position.Y + (cardTexture.Height - 83) * Scale
+            );
+            lbType.Position = new(
+                Position.X + (cardTexture.Width - typeOffset) * Scale / 2,
+                Position.Y + 375 * Scale
+            );
+            lbDescription.Position = new(
+                Position.X + (cardTexture.Width - descOffset) * Scale / 2,
+                Position.Y + 515 * Scale
+            );
+        }
         public void OnLeftClick()
         {
             LeftClick?.Invoke();
