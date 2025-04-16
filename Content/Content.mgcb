@@ -150,6 +150,3 @@
 #begin TestDeckCards.deck
 /copy:TestDeckCards.deck
 
-#begin TestDeckCardsEnemy.deck
-/copy:TestDeckCardsEnemy.deck
-

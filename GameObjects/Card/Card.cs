@@ -47,7 +47,6 @@ namespace SlyDeck.GameObjects.Card
         private Dictionary<string, List<ICardEffect>> effects; // different effects the card has
         private Dictionary<string, List<AttacherEffect>> attachers; // different attachments this card has
 
-        private Button playButton; // button used to play the card
         private Label lbName; // label to display name of card
         private Label lbPower; // label to display power of card
         private Label lbType; // label to display type of card
@@ -175,21 +174,6 @@ namespace SlyDeck.GameObjects.Card
             AddChildObject(lbDescription);
 
             Scale = 1;
-
-            playButton = new Button(
-                new Vector2(position.X, position.Y - 50),
-                $"Card Play Button-{name}",
-                $"Play card",
-                AssetManager.Instance.GetAsset<Texture2D>("testButton"),
-                Arial24
-            );
-            playButton.Position = new Vector2(
-                playButton.Position.X + playButton.BackTexture.Width / 2,
-                playButton.Position.Y
-            );
-            playButton.LeftClick += Play;
-            LeftClick += playButton.Toggle; // toggle play button whenever the card is clicked
-            AddChildObject(playButton);
 
             effects = new Dictionary<string, List<ICardEffect>>();
             attachers = new Dictionary<string, List<AttacherEffect>>();
