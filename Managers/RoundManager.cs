@@ -25,11 +25,18 @@ namespace SlyDeck.Managers
     internal class RoundManager
     {
         private TurnState ts;
+        private int roundNumber;
 
         public TurnState TS
         {
             get { return ts; }
             private set { ts = value; }
+        }
+
+        public int RoundNumber
+        {
+            get; 
+            set;
         }
 
         //Singleton

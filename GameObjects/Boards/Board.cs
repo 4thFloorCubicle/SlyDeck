@@ -410,12 +410,15 @@ namespace SlyDeck.GameObjects.Boards
         {
             DeckManager.Instance.cardData.Clear();
             GameObjectManager.Instance.ClearAllGameObjects();
+            Deck eDeck = DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("PlayerDeck"));
+            Deck deck = eDeck;
 
-            Deck deck = DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("PlayerDeck"));
-            Deck eDeck = deck;
+            deck.ApplyDeckwideEffect(new AdditivePowerEffect(2 + (RoundManager.Instance.RoundNumber), PowerType.EffectPower));
+            deck.Shuffle();
 
             Instance = null;
             Instance = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GD);
+            RoundManager.Instance.RoundNumber++;
         }
     }
 }
