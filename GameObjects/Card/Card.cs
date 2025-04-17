@@ -18,8 +18,10 @@ namespace SlyDeck.GameObjects.Card
     /// </summary>
     public enum PowerType
     {
-        BasePower,
-        EffectPower,
+        Persuasion,
+        TempPersuasion,
+        AbilityEffect,
+        TempAbilityEffect
     }
 
     internal enum CardType
@@ -37,8 +39,10 @@ namespace SlyDeck.GameObjects.Card
     internal class Card : GameObject, IClickable
     {
         private string description;
-        private float basePower; // power from the card itself OR granted by permanant. permanant gains/losses
-        private float effectPower; // power granted from temporary effects. temporary gains/losses.
+        private float persuasion; // power from the card itself OR granted by permanant. permanant gains/losses
+        private float tempPersuasion; // power granted from temporary effects. temporary gains/losses.
+        private float abilityPower;
+        private float tempAbilityPower;
         private Texture2D cardTexture;
         private CardType type;
         private SpriteFont Arial24;
@@ -56,19 +60,30 @@ namespace SlyDeck.GameObjects.Card
 
         public float TotalPower
         {
-            get { return basePower + effectPower; }
+            get { return persuasion + tempPersuasion; }
         }
 
-        public float BasePower
+        public float Persuasion
         {
-            get { return basePower; }
-            set { basePower = value; }
+            get { return persuasion; }
+            set { persuasion = value; }
         }
 
-        public float EffectPower
+        public float TempPersuasion
         {
-            get { return effectPower; }
-            set { effectPower = value; }
+            get { return tempPersuasion; }
+            set { tempPersuasion = value; }
+        }
+        public float AbilityPower
+        {
+            get { return abilityPower; }
+            set { abilityPower = value; }
+        }
+
+        public float TempAbilityPower
+        {
+            get { return tempAbilityPower; }
+            set { tempAbilityPower = value; }
         }
 
         /// <summary>
@@ -135,17 +150,19 @@ namespace SlyDeck.GameObjects.Card
             string name,
             Texture2D cardTexture,
             string description,
-            float basePower,
+            float persuasion,
             CardType type,
-            Texture2D cardArt
+            Texture2D cardArt,
+            float abilityPower
         )
             : base(position, name)
         {
             this.cardTexture = cardTexture;
             this.description = description;
-            this.basePower = basePower;
+            this.persuasion = persuasion;
             this.type = type;
             this.cardArt = cardArt;
+            this.abilityPower = abilityPower;
 
             Arial24 = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
             // create the labels
@@ -162,7 +179,7 @@ namespace SlyDeck.GameObjects.Card
             );
             AddChildObject(lbType);
 
-            lbPower = new Label(Vector2.Zero, $"Card Power Label-{name}", $"{basePower}", Arial24);
+            lbPower = new Label(Vector2.Zero, $"Card Power Label-{name}", $"{persuasion}", Arial24);
             AddChildObject(lbPower);
 
             lbDescription = new Label(
@@ -203,7 +220,8 @@ namespace SlyDeck.GameObjects.Card
                 cardData.Description,
                 cardData.BasePower,
                 cardData.Type,
-                cardData.CardArt
+                cardData.CardArt,
+                cardData.AbilityPower
             )
         {
             foreach (ICardEffect effect in cardData.Effects)
@@ -251,11 +269,11 @@ namespace SlyDeck.GameObjects.Card
         {
             lbPower.Text = $"{TotalPower}";
 
-            if (effectPower > 0)
+            if (tempPersuasion > 0)
             {
                 lbPower.TextColor = Color.Green;
             }
-            else if (effectPower < 0)
+            else if (tempPersuasion < 0)
             {
                 lbPower.TextColor = Color.Red;
             }

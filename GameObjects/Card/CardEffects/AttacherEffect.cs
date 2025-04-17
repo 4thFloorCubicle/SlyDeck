@@ -18,6 +18,7 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         PlayerNextCardPlayed,
         EnemyNextCardPlayed,
         Self,
+        PlayerHand,
     }
 
     /// <summary>
@@ -70,6 +71,12 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     break;
                 case TargetMode.Self:
                     Owner.AddEffect(attachment);
+                    break;
+                case TargetMode.PlayerHand:
+                    foreach (Card card in Board.Instance.PlayerHand)
+                    {
+                        card.AddEffect(attachment);
+                    }              
                     break;
             }
         }

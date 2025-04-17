@@ -74,6 +74,11 @@ namespace SlyDeck.GameObjects.Boards
             set { enemyEffectOnPlay = value; }
         }
 
+        public List<Card.Card> PlayerHand
+        {
+            get { return cardOptions; }
+        }
+
         // -- Constructor -- \\
         public Board(
             Vector2 position,

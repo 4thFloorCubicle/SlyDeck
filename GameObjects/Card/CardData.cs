@@ -21,6 +21,7 @@ namespace SlyDeck.GameObjects.Card
         private CardType type;
         private Texture2D cardArt;
         private List<ICardEffect> effects;
+        private float abilityPower;
 
         /// <summary>
         /// Name of the card
@@ -75,21 +76,9 @@ namespace SlyDeck.GameObjects.Card
             get { return effects; }
         }
 
-        public CardData(
-            string name,
-            Texture2D backTexture,
-            string description,
-            float basePower,
-            CardType type,
-            Texture2D cardArt
-        )
+        public float AbilityPower
         {
-            this.name = name;
-            this.backTexture = backTexture;
-            this.description = description;
-            this.basePower = basePower;
-            this.type = type;
-            this.cardArt = cardArt;
+            get { return abilityPower; }
         }
 
         public CardData(
@@ -99,9 +88,29 @@ namespace SlyDeck.GameObjects.Card
             float basePower,
             CardType type,
             Texture2D cardArt,
-            List<ICardEffect> effects
+            float abilityPower
         )
-            : this(name, backTexture, description, basePower, type, cardArt)
+        {
+            this.name = name;
+            this.backTexture = backTexture;
+            this.description = description;
+            this.basePower = basePower;
+            this.type = type;
+            this.cardArt = cardArt;
+            this.abilityPower = abilityPower;
+        }
+
+        public CardData(
+            string name,
+            Texture2D backTexture,
+            string description,
+            float basePower,
+            CardType type,
+            Texture2D cardArt,
+            List<ICardEffect> effects,
+            float abilityPower
+        )
+            : this(name, backTexture, description, basePower, type, cardArt, abilityPower)
         {
             this.effects = effects;
         }

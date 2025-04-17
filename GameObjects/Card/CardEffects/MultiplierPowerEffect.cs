@@ -38,11 +38,17 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         {
             switch (powerType)
             {
-                case PowerType.BasePower:
-                    Owner.BasePower *= multiplier;
+                case PowerType.Persuasion:
+                    Owner.Persuasion *= multiplier;
                     break;
-                case PowerType.EffectPower:
-                    Owner.EffectPower *= multiplier;
+                case PowerType.TempPersuasion:
+                    Owner.TempPersuasion *= multiplier;
+                    break;
+                case PowerType.AbilityEffect:
+                    Owner.AbilityPower *= multiplier;
+                    break;
+                case PowerType.TempAbilityEffect:
+                    Owner.TempAbilityPower *= multiplier;
                     break;
             }
         }
