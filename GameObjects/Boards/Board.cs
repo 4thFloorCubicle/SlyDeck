@@ -273,42 +273,6 @@ namespace SlyDeck.GameObjects.Boards
                 .5f
             );
 
-            // Last played player and enemy card
-            
-            if (lastPlayedPlayer.Count != 0)
-            {
-                lastPlayedPlayer[0].Scale = .5f;
-                lastPlayedPlayer[0].Position = new(
-                    GD.Viewport.Width / 2 - lastPlayedPlayer[0].Bounds.Width / 2,
-                    GD.Viewport.Height / 2 + 50
-                );
-                //lastPlayedPlayer[0].Draw(spriteBatch);
-            }
-            
-            if (currentEnemy.LastPlayed.Count != 0)
-            {
-                currentEnemy.LastPlayed[0].Scale = .5f;
-                currentEnemy.LastPlayed[0].Position = new(
-                    GD.Viewport.Width / 2 - lastPlayedPlayer[0].Bounds.Width / 2,
-                    GD.Viewport.Height / 2 - lastPlayedPlayer[0].Bounds.Height - 50
-                );
-                //currentEnemy.LastPlayed[0].Draw(spriteBatch);
-            }
-
-            // Player hand
-            
-            if (cardOptions != null)
-                for (int cur = 0; cur < 3; cur++)
-                {
-                    cardOptions[cur].Scale = .6f;
-                    cardOptions[cur].Position = new(
-                        GD.Viewport.Width * 6 / 7 - (cardOptions[cur].Bounds.Width * 1.1f) * cur,
-                        GD.Viewport.Height - cardOptions[cur].Bounds.Height * 1.05f
-                    );
-                    //cardOptions[cur].Draw(spriteBatch);
-                }
-            
-
             // Enemy hand
             for (int cur = 0; cur < 3; cur++)
             {
@@ -330,30 +294,6 @@ namespace SlyDeck.GameObjects.Boards
                 );
             }
             
-            // Player Cards
-            for (int cur = 1; cur < lastPlayedPlayer.Count; cur++)
-            {
-                lastPlayedPlayer[cur].Scale = .4f;
-                lastPlayedPlayer[cur].Position = new(
-                    GD.Viewport.Width / 3 - (lastPlayedPlayer[cur].Bounds.Width * 1.1f) * (cur - 1),
-                    GD.Viewport.Height / 2 + 50
-                );
-                //lastPlayedPlayer[cur].Draw(spriteBatch);
-            }
-
-            
-            // Enemy Cards
-            for (int cur = 1; cur < currentEnemy.LastPlayed.Count; cur++)
-            {
-                currentEnemy.LastPlayed[cur].Scale = .4f;
-                currentEnemy.LastPlayed[cur].Position = new(
-                    GD.Viewport.Width * 2 / 3
-                        + (currentEnemy.LastPlayed[cur].Bounds.Width * 1.1f) * (cur - 2),
-                    GD.Viewport.Height / 2 - lastPlayedPlayer[0].Bounds.Height - 50
-                );
-                    //currentEnemy.LastPlayed[cur].Draw(spriteBatch);
-            }
-
             // Line
             spriteBatch.Draw(
                 cardBack,
