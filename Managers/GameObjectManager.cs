@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.GameObjects;
 using SlyDeck.GameObjects.UI;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Vinny Keeler
 namespace SlyDeck.Managers
 {
     /// <summary>
@@ -133,6 +133,15 @@ namespace SlyDeck.Managers
         public List<GameObject> GetAllGameObjects()
         {
             return gameObjects.Values.ToList();
+        }
+
+
+        /// <summary>
+        /// Clears all GameObjects in the GameObjects dictionary
+        /// </summary>
+        public void ClearAllGameObjects()
+        {
+            gameObjects.Clear();
         }
     }
 }

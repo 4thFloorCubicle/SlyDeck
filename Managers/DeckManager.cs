@@ -21,7 +21,7 @@ namespace SlyDeck.Managers
     {
         private static DeckManager instance;
         private Dictionary<string, Deck> decks; // all the diff decks in the game
-        private Dictionary<string, CardData> cardData; // all the diff cards in the game
+        public Dictionary<string, CardData> cardData; // all the diff cards in the game
 
         public static DeckManager Instance
         {

@@ -228,6 +228,8 @@ namespace SlyDeck.GameObjects.Boards
                     victoryLabel.TextColor = Color.Red;
                 }
                 victoryLabel.Toggle();
+                Reset();
+
             }
             else
             {
@@ -399,6 +401,21 @@ namespace SlyDeck.GameObjects.Boards
         private bool CheckVictory()
         {
             return playerPersuasion > enemyPersuasion;
+        }
+
+        /// <summary>
+        /// Resets and draws a new board for the next round
+        /// </summary>
+        public void Reset()
+        {
+            DeckManager.Instance.cardData.Clear();
+            GameObjectManager.Instance.ClearAllGameObjects();
+
+            Deck deck = DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("PlayerDeck"));
+            Deck eDeck = deck;
+
+            Instance = null;
+            Instance = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GD);
         }
     }
 }
