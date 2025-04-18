@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SlyDeck.GameObjects;
 using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
@@ -53,6 +54,10 @@ namespace SlyDeck.GameObjects.Card
         private Label lbDescription; // label to display description of card
         private Texture2D cardArt; // art associated with the card
 
+        private float hoverScale; // A temporary scalar for the card when hovered over
+        private float baseScale; // The base value of the scale
+        private Vector2 basePos; // The base position of the card
+
         public float TotalPower
         {
             get { return basePower + effectPower; }
@@ -68,6 +73,36 @@ namespace SlyDeck.GameObjects.Card
         {
             get { return effectPower; }
             set { effectPower = value; }
+        }
+
+        public Vector2 BasePos { get { return basePos; } set { basePos = value; Position = value; } }
+
+        /// <summary>
+        /// Property to handle the temporary scaling when the card is hovered over, also adjusting labels.
+        /// </summary>
+        public float HoverScale
+        {
+            get { return hoverScale; }
+            set
+            {
+                if (value + baseScale > 1 || value < 0)
+                    return;
+
+                hoverScale = value;
+                Scale = hoverScale + baseScale;                
+                Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale);
+                AdjustLabels();
+            }
+        }
+
+        public float BaseScale
+        {
+            get { return baseScale; }
+            set 
+            { 
+                baseScale = value; 
+                Scale = baseScale; 
+                hoverScale = 0; }
         }
 
         /// <summary>
@@ -86,7 +121,6 @@ namespace SlyDeck.GameObjects.Card
                 lbType.Scale = value;
                 lbDescription.Scale = value;
 
-                AdjustLabels();
             }
         }
 
@@ -107,8 +141,8 @@ namespace SlyDeck.GameObjects.Card
                 return new Rectangle(
                     (int)Position.X,
                     (int)Position.Y,
-                    (int)(cardTexture.Width * Scale),
-                    (int)(cardTexture.Height * Scale)
+                    (int)(cardTexture.Width * baseScale),
+                    (int)(cardTexture.Height * baseScale)
                 );
             }
         }
@@ -161,7 +195,7 @@ namespace SlyDeck.GameObjects.Card
             );
             AddChildObject(lbDescription);
 
-            Scale = 1;
+            baseScale = 1;
 
             effects = new Dictionary<string, List<ICardEffect>>();
             attachers = new Dictionary<string, List<AttacherEffect>>();
@@ -199,9 +233,8 @@ namespace SlyDeck.GameObjects.Card
                 Vector2.Zero,
                 Scale,
                 SpriteEffects.None,
-                .1f
+                .05f + this.hoverScale
             );
-
             spriteBatch.Draw(
                 cardArt,
                 new Vector2(Position.X + 40 * Scale, Position.Y + 80 * Scale),
@@ -211,12 +244,12 @@ namespace SlyDeck.GameObjects.Card
                 Vector2.Zero,
                 .23f * Scale,
                 SpriteEffects.None,
-                .15f
+                .15f + this.hoverScale
             );
-
-            lbName.Draw(spriteBatch);
-            lbPower.Draw(spriteBatch);
-            lbType.Draw(spriteBatch);
+            lbDescription.Draw(spriteBatch, hoverScale);
+            lbName.Draw(spriteBatch, hoverScale);
+            lbPower.Draw(spriteBatch, hoverScale);
+            lbType.Draw(spriteBatch, hoverScale);
         }
 
         public override void Update(GameTime gameTime)
@@ -234,6 +267,16 @@ namespace SlyDeck.GameObjects.Card
             else
             {
                 lbPower.TextColor = Color.White;
+            }
+
+            Rectangle tempBounds = new((int)basePos.X, (int)basePos.Y, Bounds.Width, Bounds.Height);
+            if (tempBounds.Contains(Mouse.GetState().Position))
+            {               
+               HoverScale += .05f;
+            }
+            else
+            {
+               HoverScale -= .05f;
             }
         }
 

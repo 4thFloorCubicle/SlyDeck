@@ -164,8 +164,8 @@ namespace SlyDeck.GameObjects.Boards
             lastPlayedPlayer.Insert(0, playedCard);
 
             // Position the new most recently played card
-            playedCard.Scale = .5f;
-            playedCard.Position = new(
+            playedCard.BaseScale = .5f;
+            playedCard.BasePos = new(
                 GD.Viewport.Width / 2 - playedCard.Bounds.Width / 2,
                 GD.Viewport.Height / 2 + 50
             );
@@ -173,8 +173,8 @@ namespace SlyDeck.GameObjects.Boards
             // Loop through and position all of the rest of the lastPlayedPlayer cards.
             for (int cur = 1; cur < lastPlayedPlayer.Count; cur++)
             {
-                lastPlayedPlayer[cur].Scale = .4f;
-                lastPlayedPlayer[cur].Position = new(
+                lastPlayedPlayer[cur].BaseScale = .4f;
+                lastPlayedPlayer[cur].BasePos = new(
                     GD.Viewport.Width / 3 - (lastPlayedPlayer[cur].Bounds.Width * 1.1f) * (cur - 1),
                     GD.Viewport.Height / 2 + 50
                 );
@@ -199,16 +199,16 @@ namespace SlyDeck.GameObjects.Boards
             enemyPersuasion += enemyCard.TotalPower;
             currentEnemy.PlayCard(enemyCard);
             
-            currentEnemy.LastPlayed[0].Scale = .5f;
-            currentEnemy.LastPlayed[0].Position = new(
+            currentEnemy.LastPlayed[0].BaseScale = .5f;
+            currentEnemy.LastPlayed[0].BasePos = new(
                 GD.Viewport.Width / 2 - lastPlayedPlayer[0].Bounds.Width / 2,
                 GD.Viewport.Height / 2 - lastPlayedPlayer[0].Bounds.Height - 50
             );
 
             for (int cur = 1; cur < currentEnemy.LastPlayed.Count; cur++)
             {
-                currentEnemy.LastPlayed[cur].Scale = .4f;
-                currentEnemy.LastPlayed[cur].Position = new(
+                currentEnemy.LastPlayed[cur].BaseScale = .4f;
+                currentEnemy.LastPlayed[cur].BasePos = new(
                     GD.Viewport.Width * 2 / 3
                         + (currentEnemy.LastPlayed[cur].Bounds.Width * 1.1f) * (cur - 2),
                     GD.Viewport.Height / 2 - lastPlayedPlayer[0].Bounds.Height - 50
@@ -293,13 +293,18 @@ namespace SlyDeck.GameObjects.Boards
                     0
                 );
             }
-            
+
             // Line
             spriteBatch.Draw(
                 cardBack,
                 new Rectangle(0, GD.Viewport.Height / 2, GD.Viewport.Width, 1),
-                Color.Black
-            );
+                null,
+                Color.Black,
+                0,
+                Vector2.Zero,
+                SpriteEffects.None,
+                0                
+                );
 
             if (victoryLabel.Enabled)
             {
@@ -323,8 +328,8 @@ namespace SlyDeck.GameObjects.Boards
             // Run through the cards and position/scale them.
             for (int cur = 0; cur < 3; cur++)
             {
-                cardOptions[cur].Scale = .6f;
-                cardOptions[cur].Position = new(
+                cardOptions[cur].BaseScale = .6f;
+                cardOptions[cur].BasePos = new(
                     GD.Viewport.Width * 6 / 7 - (cardOptions[cur].Bounds.Width * 1.1f) * cur,
                     GD.Viewport.Height - cardOptions[cur].Bounds.Height * 1.05f
                 );
