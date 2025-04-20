@@ -87,7 +87,8 @@ namespace SlyDeck.GameObjects.Card
             {
                 if (value + baseScale > 1 || value < 0)
                     return;
-
+                if (value < .05)
+                    value = 0;
                 hoverScale = value;
                 Scale = hoverScale + baseScale;                
                 Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale);
@@ -237,12 +238,12 @@ namespace SlyDeck.GameObjects.Card
             );
             spriteBatch.Draw(
                 cardArt,
-                new Vector2(Position.X + 40 * Scale, Position.Y + 80 * Scale),
+                new Vector2(Position.X + cardTexture.Width * Scale / 2, Position.Y + cardTexture.Height * Scale / 3 + 10),
                 cardArt.Bounds,
                 Color.Wheat,
                 0,
-                Vector2.Zero,
-                .23f * Scale,
+                new(cardArt.Width / 2, cardArt.Height / 2),
+                .8f * Scale,
                 SpriteEffects.None,
                 .15f + this.hoverScale
             );

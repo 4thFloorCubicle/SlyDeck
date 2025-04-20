@@ -125,20 +125,20 @@ namespace SlyDeck.GameObjects.Boards
             // Don't allow more than five cards played on the screen at once
             if (lastPlayedPlayer.Count > 4)
                 return;
-
-            if (InputManager.Instance.SingleKeyPress(Keys.Z))
+            // Note: cardOptions[x].HoverScale being greater than 0 means that the mouse is currently over the card.
+            if ((InputManager.Instance.SingleMousePress(MouseButton.Left) && cardOptions[2].HoverScale != 0) || InputManager.Instance.SingleKeyPress(Keys.Z))
             {
                 playedCard = cardOptions[2];
 
                 cardOptions.RemoveAt(2);
             }
-            else if (InputManager.Instance.SingleKeyPress(Keys.X))
+            else if ((InputManager.Instance.SingleMousePress(MouseButton.Left) && cardOptions[1].HoverScale != 0) || InputManager.Instance.SingleKeyPress(Keys.X))
             {
                 playedCard = cardOptions[1];
 
                 cardOptions.RemoveAt(1);
             }
-            else if (InputManager.Instance.SingleKeyPress(Keys.C))
+            else if ((InputManager.Instance.SingleMousePress(MouseButton.Left) && cardOptions[0].HoverScale != 0) || InputManager.Instance.SingleKeyPress(Keys.C))
             {
                 playedCard = cardOptions[0];
 
