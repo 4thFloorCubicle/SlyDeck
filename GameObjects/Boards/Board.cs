@@ -10,7 +10,6 @@ using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
-using SlyDeck.Piles;
 
 // Authors: Ben Haines, Cooper Fleishman
 namespace SlyDeck.GameObjects.Boards
@@ -29,7 +28,6 @@ namespace SlyDeck.GameObjects.Boards
         public static Board Instance { get; private set; }
 
         // Player
-        private DiscardPile playerDiscardPile;
         private Deck playerDeck;
         private List<Card.Card> lastPlayedPlayer;
         private float playerPersuasion;
@@ -39,7 +37,6 @@ namespace SlyDeck.GameObjects.Boards
 
         // Enemy
         private Enemy currentEnemy;
-        private DiscardPile enemyDiscardPile;
         private float enemyPersuasion;
         private ICardEffect enemyEffectOnPlay;
 
@@ -98,13 +95,11 @@ namespace SlyDeck.GameObjects.Boards
 
             this.playerDeck = playerDeck;
             lastPlayedPlayer = new List<Card.Card>();
-            playerDiscardPile = new();
             playerPersuasion = 0;
             cardOptions = new List<Card.Card>(3);
             DrawCards();
             playerInput = default;
 
-            enemyDiscardPile = new();
             currentEnemy = new(enemyName, enemyDeck);
             enemyPersuasion = 0;
 
