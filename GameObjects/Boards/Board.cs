@@ -411,7 +411,7 @@ namespace SlyDeck.GameObjects.Boards
                 deck.ApplyDeckwideEffect(
                     new AdditivePowerEffect(
                         2 + (RoundManager.Instance.RoundNumber),
-                        PowerType.AbilityEffect
+                        PowerType.Persuasion
                     )
                 );
             }
@@ -420,7 +420,7 @@ namespace SlyDeck.GameObjects.Boards
                 deck.ApplyDeckwideEffect(
                     new MultiplierPowerEffect(
                         4 + (RoundManager.Instance.RoundNumber),
-                        PowerType.AbilityEffect
+                        PowerType.Persuasion
                     )
                 );
             }
