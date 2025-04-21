@@ -443,7 +443,7 @@ namespace SlyDeck.GameObjects.Boards
             Deck eDeck = DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("PlayerDeck"));
             Deck deck = eDeck;
 
-            int coinFlip = rng.Next(1);
+            int coinFlip = rng.Next(2);
 
             if (coinFlip == 1)
             {
