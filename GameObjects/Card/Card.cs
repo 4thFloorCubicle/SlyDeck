@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SlyDeck.GameObjects;
 using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
@@ -51,12 +52,15 @@ namespace SlyDeck.GameObjects.Card
         private Dictionary<string, List<ICardEffect>> effects; // different effects the card has
         private Dictionary<string, List<AttacherEffect>> attachers; // different attachments this card has
 
-        private Button playButton; // button used to play the card
         private Label lbName; // label to display name of card
         private Label lbPower; // label to display power of card
         private Label lbType; // label to display type of card
         private Label lbDescription; // label to display description of card
         private Texture2D cardArt; // art associated with the card
+
+        private float hoverScale; // A temporary scalar for the card when hovered over
+        private float baseScale; // The base value of the scale
+        private Vector2 basePos; // The base position of the card
 
         public float TotalPower
         {
@@ -86,6 +90,37 @@ namespace SlyDeck.GameObjects.Card
             set => baseEffect.TempAbilityPower = value;
         }
 
+        public Vector2 BasePos { get { return basePos; } set { basePos = value; Position = value; } }
+
+        /// <summary>
+        /// Property to handle the temporary scaling when the card is hovered over, also adjusting labels.
+        /// </summary>
+        public float HoverScale
+        {
+            get { return hoverScale; }
+            set
+            {
+                if (value + baseScale > 1 || value < 0)
+                    return;
+                if (value < .05)
+                    value = 0;
+                hoverScale = value;
+                Scale = hoverScale + baseScale;                
+                Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale);
+                AdjustLabels();
+            }
+        }
+
+        public float BaseScale
+        {
+            get { return baseScale; }
+            set 
+            { 
+                baseScale = value; 
+                Scale = baseScale; 
+                hoverScale = 0; }
+        }
+
         /// <summary>
         /// Property to handle scaling the card at smaller sizes, adjusting the text
         /// </summary>
@@ -102,29 +137,16 @@ namespace SlyDeck.GameObjects.Card
                 lbType.Scale = value;
                 lbDescription.Scale = value;
 
-                // Figure out the offset for the font given the text
-                float nameOffset = Arial24.MeasureString(lbName.Text).X;
-                float powerOffset = Arial24.MeasureString(lbPower.Text).X;
-                float typeOffset = Arial24.MeasureString(lbType.Text).X;
-                float descOffset = Arial24.MeasureString(lbDescription.Text).X;
+            }
+        }
 
-                // Adjust the position for all of the labels
-                lbName.Position = new(
-                    Position.X + (cardTexture.Width - nameOffset) * value / 2,
-                    Position.Y + 30 * value
-                );
-                lbPower.Position = new(
-                    Position.X + (cardTexture.Width - 65 - powerOffset / 2) * value,
-                    Position.Y + (cardTexture.Height - 83) * value
-                );
-                lbType.Position = new(
-                    Position.X + (cardTexture.Width - typeOffset) * value / 2,
-                    Position.Y + 375 * value
-                );
-                lbDescription.Position = new(
-                    Position.X + (cardTexture.Width - descOffset) * value / 2,
-                    Position.Y + 515 * value
-                );
+        public override Vector2 Position
+        {
+            get { return base.Position; }
+            set
+            {
+                base.Position = value;
+                AdjustLabels();
             }
         }
 
@@ -135,8 +157,8 @@ namespace SlyDeck.GameObjects.Card
                 return new Rectangle(
                     (int)Position.X,
                     (int)Position.Y,
-                    (int)(cardTexture.Width * Scale),
-                    (int)(cardTexture.Height * Scale)
+                    (int)(cardTexture.Width * baseScale),
+                    (int)(cardTexture.Height * baseScale)
                 );
             }
         }
@@ -189,22 +211,7 @@ namespace SlyDeck.GameObjects.Card
             );
             AddChildObject(lbDescription);
 
-            Scale = 1;
-
-            playButton = new Button(
-                new Vector2(position.X, position.Y - 50),
-                $"Card Play Button-{name}",
-                $"Play card",
-                AssetManager.Instance.GetAsset<Texture2D>("testButton"),
-                Arial24
-            );
-            playButton.Position = new Vector2(
-                playButton.Position.X + playButton.BackTexture.Width / 2,
-                playButton.Position.Y
-            );
-            playButton.LeftClick += Play;
-            LeftClick += playButton.Toggle; // toggle play button whenever the card is clicked
-            AddChildObject(playButton);
+            baseScale = 1;
 
             effects = new Dictionary<string, List<ICardEffect>>();
             attachers = new Dictionary<string, List<AttacherEffect>>();
@@ -244,24 +251,23 @@ namespace SlyDeck.GameObjects.Card
                 Vector2.Zero,
                 Scale,
                 SpriteEffects.None,
-                .1f
+                .05f + this.hoverScale
             );
-
             spriteBatch.Draw(
                 cardArt,
-                new Vector2(Position.X + 40 * Scale, Position.Y + 80 * Scale),
+                new Vector2(Position.X + cardTexture.Width * Scale / 2, Position.Y + cardTexture.Height * Scale / 3 + 10),
                 cardArt.Bounds,
                 Color.Wheat,
                 0,
-                Vector2.Zero,
-                .23f * Scale,
+                new(cardArt.Width / 2, cardArt.Height / 2),
+                .8f * Scale,
                 SpriteEffects.None,
-                .15f
+                .15f + this.hoverScale
             );
-
-            lbName.Draw(spriteBatch);
-            lbPower.Draw(spriteBatch);
-            lbType.Draw(spriteBatch);
+            lbDescription.Draw(spriteBatch, hoverScale);
+            lbName.Draw(spriteBatch, hoverScale);
+            lbPower.Draw(spriteBatch, hoverScale);
+            lbType.Draw(spriteBatch, hoverScale);
         }
 
         public override void Update(GameTime gameTime)
@@ -279,6 +285,16 @@ namespace SlyDeck.GameObjects.Card
             else
             {
                 lbPower.TextColor = Color.White;
+            }
+
+            Rectangle tempBounds = new((int)basePos.X, (int)basePos.Y, Bounds.Width, Bounds.Height);
+            if (tempBounds.Contains(Mouse.GetState().Position))
+            {               
+               HoverScale += .05f;
+            }
+            else
+            {
+               HoverScale -= .05f;
             }
         }
 
@@ -351,6 +367,31 @@ namespace SlyDeck.GameObjects.Card
             }
         }
 
+        public void AdjustLabels()
+        {
+            float nameOffset = Arial24.MeasureString(lbName.Text).X;
+            float powerOffset = Arial24.MeasureString(lbPower.Text).X;
+            float typeOffset = Arial24.MeasureString(lbType.Text).X;
+            float descOffset = Arial24.MeasureString(lbDescription.Text).X;
+
+            // Adjust the position for all of the labels
+            lbName.Position = new(
+                Position.X + (cardTexture.Width - nameOffset) * Scale / 2,
+                Position.Y + 30 * Scale
+            );
+            lbPower.Position = new(
+                Position.X + (cardTexture.Width - 65 - powerOffset / 2) * Scale,
+                Position.Y + (cardTexture.Height - 83) * Scale
+            );
+            lbType.Position = new(
+                Position.X + (cardTexture.Width - typeOffset) * Scale / 2,
+                Position.Y + 375 * Scale
+            );
+            lbDescription.Position = new(
+                Position.X + (cardTexture.Width - descOffset) * Scale / 2,
+                Position.Y + 515 * Scale
+            );
+        }
         public void OnLeftClick()
         {
             LeftClick?.Invoke();
