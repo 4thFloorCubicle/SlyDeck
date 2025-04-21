@@ -28,11 +28,10 @@ namespace SlyDeck.GameObjects.Card.CardEffects
     {
         public Card Owner { get; set; }
         public string Name { get; set; }
-        public float AbilityPower { get; set;  }
+        public float AbilityPower { get; set; }
         public float TempAbilityPower { get; set; }
 
-        
-        private List<ICardEffect>attachments;
+        private List<ICardEffect> attachments;
         private TargetMode target;
 
         public TargetMode Target
@@ -60,7 +59,6 @@ namespace SlyDeck.GameObjects.Card.CardEffects
 
         public AttacherEffect(List<ICardEffect> attachments, TargetMode target)
         {
-            
             Name = $"Attach @{target}: {attachments[0].Name}"; // naming convention up for change
             this.target = target;
             this.attachments = attachments;

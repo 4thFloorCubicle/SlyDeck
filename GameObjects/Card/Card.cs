@@ -90,7 +90,15 @@ namespace SlyDeck.GameObjects.Card
             set => baseEffect.TempAbilityPower = value;
         }
 
-        public Vector2 BasePos { get { return basePos; } set { basePos = value; Position = value; } }
+        public Vector2 BasePos
+        {
+            get { return basePos; }
+            set
+            {
+                basePos = value;
+                Position = value;
+            }
+        }
 
         /// <summary>
         /// Property to handle the temporary scaling when the card is hovered over, also adjusting labels.
@@ -105,8 +113,11 @@ namespace SlyDeck.GameObjects.Card
                 if (value < .05)
                     value = 0;
                 hoverScale = value;
-                Scale = hoverScale + baseScale;                
-                Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale);
+                Scale = hoverScale + baseScale;
+                Position = new(
+                    basePos.X - Bounds.Width * hoverScale,
+                    basePos.Y - Bounds.Height * hoverScale
+                );
                 AdjustLabels();
             }
         }
@@ -114,11 +125,12 @@ namespace SlyDeck.GameObjects.Card
         public float BaseScale
         {
             get { return baseScale; }
-            set 
-            { 
-                baseScale = value; 
-                Scale = baseScale; 
-                hoverScale = 0; }
+            set
+            {
+                baseScale = value;
+                Scale = baseScale;
+                hoverScale = 0;
+            }
         }
 
         /// <summary>
@@ -136,7 +148,6 @@ namespace SlyDeck.GameObjects.Card
                 lbPower.Scale = value;
                 lbType.Scale = value;
                 lbDescription.Scale = value;
-
             }
         }
 
@@ -255,7 +266,10 @@ namespace SlyDeck.GameObjects.Card
             );
             spriteBatch.Draw(
                 cardArt,
-                new Vector2(Position.X + cardTexture.Width * Scale / 2, Position.Y + cardTexture.Height * Scale / 3 + 10),
+                new Vector2(
+                    Position.X + cardTexture.Width * Scale / 2,
+                    Position.Y + cardTexture.Height * Scale / 3 + 10
+                ),
                 cardArt.Bounds,
                 Color.Wheat,
                 0,
@@ -289,12 +303,12 @@ namespace SlyDeck.GameObjects.Card
 
             Rectangle tempBounds = new((int)basePos.X, (int)basePos.Y, Bounds.Width, Bounds.Height);
             if (tempBounds.Contains(Mouse.GetState().Position))
-            {               
-               HoverScale += .05f;
+            {
+                HoverScale += .05f;
             }
             else
             {
-               HoverScale -= .05f;
+                HoverScale -= .05f;
             }
         }
 
@@ -392,6 +406,7 @@ namespace SlyDeck.GameObjects.Card
                 Position.Y + 515 * Scale
             );
         }
+
         public void OnLeftClick()
         {
             LeftClick?.Invoke();

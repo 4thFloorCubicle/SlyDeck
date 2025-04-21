@@ -129,15 +129,17 @@ namespace SlyDeck.Managers
                                 //make sure this decrease by the right amount I think it does the opposite i.e. 80% instead of 20%
                                 //doesnt work with support (20% degredation at 0 Power)
                                 ICardEffect attachment = new MultiplierPowerEffect(
-                                    
                                     (float)(.8 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
                                     PowerType.TempPersuasion
                                 );
-                                effect = new AttacherEffect(attachment, TargetMode.EnemyNextCardPlayed);
+                                effect = new AttacherEffect(
+                                    attachment,
+                                    TargetMode.EnemyNextCardPlayed
+                                );
                                 break;
                             }
                             case "Promotion": //Doesn't Work Yet
-                                {
+                            {
                                 //Upgrades persuasion?
                                 ICardEffect attachment = new AdditivePowerEffect(
                                     abilityPower,
@@ -163,32 +165,34 @@ namespace SlyDeck.Managers
                             {
                                 //same problem as favoritism
                                 ICardEffect attachment = new MultiplierPowerEffect(
-                                    
-                                (float)(.8 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
-                                PowerType.TempAbilityEffect
+                                    (float)(.8 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
+                                    PowerType.TempAbilityEffect
                                 );
-                                effect = new AttacherEffect(attachment, TargetMode.EnemyNextCardPlayed);
+                                effect = new AttacherEffect(
+                                    attachment,
+                                    TargetMode.EnemyNextCardPlayed
+                                );
                                 break;
                             }
                             case "Support": //Doesn't Work Yet
-                                {
-                                    ICardEffect attachment1 = new AdditivePowerEffect(
-                                        1.5f * abilityPower * abilityPower,
-                                        PowerType.TempPersuasion
-                                        );
+                            {
+                                ICardEffect attachment1 = new AdditivePowerEffect(
+                                    1.5f * abilityPower * abilityPower,
+                                    PowerType.TempPersuasion
+                                );
 
-                                    ICardEffect attachment2 = new MultiplierPowerEffect(
-                                        0,
-                                        PowerType.TempAbilityEffect
-                                        );
+                                ICardEffect attachment2 = new MultiplierPowerEffect(
+                                    0,
+                                    PowerType.TempAbilityEffect
+                                );
 
-                                    List<ICardEffect> attachments = new List<ICardEffect>();
-                                        attachments.Add(attachment1); 
-                                        attachments.Add(attachment2);
+                                List<ICardEffect> attachments = new List<ICardEffect>();
+                                attachments.Add(attachment1);
+                                attachments.Add(attachment2);
 
-                                    effect = new AttacherEffect(attachments, TargetMode.PlayerHand);
-                                    break;
-                                }
+                                effect = new AttacherEffect(attachments, TargetMode.PlayerHand);
+                                break;
+                            }
 
                             default:
                                 throw new NotImplementedException(
