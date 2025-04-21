@@ -54,7 +54,7 @@ public class Game1 : Game
         AssetManager.Instance.AddTexture("Quote", Content.Load<Texture2D>("cardImages\\Quote"));
         AssetManager.Instance.AddTexture("Graph", Content.Load<Texture2D>("cardImages\\Graph"));
         AssetManager.Instance.AddTexture("Closer", Content.Load<Texture2D>("cardImages\\Closer"));
-        AssetManager.Instance.AddDeckFilePath("PlayerDeck", "Content\\TestDeckCards.deck");
+        AssetManager.Instance.AddDeckFilePath("PlayerDeck", "Content\\PlaytestDeckCards.deck");
 
         Deck deck = DeckManager.Instance.DeckFromFile(
             AssetManager.Instance.GetDeckFilePath("PlayerDeck")
