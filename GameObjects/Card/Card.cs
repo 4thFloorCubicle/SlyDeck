@@ -122,11 +122,17 @@ namespace SlyDeck.GameObjects.Card
                     basePos.Y - Bounds.Height * hoverScale
                 );
 
-                if(basePos.Y > 700)
-                    Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale * 2);
+                if (basePos.Y > 700)
+                    Position = new(
+                        basePos.X - Bounds.Width * hoverScale,
+                        basePos.Y - Bounds.Height * hoverScale * 2
+                    );
                 else
-                    Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale);
-                    
+                    Position = new(
+                        basePos.X - Bounds.Width * hoverScale,
+                        basePos.Y - Bounds.Height * hoverScale
+                    );
+
                 AdjustLabels();
             }
         }
