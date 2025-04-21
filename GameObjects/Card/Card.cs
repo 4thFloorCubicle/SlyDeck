@@ -74,6 +74,9 @@ namespace SlyDeck.GameObjects.Card
             set { tempPersuasion = value; }
         }
 
+        public float AbilityPower { get; set => baseEffect.AbilityPower = value; }
+        public float TempAbilityPower { get; set; }
+
         /// <summary>
         /// Property to handle scaling the card at smaller sizes, adjusting the text
         /// </summary>
@@ -206,9 +209,11 @@ namespace SlyDeck.GameObjects.Card
                 cardData.Description,
                 cardData.BasePower,
                 cardData.Type,
-                cardData.CardArt
+                cardData.CardArt 
             )
         {
+            baseEffect = cardData.BaseEffect;
+
             foreach (ICardEffect effect in cardData.Effects)
             {
                 AddEffect(effect);

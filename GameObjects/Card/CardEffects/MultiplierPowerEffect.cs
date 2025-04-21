@@ -20,6 +20,9 @@ namespace SlyDeck.GameObjects.Card.CardEffects
             get { return multiplier; }
             set { multiplier = value; }
         }
+        public float AbilityPower { get; }
+        public float TempAbilityPower { get; }
+
 
         /// <summary>
         /// Creates a new multiplier effect

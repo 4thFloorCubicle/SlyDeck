@@ -28,12 +28,12 @@ namespace SlyDeck.GameObjects.Card.CardEffects
     {
         public Card Owner { get; set; }
         public string Name { get; set; }
+        public float AbilityPower { get;  }
+        public float TempAbilityPower { get;  }
 
         
         private List<ICardEffect>attachments;
         private TargetMode target;
-        private float abilityPower;
-        private float tempAbilityPower;
 
         public TargetMode Target
         {
@@ -43,16 +43,6 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         public List<ICardEffect> Attachments
         {
             get { return attachments; }
-        }
-
-        public float AbilityPower
-        {
-            get { return abilityPower; }
-        }
-
-        public float TempAbilityPower
-        {
-            get { return tempAbilityPower; }
         }
 
         /// <summary>

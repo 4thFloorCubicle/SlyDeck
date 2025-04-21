@@ -23,6 +23,8 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         public Card Owner { get; set; }
 
         public string Name { get; }
+        public float AbilityPower { get; }
+        public float TempAbilityPower { get; }
 
         public AdditivePowerEffect(float powerIncrease, PowerType powerType)
         {

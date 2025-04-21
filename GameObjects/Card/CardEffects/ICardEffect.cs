@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 // Author: Cooper Fleishman
 namespace SlyDeck.GameObjects.Card.CardEffects
 {
+
     /// <summary>
     /// An interface for all different card effects
     /// </summary>
@@ -21,6 +22,13 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         /// Name of the effect
         /// </summary>
         string Name { get; }
+
+        public float AbilityPower
+        { get; }
+
+        public float TempAbilityPower
+        { get; }
+
 
         /// <summary>
         /// Performs the logic this effect contains
