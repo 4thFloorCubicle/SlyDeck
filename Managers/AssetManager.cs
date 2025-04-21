@@ -86,10 +86,10 @@ namespace SlyDeck.Managers
                 }
             }
 
-                //Error is thrown when the asset isn't found or the wrong type of object was requested
-                throw new KeyNotFoundException(
-                    $"Asset '{assetName}' of type {typeof(T).Name} not found"
-                );
+            //Error is thrown when the asset isn't found or the wrong type of object was requested
+            throw new KeyNotFoundException(
+                $"Asset '{assetName}' of type {typeof(T).Name} not found"
+            );
         }
 
         /// <summary>

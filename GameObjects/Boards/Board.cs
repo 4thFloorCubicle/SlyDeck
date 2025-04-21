@@ -81,16 +81,15 @@ namespace SlyDeck.GameObjects.Boards
             set { enemyEffectOnPlay = value; }
         }
 
-
         public bool RoundEnd
         {
             get { return roundEnd; }
             set { roundEnd = value; }
+        }
 
         public List<Card.Card> PlayerHand
         {
             get { return cardOptions; }
-
         }
 
         // -- Constructor -- \\
@@ -153,7 +152,7 @@ namespace SlyDeck.GameObjects.Boards
             {
                 g.SuppressDraw();
             }
-            
+
             if (RoundEnd && InputManager.Instance.SingleKeyPress(Keys.Enter))
             {
                 Reset();
@@ -275,7 +274,6 @@ namespace SlyDeck.GameObjects.Boards
                 }
                 victoryLabel.Toggle();
                 RoundEnd = true;
-
             }
             else
             {
@@ -401,18 +399,30 @@ namespace SlyDeck.GameObjects.Boards
         {
             DeckManager.Instance.cardData.Clear();
             GameObjectManager.Instance.ClearAllGameObjects();
-            Deck eDeck = DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("PlayerDeck"));
+            Deck eDeck = DeckManager.Instance.DeckFromFile(
+                AssetManager.Instance.GetDeckFilePath("PlayerDeck")
+            );
             Deck deck = eDeck;
 
             int coinFlip = rng.Next(2);
 
             if (coinFlip == 1)
             {
-                deck.ApplyDeckwideEffect(new AdditivePowerEffect(2 + (RoundManager.Instance.RoundNumber), PowerType.EffectPower));
+                deck.ApplyDeckwideEffect(
+                    new AdditivePowerEffect(
+                        2 + (RoundManager.Instance.RoundNumber),
+                        PowerType.AbilityEffect
+                    )
+                );
             }
             else
             {
-                deck.ApplyDeckwideEffect(new MultiplierPowerEffect(4 + (RoundManager.Instance.RoundNumber), PowerType.EffectPower));
+                deck.ApplyDeckwideEffect(
+                    new MultiplierPowerEffect(
+                        4 + (RoundManager.Instance.RoundNumber),
+                        PowerType.AbilityEffect
+                    )
+                );
             }
 
             deck.Shuffle();

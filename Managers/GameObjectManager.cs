@@ -135,7 +135,6 @@ namespace SlyDeck.Managers
             return gameObjects.Values.ToList();
         }
 
-
         /// <summary>
         /// Clears all GameObjects in the GameObjects dictionary
         /// </summary>
