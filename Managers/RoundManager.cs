@@ -25,7 +25,6 @@ namespace SlyDeck.Managers
     internal class RoundManager
     {
         private TurnState ts;
-        private int roundNumber;
 
         public TurnState TS
         {
