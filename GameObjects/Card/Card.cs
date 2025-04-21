@@ -90,8 +90,13 @@ namespace SlyDeck.GameObjects.Card
                 if (value < .05)
                     value = 0;
                 hoverScale = value;
-                Scale = hoverScale + baseScale;                
-                Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale);
+                Scale = hoverScale + baseScale;      
+                // Checks if the card is below a certain point and, if it is, enlarges the card away from the bottom of the screen
+                // This is highly scuffed and should change.
+                if(basePos.Y > 700)
+                    Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale * 2);
+                else
+                    Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale);
                 AdjustLabels();
             }
         }
