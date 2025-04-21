@@ -1,0 +1,25 @@
+Basic Header|Header|No_Effect|1|Basic Card|4|\Images\Header.png
+Confirmation Header|Header|Confirm|2|ADD {2 * ability value} Persuasion to cards drawn next round|1|\Images\Header.png
+Refuting Header|Header|Rebute|3|SUBTRACT {ability value} Persuasion to opponent cards drawn next round|1|\Images\Header.png
+Party Header|Header|Pizza_Party|2|ADD {1.5 * ability value} Persuasion to ALL cards|1|\Images\Header.png
+Favorite Header|Header|Favoritism|3|REDUCE Persuasion by 32% to opponent cards drawn next round|1|\Images\Header.png
+Neutral Source|Footer|No_Effect|1|Basic Card|4|\Images\Footer.png
+Good Source|Footer|Confirm|1|ADD {2 * ability value} Persuasion to cards drawn next round|3|\Images\Footer.png
+Contradicting Source|Footer|Rebute|2|SUBTRACT {ability value} Persuasion to opponent cards drawn next round|2|\Images\Footer.png
+Self Citation|Footer|Pizza_Party|1|ADD {1.5 * ability value} Persuasion to ALL cards|2|\Images\Footer.png
+Favorite Source|Footer|Favoritism|1|REDUCE Persuasion by 32% to opponent cards drawn next round|3|\Images\Footer.png
+Basic Quote|Quote|No_Effect|1|Basic Card|4|\Images\Quote.png
+"I'm correct"|Quote|Confirm|1|ADD {2 * ability value} Persuasion to cards drawn next round|3|\Images\Quote.png
+"My coworker is wrong"|Quote|Rebute|4|SUBTRACT {ability value} Persuasion to opponent cards drawn next round|1|\Images\Quote.png
+"Good job everyone"|Quote|Pizza_Party|2|ADD {1.5 * ability value} Persuasion to ALL cards|3|\Images\Quote.png
+"Employee of The Month"|Quote|Favoritism|1|REDUCE Persuasion by 32% to opponent cards drawn next round|3|\Images\Quote.png
+Basic Graph|Graph|No_Effect|1|Basic Card|4|\Images\Graph.png
+Positive Graph|Graph|Confirm|1|ADD {2 * ability value} Persuasion to cards drawn next round|3|\Images\Graph.png
+Negative Graph|Graph|Rebute|4|SUBTRACT {ability value} Persuasion to opponent cards drawn next round|0|\Images\Graph.png
+Very Positive Graph|Graph|Pizza_Party|1|ADD {1.5 * ability value} Persuasion to ALL cards|4|\Images\Graph.png
+Favorite Graph|Graph|Favoritism|1|REDUCE Persuasion by 32% to opponent cards drawn next round|2|\Images\Graph.png
+Basic Closer|Closer|No_Effect|1|Basic Card|4|\Images\Closer.png
+Confirmation Closer|Closer|Confirm|2|ADD {2 * ability value} Persuasion to cards drawn next round|2|\Images\Closer.png
+Refuting Closer|Closer|Rebute|1|SUBTRACT {ability value} Persuasion to opponent cards drawn next round|3|\Images\Closer.png
+Surprise Anouncement|Closer|Pizza_Party|2|ADD {1.5 * ability value} Persuasion to ALL cards|2|\Images\Closer.png
+Praise the Company|Closer|Favoritism|1|REDUCE Persuasion by 32% to opponent cards drawn next round|2|\Images\Closer.png

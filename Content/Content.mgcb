@@ -123,6 +123,9 @@
 /processorParam:TextureFormat=Color
 /build:Custom_Court_Card_Queen_of_Spades.png;QueenOfSpades.png
 
+#begin PlaytestDeckCards.deck
+/copy:PlaytestDeckCards.deck
+
 #begin TempCardBack.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -150,6 +153,3 @@
 #begin TestDeckCards.deck
 /copy:TestDeckCards.deck
 
-
-#begin TestDeckCardsEnemy.deck
-#/copy:TestDeckCardsEnemy.deck
