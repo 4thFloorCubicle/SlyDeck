@@ -35,7 +35,7 @@ namespace SlyDeck.GameObjects
         /// <summary>
         /// Position of this GameObject
         /// </summary>
-        public Vector2 Position
+        public virtual Vector2 Position
         {
             get { return position; }
             set { position = value; }
