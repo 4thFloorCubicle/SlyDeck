@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Shane Packard
 namespace SlyDeck.GameObjects.Card.CardEffects
 {
     internal class MultiplierPowerEffect : ICardEffect
@@ -20,6 +20,8 @@ namespace SlyDeck.GameObjects.Card.CardEffects
             get { return multiplier; }
             set { multiplier = value; }
         }
+        public float AbilityPower { get; set; }
+        public float TempAbilityPower { get; set; }
 
         /// <summary>
         /// Creates a new multiplier effect
@@ -38,11 +40,17 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         {
             switch (powerType)
             {
-                case PowerType.BasePower:
-                    Owner.BasePower *= multiplier;
+                case PowerType.Persuasion:
+                    Owner.Persuasion *= multiplier;
                     break;
-                case PowerType.EffectPower:
-                    Owner.EffectPower *= multiplier;
+                case PowerType.TempPersuasion:
+                    Owner.TempPersuasion *= multiplier;
+                    break;
+                case PowerType.AbilityEffect:
+                    Owner.AbilityPower *= multiplier;
+                    break;
+                case PowerType.TempAbilityEffect:
+                    Owner.AbilityPower *= multiplier;
                     break;
             }
         }

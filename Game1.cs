@@ -79,14 +79,6 @@ public class Game1 : Game
             Exit();
         }
 
-        /*        
-        if (InputManager.Instance.SingleKeyPress(Keys.Space))
-        {
-            Card card = (Card)GameObjectManager.Instance.GetGameObject("Blank Slide");
-            card.Toggle();
-        }
-        */
-
         // check for left click events
         if (InputManager.Instance.SingleMousePress(MouseButton.Left))
         {
@@ -122,7 +114,7 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.BurlyWood);
 
-        _spriteBatch.Begin();
+        _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
         GameObjectManager.Instance.DrawAll(_spriteBatch);
 

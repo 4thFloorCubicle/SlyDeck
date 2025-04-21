@@ -18,6 +18,7 @@ namespace SlyDeck.GameObjects.UI
         private string text;
         private SpriteFont spriteFont;
         private Color color;
+
         public string Text
         {
             get { return text; }
@@ -56,6 +57,11 @@ namespace SlyDeck.GameObjects.UI
         /// <param name="spriteBatch">The spriteback to draw to</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
+            this.Draw(spriteBatch, 0);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, float depthMod)
+        {
             spriteBatch.DrawString(
                 spriteFont,
                 text,
@@ -65,7 +71,7 @@ namespace SlyDeck.GameObjects.UI
                 Vector2.Zero,
                 Scale,
                 SpriteEffects.None,
-                1f
+                .2f + depthMod
             );
         }
     }

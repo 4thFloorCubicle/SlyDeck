@@ -11,7 +11,7 @@ using SlyDeck.Decks;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Shane Packard
 namespace SlyDeck.Managers
 {
     /// <summary>
@@ -77,31 +77,123 @@ namespace SlyDeck.Managers
 
                         // construct card effect
                         string keyword = cardValues[2];
-                        int effectValue = int.Parse(cardValues[3]);
-                        ICardEffect effect;
+                        int abilityPower = int.Parse(cardValues[3]);
+                        ICardEffect effect; // base effect
                         switch (keyword)
                         {
                             case "Confirm": // confirm
                             {
                                 ICardEffect attachment = new AdditivePowerEffect(
-                                    effectValue,
-                                    PowerType.EffectPower
+                                    2 * abilityPower,
+                                    PowerType.TempPersuasion
                                 );
-                                effect = new AttacherEffect(attachment, TargetMode.PlayerDeck);
+                                effect = new AttacherEffect(attachment, TargetMode.PlayerHand);
                                 break;
                             }
                             case "Rebute": // rebute
                             {
                                 ICardEffect attachment = new AdditivePowerEffect(
-                                    effectValue,
-                                    PowerType.EffectPower
+                                    abilityPower,
+                                    PowerType.TempPersuasion
+                                );
+                                effect = new AttacherEffect(
+                                    attachment,
+                                    TargetMode.EnemyNextCardPlayed
+                                );
+                                break;
+                            }
+                            case "No_Effect":
+                                //add an effect that converts abilityPower to persuasion
+                                effect = null;
+                                break;
+                            case "Pizza_Party":
+                            {
+                                ICardEffect attachment = new AdditivePowerEffect(
+                                    (float)Math.Round(1.5 * abilityPower + 0.5),
+                                    PowerType.TempPersuasion
+                                );
+                                effect = new AttacherEffect(attachment, TargetMode.PlayerDeck);
+                                break;
+                            }
+                            case "Overtime":
+                            {
+                                ICardEffect attachment = new AdditivePowerEffect(
+                                    (float)Math.Round(.5 * abilityPower + 0.5),
+                                    PowerType.TempPersuasion
                                 );
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyDeck);
                                 break;
                             }
-                            case "No_Effect":
-                                effect = null;
+                            case "Favoritism":
+                            {
+                                //make sure this decrease by the right amount I think it does the opposite i.e. 80% instead of 20%
+                                //doesnt work with support (20% degredation at 0 Power)
+                                ICardEffect attachment = new MultiplierPowerEffect(
+                                    (float)(.8 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
+                                    PowerType.TempPersuasion
+                                );
+                                effect = new AttacherEffect(
+                                    attachment,
+                                    TargetMode.EnemyNextCardPlayed
+                                );
                                 break;
+                            }
+                            case "Promotion": //Doesn't Work Yet
+                            {
+                                //Upgrades persuasion?
+                                ICardEffect attachment = new AdditivePowerEffect(
+                                    abilityPower,
+                                    PowerType.Persuasion
+                                );
+                                effect = new AttacherEffect(
+                                    attachment,
+                                    TargetMode.PlayerNextCardPlayed
+                                );
+
+                                //Supposed to upgrade effect value
+                                attachment = new AdditivePowerEffect(
+                                    (float)Math.Floor(0.5 * abilityPower),
+                                    PowerType.AbilityEffect
+                                );
+                                effect = new AttacherEffect(
+                                    attachment,
+                                    TargetMode.PlayerNextCardPlayed
+                                );
+                                break;
+                            }
+                            case "Undermine": //Doesn't Work Yet
+                            {
+                                //same problem as favoritism
+                                ICardEffect attachment = new MultiplierPowerEffect(
+                                    (float)(.8 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
+                                    PowerType.TempAbilityEffect
+                                );
+                                effect = new AttacherEffect(
+                                    attachment,
+                                    TargetMode.EnemyNextCardPlayed
+                                );
+                                break;
+                            }
+                            case "Support": //Doesn't Work Yet
+                            {
+                                ICardEffect attachment1 = new AdditivePowerEffect(
+                                    1.5f * abilityPower * abilityPower,
+                                    PowerType.TempPersuasion
+                                );
+
+                                ICardEffect attachment2 = new MultiplierPowerEffect(
+                                    0,
+                                    PowerType.TempAbilityEffect
+                                );
+
+                                List<ICardEffect> attachments = new List<ICardEffect>();
+                                attachments.Add(attachment1);
+                                attachments.Add(attachment2);
+
+                                effect = new AttacherEffect(attachments, TargetMode.PlayerHand);
+                                break;
+                            }
+
                             default:
                                 throw new NotImplementedException(
                                     $"Effect keyword {keyword} have not been declared"
@@ -109,7 +201,7 @@ namespace SlyDeck.Managers
                         }
 
                         string effectDescription = cardValues[4];
-                        int basePower = int.Parse(cardValues[5]);
+                        int persuasion = int.Parse(cardValues[5]);
                         string imageDirectory = cardValues[6];
                         string imageName = imageDirectory.Split('\\')[2].Split('.')[0];
                         Texture2D cardArt = AssetManager.Instance.GetAsset<Texture2D>(imageName);
@@ -119,10 +211,11 @@ namespace SlyDeck.Managers
                             cardName,
                             AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
                             effectDescription,
-                            basePower,
+                            persuasion,
                             cardType,
                             cardArt,
-                            new List<ICardEffect> { effect }
+                            new List<ICardEffect> { effect },
+                            abilityPower
                         );
                     }
 
