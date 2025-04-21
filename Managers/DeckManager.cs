@@ -87,7 +87,7 @@ namespace SlyDeck.Managers
                                     effectValue,
                                     PowerType.EffectPower
                                 );
-                                effect = new AttacherEffect(attachment, TargetMode.Deck);
+                                effect = new AttacherEffect(attachment, TargetMode.PlayerDeck);
                                 break;
                             }
                             case "Rebute": // rebute

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SlyDeck.Decks;
 using SlyDeck.GameObjects;
 using SlyDeck.GameObjects.Boards;
 using SlyDeck.GameObjects.Card;
@@ -15,8 +16,6 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
-    Board testBoard;
 
     public Game1()
     {
@@ -55,53 +54,14 @@ public class Game1 : Game
         AssetManager.Instance.AddTexture("Quote", Content.Load<Texture2D>("cardImages\\Quote"));
         AssetManager.Instance.AddTexture("Graph", Content.Load<Texture2D>("cardImages\\Graph"));
         AssetManager.Instance.AddTexture("Closer", Content.Load<Texture2D>("cardImages\\Closer"));
-        AssetManager.Instance.AddDeckFilePath("TestDeck", "Content\\TestDeckCards.deck");
+        AssetManager.Instance.AddDeckFilePath("PlayerDeck", "Content\\TestDeckCards.deck");
 
-        Label testLabel = new Label(
-            new Vector2(100, 100),
-            "Test Label",
-            "Hi!",
-            AssetManager.Instance.GetAsset<SpriteFont>("Arial24")
+        Deck deck = DeckManager.Instance.DeckFromFile(
+            AssetManager.Instance.GetDeckFilePath("PlayerDeck")
         );
+        Deck eDeck = deck;
 
-        Card testCard = new Card(
-            new Vector2(200, 200),
-            "Blank Slide",
-            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
-            "This card has a test effect",
-            2,
-            CardType.Header,
-            AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
-        );
-
-        Card testCard2 = new Card(
-            new Vector2(200, 200),
-            "Blank Slide",
-            AssetManager.Instance.GetAsset<Texture2D>("CardDraft"),
-            "This card has a test effect",
-            2,
-            CardType.Header,
-            AssetManager.Instance.GetAsset<Texture2D>("blankSlide")
-        );
-
-        TestEffect testEffect = new TestEffect();
-        AdditivePowerEffect add2 = new AdditivePowerEffect(2, PowerType.EffectPower);
-        AttacherEffect add2Attacher = new AttacherEffect(add2, TargetMode.Self);
-
-        testCard.AddEffect(testEffect);
-        testCard.AddEffect(add2Attacher);
-
-        testBoard = new(
-            new Vector2(0, 0),
-            "Testboard",
-            DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("TestDeck")),
-            "Bob",
-            null,
-            GraphicsDevice,
-            testCard,
-            testCard2
-        );
-        testBoard.CardChoice();
+        Board gameBoard = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GraphicsDevice);
     }
 
     protected override void Update(GameTime gameTime)
@@ -114,12 +74,6 @@ public class Game1 : Game
         )
         {
             Exit();
-        }
-
-        if (InputManager.Instance.SingleKeyPress(Keys.Space))
-        {
-            Card card = (Card)GameObjectManager.Instance.GetGameObject("Blank Slide");
-            card.Toggle();
         }
 
         // check for left click events
@@ -155,10 +109,9 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.BurlyWood);
 
-        _spriteBatch.Begin();
+        _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
-        testBoard.Draw(_spriteBatch);
-        //GameObjectManager.Instance.DrawAll(_spriteBatch);
+        GameObjectManager.Instance.DrawAll(_spriteBatch);
 
         _spriteBatch.End();
 
