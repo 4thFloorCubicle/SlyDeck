@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -21,7 +22,7 @@ namespace SlyDeck.GameObjects.Card
         Persuasion,
         TempPersuasion,
         AbilityEffect,
-        TempAbilityEffect
+        TempAbilityEffect,
     }
 
     internal enum CardType
@@ -74,8 +75,16 @@ namespace SlyDeck.GameObjects.Card
             set { tempPersuasion = value; }
         }
 
-        public float AbilityPower { get; set => baseEffect.AbilityPower = value; }
-        public float TempAbilityPower { get; set; }
+        public float AbilityPower
+        {
+            get => baseEffect.AbilityPower;
+            set => baseEffect.AbilityPower = value;
+        }
+        public float TempAbilityPower
+        {
+            get => baseEffect.TempAbilityPower;
+            set => baseEffect.TempAbilityPower = value;
+        }
 
         /// <summary>
         /// Property to handle scaling the card at smaller sizes, adjusting the text
@@ -209,7 +218,7 @@ namespace SlyDeck.GameObjects.Card
                 cardData.Description,
                 cardData.BasePower,
                 cardData.Type,
-                cardData.CardArt 
+                cardData.CardArt
             )
         {
             baseEffect = cardData.BaseEffect;
