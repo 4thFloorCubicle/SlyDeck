@@ -12,7 +12,7 @@ using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 using SlyDeck.Piles;
 
-// Authors: Ben Haines, Cooper Fleishman
+// Authors: Ben Haines, Cooper Fleishman, Shane Packard
 namespace SlyDeck.GameObjects.Boards
 {
     /// <summary>

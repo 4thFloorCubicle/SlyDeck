@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Shane Packard
 namespace SlyDeck.GameObjects.Card.CardEffects
 {
     internal class AdditivePowerEffect : ICardEffect
@@ -43,10 +43,8 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     Owner.TempPersuasion += powerIncrease;
                     break;
                 case PowerType.AbilityEffect:
-                    Owner.AbilityPower += powerIncrease;
                     break;
                 case PowerType.TempAbilityEffect:
-                    Owner.AbilityPower += powerIncrease;
                     break;
             }
         }

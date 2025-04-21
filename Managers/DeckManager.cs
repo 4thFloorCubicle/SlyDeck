@@ -11,7 +11,7 @@ using SlyDeck.Decks;
 using SlyDeck.GameObjects.Card;
 using SlyDeck.GameObjects.Card.CardEffects;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Shane Packard
 namespace SlyDeck.Managers
 {
     /// <summary>
@@ -78,7 +78,7 @@ namespace SlyDeck.Managers
                         // construct card effect
                         string keyword = cardValues[2];
                         int abilityPower = int.Parse(cardValues[3]);
-                        ICardEffect effect;
+                        ICardEffect effect; // base effect
                         switch (keyword)
                         {
                             case "Confirm": // confirm
@@ -103,6 +103,7 @@ namespace SlyDeck.Managers
                                 break;
                             }
                             case "No_Effect":
+                                //add an effect that converts abilityPower to persuasion
                                 effect = null;
                                 break;
                             case "Pizza_Party":
@@ -123,13 +124,16 @@ namespace SlyDeck.Managers
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyDeck);
                                 break;
                             }
-                            case "Favortism":
+                            case "Favoritism":
                             {
+                                //make sure this decrease by the right amount I think it does the opposite i.e. 80% instead of 20%
+                                //doesnt work with support (20% degredation at 0 Power)
                                 ICardEffect attachment = new MultiplierPowerEffect(
+                                    
                                     (float)(80 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
                                     PowerType.TempPersuasion
                                 );
-                                effect = new AttacherEffect(attachment, TargetMode.PlayerDeck);
+                                effect = new AttacherEffect(attachment, TargetMode.EnemyNextCardPlayed);
                                 break;
                             }
                             case "Promotion":
@@ -157,26 +161,30 @@ namespace SlyDeck.Managers
                             }
                             case "Undermine":
                             {
+                                //same problem as favoritism
                                 ICardEffect attachment = new MultiplierPowerEffect(
-                                    (float)(80 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
-                                    PowerType.TempAbilityEffect
+                                    
+                                (float)(80 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
+                                PowerType.TempAbilityEffect
                                 );
-                                effect = new AttacherEffect(attachment, TargetMode.PlayerDeck);
+                                effect = new AttacherEffect(attachment, TargetMode.EnemyNextCardPlayed);
                                 break;
                             }
                             case "Support":
                                 {
-                                    ICardEffect attachment = new AdditivePowerEffect(
-                                        1.5f * abilityPower * abilityPower, //1 --> target abilityPower
+                                    ICardEffect attachment1 = new AdditivePowerEffect(
+                                        1.5f * abilityPower * abilityPower,
                                         PowerType.TempPersuasion
                                         );
-                                    effect = new AttacherEffect(attachment, TargetMode.PlayerHand);
 
-                                    attachment = new MultiplierPowerEffect(
+                                    ICardEffect attachment2 = new MultiplierPowerEffect(
                                         0,
                                         PowerType.TempAbilityEffect
                                         );
-                                    effect = new AttacherEffect(attachment, TargetMode.PlayerHand);
+
+                                    List<ICardEffect> attachments = [ attachment1, attachment2 ];
+
+                                    effect = new AttacherEffect(attachments, TargetMode.PlayerHand);
                                     break;
                                 }
 

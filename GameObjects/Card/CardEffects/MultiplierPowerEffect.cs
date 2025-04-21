@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Shane Packard
 namespace SlyDeck.GameObjects.Card.CardEffects
 {
     internal class MultiplierPowerEffect : ICardEffect
@@ -45,10 +45,8 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     Owner.TempPersuasion *= multiplier;
                     break;
                 case PowerType.AbilityEffect:
-                    Owner.AbilityPower *= multiplier;
                     break;
                 case PowerType.TempAbilityEffect:
-                    Owner.TempAbilityPower *= multiplier;
                     break;
             }
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.GameObjects.Card.CardEffects;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Shane Packard
 namespace SlyDeck.GameObjects.Card
 {
     /// <summary>
@@ -22,6 +22,9 @@ namespace SlyDeck.GameObjects.Card
         private Texture2D cardArt;
         private List<ICardEffect> effects;
         private float abilityPower;
+
+        // base effect field
+        private ICardEffect baseEffect;
 
         /// <summary>
         /// Name of the card
@@ -74,6 +77,11 @@ namespace SlyDeck.GameObjects.Card
         public List<ICardEffect> Effects
         {
             get { return effects; }
+        }
+
+        public ICardEffect BaseEffect
+        {
+            get { return baseEffect; }
         }
 
         public float AbilityPower

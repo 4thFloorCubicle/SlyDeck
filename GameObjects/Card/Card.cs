@@ -10,7 +10,7 @@ using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 
-// Authors: Cooper Fleishman, Ben Haines
+// Authors: Cooper Fleishman, Ben Haines, Shane Packard
 namespace SlyDeck.GameObjects.Card
 {
     /// <summary>
@@ -41,11 +41,10 @@ namespace SlyDeck.GameObjects.Card
         private string description;
         private float persuasion; // power from the card itself OR granted by permanant. permanant gains/losses
         private float tempPersuasion; // power granted from temporary effects. temporary gains/losses.
-        private float abilityPower;
-        private float tempAbilityPower;
         private Texture2D cardTexture;
         private CardType type;
         private SpriteFont Arial24;
+        private ICardEffect baseEffect;
 
         // 2 dictionaries required for effects. one for any attachers this card has, the other for card effects.
         private Dictionary<string, List<ICardEffect>> effects; // different effects the card has
@@ -73,17 +72,6 @@ namespace SlyDeck.GameObjects.Card
         {
             get { return tempPersuasion; }
             set { tempPersuasion = value; }
-        }
-        public float AbilityPower
-        {
-            get { return abilityPower; }
-            set { abilityPower = value; }
-        }
-
-        public float TempAbilityPower
-        {
-            get { return tempAbilityPower; }
-            set { tempAbilityPower = value; }
         }
 
         /// <summary>
@@ -152,8 +140,7 @@ namespace SlyDeck.GameObjects.Card
             string description,
             float persuasion,
             CardType type,
-            Texture2D cardArt,
-            float abilityPower
+            Texture2D cardArt
         )
             : base(position, name)
         {
@@ -162,7 +149,6 @@ namespace SlyDeck.GameObjects.Card
             this.persuasion = persuasion;
             this.type = type;
             this.cardArt = cardArt;
-            this.abilityPower = abilityPower;
 
             Arial24 = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
             // create the labels
@@ -220,8 +206,7 @@ namespace SlyDeck.GameObjects.Card
                 cardData.Description,
                 cardData.BasePower,
                 cardData.Type,
-                cardData.CardArt,
-                cardData.AbilityPower
+                cardData.CardArt
             )
         {
             foreach (ICardEffect effect in cardData.Effects)
