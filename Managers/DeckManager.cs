@@ -130,7 +130,7 @@ namespace SlyDeck.Managers
                                 //doesnt work with support (20% degredation at 0 Power)
                                 ICardEffect attachment = new MultiplierPowerEffect(
                                     
-                                    (float)(.8 * (3 / Math.Round(abilityPower + 3.5))),
+                                    (float)(.8 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
                                     PowerType.TempPersuasion
                                 );
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyNextCardPlayed);
@@ -164,7 +164,7 @@ namespace SlyDeck.Managers
                                 //same problem as favoritism
                                 ICardEffect attachment = new MultiplierPowerEffect(
                                     
-                                (float)(.8 * (3 / Math.Round(abilityPower + 3.5))),
+                                (float)(.8 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
                                 PowerType.TempAbilityEffect
                                 );
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyNextCardPlayed);
