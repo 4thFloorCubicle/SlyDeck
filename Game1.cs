@@ -59,9 +59,20 @@ public class Game1 : Game
         Deck deck = DeckManager.Instance.DeckFromFile(
             AssetManager.Instance.GetDeckFilePath("PlayerDeck")
         );
+
+        AssetManager.Instance.AddDeck("pDeck", deck);
+
         Deck eDeck = deck;
 
-        Board gameBoard = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GraphicsDevice);
+        Board gameBoard = new(
+            new Vector2(0, 0),
+            "Testboard",
+            deck,
+            "Bob",
+            eDeck,
+            GraphicsDevice,
+            this
+        );
     }
 
     protected override void Update(GameTime gameTime)
