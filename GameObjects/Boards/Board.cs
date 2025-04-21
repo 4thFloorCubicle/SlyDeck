@@ -11,7 +11,7 @@ using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 
-// Authors: Ben Haines, Cooper Fleishman
+// Authors: Ben Haines, Cooper Fleishman, Shane Packard
 namespace SlyDeck.GameObjects.Boards
 {
     /// <summary>
@@ -69,6 +69,11 @@ namespace SlyDeck.GameObjects.Boards
         {
             get { return enemyEffectOnPlay; }
             set { enemyEffectOnPlay = value; }
+        }
+
+        public List<Card.Card> PlayerHand
+        {
+            get { return cardOptions; }
         }
 
         // -- Constructor -- \\

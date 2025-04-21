@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using SlyDeck.GameObjects.Card.CardEffects;
 
-// Authors: Cooper Fleishman
+// Authors: Cooper Fleishman, Shane Packard
 namespace SlyDeck.GameObjects.Card
 {
     /// <summary>
@@ -21,6 +21,10 @@ namespace SlyDeck.GameObjects.Card
         private CardType type;
         private Texture2D cardArt;
         private List<ICardEffect> effects;
+        private float abilityPower;
+
+        // base effect field
+        private ICardEffect baseEffect;
 
         /// <summary>
         /// Name of the card
@@ -75,21 +79,14 @@ namespace SlyDeck.GameObjects.Card
             get { return effects; }
         }
 
-        public CardData(
-            string name,
-            Texture2D backTexture,
-            string description,
-            float basePower,
-            CardType type,
-            Texture2D cardArt
-        )
+        public ICardEffect BaseEffect
         {
-            this.name = name;
-            this.backTexture = backTexture;
-            this.description = description;
-            this.basePower = basePower;
-            this.type = type;
-            this.cardArt = cardArt;
+            get { return baseEffect; }
+        }
+
+        public float AbilityPower
+        {
+            get { return abilityPower; }
         }
 
         public CardData(
@@ -99,9 +96,29 @@ namespace SlyDeck.GameObjects.Card
             float basePower,
             CardType type,
             Texture2D cardArt,
-            List<ICardEffect> effects
+            float abilityPower
         )
-            : this(name, backTexture, description, basePower, type, cardArt)
+        {
+            this.name = name;
+            this.backTexture = backTexture;
+            this.description = description;
+            this.basePower = basePower;
+            this.type = type;
+            this.cardArt = cardArt;
+            this.abilityPower = abilityPower;
+        }
+
+        public CardData(
+            string name,
+            Texture2D backTexture,
+            string description,
+            float basePower,
+            CardType type,
+            Texture2D cardArt,
+            List<ICardEffect> effects,
+            float abilityPower
+        )
+            : this(name, backTexture, description, basePower, type, cardArt, abilityPower)
         {
             this.effects = effects;
         }

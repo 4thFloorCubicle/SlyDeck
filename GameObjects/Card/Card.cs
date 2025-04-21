@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -11,7 +12,7 @@ using SlyDeck.GameObjects.Card.CardEffects;
 using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 
-// Authors: Cooper Fleishman, Ben Haines
+// Authors: Cooper Fleishman, Ben Haines, Shane Packard
 namespace SlyDeck.GameObjects.Card
 {
     /// <summary>
@@ -19,8 +20,10 @@ namespace SlyDeck.GameObjects.Card
     /// </summary>
     public enum PowerType
     {
-        BasePower,
-        EffectPower,
+        Persuasion,
+        TempPersuasion,
+        AbilityEffect,
+        TempAbilityEffect,
     }
 
     internal enum CardType
@@ -38,11 +41,12 @@ namespace SlyDeck.GameObjects.Card
     internal class Card : GameObject, IClickable
     {
         private string description;
-        private float basePower; // power from the card itself OR granted by permanant. permanant gains/losses
-        private float effectPower; // power granted from temporary effects. temporary gains/losses.
+        private float persuasion; // power from the card itself OR granted by permanant. permanant gains/losses
+        private float tempPersuasion; // power granted from temporary effects. temporary gains/losses.
         private Texture2D cardTexture;
         private CardType type;
         private SpriteFont Arial24;
+        private ICardEffect baseEffect;
 
         // 2 dictionaries required for effects. one for any attachers this card has, the other for card effects.
         private Dictionary<string, List<ICardEffect>> effects; // different effects the card has
@@ -60,22 +64,41 @@ namespace SlyDeck.GameObjects.Card
 
         public float TotalPower
         {
-            get { return basePower + effectPower; }
+            get { return persuasion + tempPersuasion; }
         }
 
-        public float BasePower
+        public float Persuasion
         {
-            get { return basePower; }
-            set { basePower = value; }
+            get { return persuasion; }
+            set { persuasion = value; }
         }
 
-        public float EffectPower
+        public float TempPersuasion
         {
-            get { return effectPower; }
-            set { effectPower = value; }
+            get { return tempPersuasion; }
+            set { tempPersuasion = value; }
         }
 
-        public Vector2 BasePos { get { return basePos; } set { basePos = value; Position = value; } }
+        public float AbilityPower
+        {
+            get => baseEffect.AbilityPower;
+            set => baseEffect.AbilityPower = value;
+        }
+        public float TempAbilityPower
+        {
+            get => baseEffect.TempAbilityPower;
+            set => baseEffect.TempAbilityPower = value;
+        }
+
+        public Vector2 BasePos
+        {
+            get { return basePos; }
+            set
+            {
+                basePos = value;
+                Position = value;
+            }
+        }
 
         /// <summary>
         /// Property to handle the temporary scaling when the card is hovered over, also adjusting labels.
@@ -90,13 +113,26 @@ namespace SlyDeck.GameObjects.Card
                 if (value < .05)
                     value = 0;
                 hoverScale = value;
-                Scale = hoverScale + baseScale;      
+
                 // Checks if the card is below a certain point and, if it is, enlarges the card away from the bottom of the screen
                 // This is highly scuffed and should change.
-                if(basePos.Y > 700)
-                    Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale * 2);
+                Scale = hoverScale + baseScale;
+                Position = new(
+                    basePos.X - Bounds.Width * hoverScale,
+                    basePos.Y - Bounds.Height * hoverScale
+                );
+
+                if (basePos.Y > 700)
+                    Position = new(
+                        basePos.X - Bounds.Width * hoverScale,
+                        basePos.Y - Bounds.Height * hoverScale * 2
+                    );
                 else
-                    Position = new(basePos.X - Bounds.Width * hoverScale, basePos.Y - Bounds.Height * hoverScale);
+                    Position = new(
+                        basePos.X - Bounds.Width * hoverScale,
+                        basePos.Y - Bounds.Height * hoverScale
+                    );
+
                 AdjustLabels();
             }
         }
@@ -104,11 +140,12 @@ namespace SlyDeck.GameObjects.Card
         public float BaseScale
         {
             get { return baseScale; }
-            set 
-            { 
-                baseScale = value; 
-                Scale = baseScale; 
-                hoverScale = 0; }
+            set
+            {
+                baseScale = value;
+                Scale = baseScale;
+                hoverScale = 0;
+            }
         }
 
         /// <summary>
@@ -126,7 +163,6 @@ namespace SlyDeck.GameObjects.Card
                 lbPower.Scale = value;
                 lbType.Scale = value;
                 lbDescription.Scale = value;
-
             }
         }
 
@@ -162,7 +198,7 @@ namespace SlyDeck.GameObjects.Card
             string name,
             Texture2D cardTexture,
             string description,
-            float basePower,
+            float persuasion,
             CardType type,
             Texture2D cardArt
         )
@@ -170,7 +206,7 @@ namespace SlyDeck.GameObjects.Card
         {
             this.cardTexture = cardTexture;
             this.description = description;
-            this.basePower = basePower;
+            this.persuasion = persuasion;
             this.type = type;
             this.cardArt = cardArt;
 
@@ -189,7 +225,7 @@ namespace SlyDeck.GameObjects.Card
             );
             AddChildObject(lbType);
 
-            lbPower = new Label(Vector2.Zero, $"Card Power Label-{name}", $"{basePower}", Arial24);
+            lbPower = new Label(Vector2.Zero, $"Card Power Label-{name}", $"{persuasion}", Arial24);
             AddChildObject(lbPower);
 
             lbDescription = new Label(
@@ -218,6 +254,8 @@ namespace SlyDeck.GameObjects.Card
                 cardData.CardArt
             )
         {
+            baseEffect = cardData.BaseEffect;
+
             foreach (ICardEffect effect in cardData.Effects)
             {
                 AddEffect(effect);
@@ -243,7 +281,10 @@ namespace SlyDeck.GameObjects.Card
             );
             spriteBatch.Draw(
                 cardArt,
-                new Vector2(Position.X + cardTexture.Width * Scale / 2, Position.Y + cardTexture.Height * Scale / 3 + 10),
+                new Vector2(
+                    Position.X + cardTexture.Width * Scale / 2,
+                    Position.Y + cardTexture.Height * Scale / 3 + 10
+                ),
                 cardArt.Bounds,
                 Color.Wheat,
                 0,
@@ -262,11 +303,11 @@ namespace SlyDeck.GameObjects.Card
         {
             lbPower.Text = $"{TotalPower}";
 
-            if (effectPower > 0)
+            if (tempPersuasion > 0)
             {
                 lbPower.TextColor = Color.Green;
             }
-            else if (effectPower < 0)
+            else if (tempPersuasion < 0)
             {
                 lbPower.TextColor = Color.Red;
             }
@@ -277,12 +318,12 @@ namespace SlyDeck.GameObjects.Card
 
             Rectangle tempBounds = new((int)basePos.X, (int)basePos.Y, Bounds.Width, Bounds.Height);
             if (tempBounds.Contains(Mouse.GetState().Position))
-            {               
-               HoverScale += .05f;
+            {
+                HoverScale += .05f;
             }
             else
             {
-               HoverScale -= .05f;
+                HoverScale -= .05f;
             }
         }
 
@@ -380,6 +421,7 @@ namespace SlyDeck.GameObjects.Card
                 Position.Y + 515 * Scale
             );
         }
+
         public void OnLeftClick()
         {
             LeftClick?.Invoke();
