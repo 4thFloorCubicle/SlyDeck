@@ -130,14 +130,14 @@ namespace SlyDeck.Managers
                                 //doesnt work with support (20% degredation at 0 Power)
                                 ICardEffect attachment = new MultiplierPowerEffect(
                                     
-                                    (float)(80 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
+                                    (float)(.8 * (3 / Math.Round(abilityPower + 3.5))),
                                     PowerType.TempPersuasion
                                 );
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyNextCardPlayed);
                                 break;
                             }
-                            case "Promotion":
-                            {
+                            case "Promotion": //Doesn't Work Yet
+                                {
                                 //Upgrades persuasion?
                                 ICardEffect attachment = new AdditivePowerEffect(
                                     abilityPower,
@@ -159,18 +159,18 @@ namespace SlyDeck.Managers
                                 );
                                 break;
                             }
-                            case "Undermine":
+                            case "Undermine": //Doesn't Work Yet
                             {
                                 //same problem as favoritism
                                 ICardEffect attachment = new MultiplierPowerEffect(
                                     
-                                (float)(80 * (1 - (3 / Math.Round(abilityPower + 3.5)))),
+                                (float)(.8 * (3 / Math.Round(abilityPower + 3.5))),
                                 PowerType.TempAbilityEffect
                                 );
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyNextCardPlayed);
                                 break;
                             }
-                            case "Support":
+                            case "Support": //Doesn't Work Yet
                                 {
                                     ICardEffect attachment1 = new AdditivePowerEffect(
                                         1.5f * abilityPower * abilityPower,
@@ -182,7 +182,9 @@ namespace SlyDeck.Managers
                                         PowerType.TempAbilityEffect
                                         );
 
-                                    List<ICardEffect> attachments = [ attachment1, attachment2 ];
+                                    List<ICardEffect> attachments = new List<ICardEffect>();
+                                        attachments.Add(attachment1); 
+                                        attachments.Add(attachment2);
 
                                     effect = new AttacherEffect(attachments, TargetMode.PlayerHand);
                                     break;

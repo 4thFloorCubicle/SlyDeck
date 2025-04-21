@@ -20,8 +20,8 @@ namespace SlyDeck.GameObjects.Card.CardEffects
             get { return multiplier; }
             set { multiplier = value; }
         }
-        public float AbilityPower { get; }
-        public float TempAbilityPower { get; }
+        public float AbilityPower { get; set;  }
+        public float TempAbilityPower { get; set;  }
 
 
         /// <summary>
@@ -48,8 +48,10 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     Owner.TempPersuasion *= multiplier;
                     break;
                 case PowerType.AbilityEffect:
+                    Owner.AbilityPower *= multiplier;
                     break;
                 case PowerType.TempAbilityEffect:
+                    Owner.AbilityPower *= multiplier;
                     break;
             }
         }

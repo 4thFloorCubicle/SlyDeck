@@ -23,8 +23,8 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         public Card Owner { get; set; }
 
         public string Name { get; }
-        public float AbilityPower { get; }
-        public float TempAbilityPower { get; }
+        public float AbilityPower { get; set;  }
+        public float TempAbilityPower { get; set;  }
 
         public AdditivePowerEffect(float powerIncrease, PowerType powerType)
         {
@@ -45,8 +45,10 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     Owner.TempPersuasion += powerIncrease;
                     break;
                 case PowerType.AbilityEffect:
+                    Owner.AbilityPower += powerIncrease;
                     break;
                 case PowerType.TempAbilityEffect:
+                    Owner.TempAbilityPower += powerIncrease;
                     break;
             }
         }

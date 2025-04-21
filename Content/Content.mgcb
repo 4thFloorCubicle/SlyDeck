@@ -151,5 +151,5 @@
 /copy:TestDeckCards.deck
 
 #begin TestDeckCardsEnemy.deck
-/copy:TestDeckCardsEnemy.deck
+#/copy:TestDeckCardsEnemy.deck
 
