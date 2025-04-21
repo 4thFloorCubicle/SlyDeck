@@ -12,7 +12,7 @@ using SlyDeck.GameObjects.UI;
 using SlyDeck.Managers;
 using SlyDeck.Piles;
 
-// Authors: Ben Haines, Cooper Fleishman
+// Authors: Ben Haines, Cooper Fleishman, Vinny Keeler
 namespace SlyDeck.GameObjects.Boards
 {
     /// <summary>
@@ -51,6 +51,15 @@ namespace SlyDeck.GameObjects.Boards
         // Graphics Device for Drawing
         private GraphicsDevice GD;
 
+        //probably can be moved to RoundManager, but keeping it here for now
+        private bool roundEnd;
+
+        //reference to the Game to exclusively call SuppressDraw()
+        private Game g;
+
+        //random for applying a deckwide effect
+        private Random rng;
+
         // -- Properties -- \\
         public Deck PlayerDeck
         {
@@ -74,6 +83,12 @@ namespace SlyDeck.GameObjects.Boards
             set { enemyEffectOnPlay = value; }
         }
 
+        public bool RoundEnd
+        {
+            get { return roundEnd; }
+            set { roundEnd = value; }
+        }
+
         // -- Constructor -- \\
         public Board(
             Vector2 position,
@@ -81,7 +96,8 @@ namespace SlyDeck.GameObjects.Boards
             Deck playerDeck,
             string enemyName,
             Deck enemyDeck,
-            GraphicsDevice GD
+            GraphicsDevice GD,
+            Game g
         )
             : base(position, name)
         {
@@ -95,6 +111,7 @@ namespace SlyDeck.GameObjects.Boards
                 throw new Exception("Cannot initialize a second instance of the board class.");
             }
             this.GD = GD;
+            this.g = g;
 
             this.playerDeck = playerDeck;
             lastPlayedPlayer = new List<Card.Card>();
@@ -110,6 +127,7 @@ namespace SlyDeck.GameObjects.Boards
 
             cardBack = AssetManager.Instance.GetAsset<Texture2D>("TempCardBack");
 
+            roundEnd = false;
 
             victoryLabel = new Label(
                 new Vector2(GD.Viewport.Width / 2, GD.Viewport.Height / 2),
@@ -119,6 +137,8 @@ namespace SlyDeck.GameObjects.Boards
                 Color.Green
             );
             victoryLabel.Toggle();
+
+            rng = new Random();
         }
 
         // -- Methods -- \\
@@ -126,6 +146,16 @@ namespace SlyDeck.GameObjects.Boards
         public override void Update(GameTime gameTime)
         {
             Card.Card playedCard = null;
+
+            if (RoundEnd && !InputManager.Instance.SingleKeyPress(Keys.Enter))
+            {
+                g.SuppressDraw();
+            }
+            
+            if (RoundEnd && InputManager.Instance.SingleKeyPress(Keys.Enter))
+            {
+                Reset();
+            }
 
             // Don't allow more than five cards played on the screen at once
             if (lastPlayedPlayer.Count > 4)
@@ -219,16 +249,16 @@ namespace SlyDeck.GameObjects.Boards
             {
                 if (CheckVictory())
                 {
-                    victoryLabel.Text = "You win";
+                    victoryLabel.Text = "You win, press enter to continue";
                     victoryLabel.TextColor = Color.Green;
                 }
                 else
                 {
-                    victoryLabel.Text = "You lose";
+                    victoryLabel.Text = "You lose, press enter to continue";
                     victoryLabel.TextColor = Color.Red;
                 }
                 victoryLabel.Toggle();
-                Reset();
+                RoundEnd = true;
 
             }
             else
@@ -413,11 +443,21 @@ namespace SlyDeck.GameObjects.Boards
             Deck eDeck = DeckManager.Instance.DeckFromFile(AssetManager.Instance.GetDeckFilePath("PlayerDeck"));
             Deck deck = eDeck;
 
-            deck.ApplyDeckwideEffect(new AdditivePowerEffect(2 + (RoundManager.Instance.RoundNumber), PowerType.EffectPower));
+            int coinFlip = rng.Next(1);
+
+            if (coinFlip == 1)
+            {
+                deck.ApplyDeckwideEffect(new AdditivePowerEffect(2 + (RoundManager.Instance.RoundNumber), PowerType.EffectPower));
+            }
+            else
+            {
+                deck.ApplyDeckwideEffect(new MultiplierPowerEffect(4 + (RoundManager.Instance.RoundNumber), PowerType.EffectPower));
+            }
+
             deck.Shuffle();
 
             Instance = null;
-            Instance = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GD);
+            Instance = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GD, g);
             RoundManager.Instance.RoundNumber++;
         }
     }

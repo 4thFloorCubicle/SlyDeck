@@ -64,7 +64,7 @@ public class Game1 : Game
 
         Deck eDeck = deck;
 
-        Board gameBoard = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GraphicsDevice);
+        Board gameBoard = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GraphicsDevice, this);
     }
 
     protected override void Update(GameTime gameTime)
@@ -112,6 +112,8 @@ public class Game1 : Game
         {
             gameObject.Update(gameTime);
         }
+
+
 
         base.Update(gameTime);
     }
