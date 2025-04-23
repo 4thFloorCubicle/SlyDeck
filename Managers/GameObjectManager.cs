@@ -53,7 +53,8 @@ namespace SlyDeck.Managers
         {
             foreach (GameObject gameObject in gameObjects.Values)
             {
-                if (gameObject.Enabled)
+                // If it's a label, do. not. draw.
+                if (gameObject.Enabled && !(gameObject is Label))
                 {
                     gameObject.Draw(spriteBatch);
                 }
