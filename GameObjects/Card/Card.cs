@@ -45,7 +45,7 @@ namespace SlyDeck.GameObjects.Card
         private float tempPersuasion; // power granted from temporary effects. temporary gains/losses.
         private Texture2D cardTexture;
         private CardType type;
-        private SpriteFont Arial12;
+        private SpriteFont Arial18;
         private SpriteFont Arial24;
         private ICardEffect baseEffect;
 
@@ -211,7 +211,7 @@ namespace SlyDeck.GameObjects.Card
             this.type = type;
             this.cardArt = cardArt;
 
-            Arial12 = AssetManager.Instance.GetAsset<SpriteFont>("Arial12");
+            Arial18 = AssetManager.Instance.GetAsset<SpriteFont>("Arial18");
             Arial24 = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
             lbName = new Label(Vector2.Zero, $"Card Name Label-{name}", name, Arial24, Color.Black);
             AddChildObject(lbName);
@@ -232,7 +232,7 @@ namespace SlyDeck.GameObjects.Card
                 Vector2.Zero,
                 $"Card Description Label ${name}",
                 $"{description}",
-                AssetManager.Instance.GetAsset<SpriteFont>("Arial12"),
+                Arial18,
                 Color.Gray
             );
             AddChildObject(lbDescription);
@@ -293,7 +293,7 @@ namespace SlyDeck.GameObjects.Card
                 SpriteEffects.None,
                 .15f + this.hoverScale
             );
-            lbDescription.DrawDesc(spriteBatch, hoverScale, persuasion + tempPersuasion, Bounds.Width * BaseScale, Arial12);
+            lbDescription.DrawDesc(spriteBatch, hoverScale, persuasion + tempPersuasion, Bounds.Width * BaseScale, Arial18);
             lbName.Draw(spriteBatch, hoverScale);
             lbPower.Draw(spriteBatch, hoverScale);
             lbType.Draw(spriteBatch, hoverScale);
@@ -406,7 +406,8 @@ namespace SlyDeck.GameObjects.Card
             float nameOffset = Arial24.MeasureString(lbName.Text).X;
             float powerOffset = Arial24.MeasureString(lbPower.Text).X;
             float typeOffset = Arial24.MeasureString(lbType.Text).X;
-            float descOffset = Arial12.MeasureString(lbDescription.Debrace(persuasion + tempPersuasion, Bounds.Width * BaseScale, Arial12)).X;
+            float descOffset = Arial18.MeasureString(lbDescription.Debrace(persuasion + tempPersuasion, Bounds.Width * BaseScale, Arial18)).X;
+            float descOffsetY = Arial18.MeasureString(lbDescription.Debrace(persuasion + tempPersuasion, Bounds.Width * BaseScale, Arial18)).Y;
 
             // Adjust the position for all of the labels
             lbName.Position = new(
@@ -423,7 +424,7 @@ namespace SlyDeck.GameObjects.Card
             );
             lbDescription.Position = new(
                 Position.X + (cardTexture.Width - descOffset) * Scale / 2,
-                Position.Y + 475 * Scale
+                Position.Y + (475 - descOffsetY / 2) * Scale
             );
         }
 

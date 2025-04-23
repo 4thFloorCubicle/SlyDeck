@@ -146,7 +146,7 @@ namespace SlyDeck.GameObjects.UI
         /// <returns>The text with white space added.</returns>
         public string AddSpace(string toAdd, float cardWidth, SpriteFont font)
         {
-            cardWidth *= 2;
+            cardWidth *= 1.8f;
             // Break up the text by word.
             string[] brokenUp = toAdd.Split(" ");
 
