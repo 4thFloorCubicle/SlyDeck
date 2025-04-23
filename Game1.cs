@@ -12,10 +12,18 @@ using SlyDeck.Managers;
 
 namespace SlyDeck;
 
+enum GameState
+{
+    MainMenu,
+    Tutorial,
+    Game
+}
+
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private GameState state;
 
     public Game1()
     {
@@ -37,6 +45,8 @@ public class Game1 : Game
             .Height;
         _graphics.ApplyChanges();
 
+        state = GameState.MainMenu;
+
         base.Initialize();
     }
 
@@ -47,6 +57,8 @@ public class Game1 : Game
         //load assets into AssetManager
         AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
         AssetManager.Instance.AddFont("Arial12", Content.Load<SpriteFont>("Arial12"));
+        AssetManager.Instance.AddFont("TitleFont", Content.Load<SpriteFont>("TitleFont"));
+        AssetManager.Instance.AddFont("SubTitleFont", Content.Load<SpriteFont>("SubTitleFont"));
         AssetManager.Instance.AddTexture("TempCardBack", Content.Load<Texture2D>("TempCardBack"));
         AssetManager.Instance.AddTexture("QueenOfSpades", Content.Load<Texture2D>("QueenOfSpades"));
         AssetManager.Instance.AddTexture("testButton", Content.Load<Texture2D>("testButton"));
@@ -82,12 +94,9 @@ public class Game1 : Game
     {
         InputManager.Instance.RefreshInput();
 
-        if (
-            GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
-            || Keyboard.GetState().IsKeyDown(Keys.Escape)
-        )
+        if (state == GameState.MainMenu && InputManager.Instance.CheckKeyDown(Keys.Enter))
         {
-            Exit();
+            state = GameState.Game;
         }
 
         // check for left click events
@@ -125,7 +134,19 @@ public class Game1 : Game
 
         _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
-        GameObjectManager.Instance.DrawAll(_spriteBatch);
+        switch (state)
+        {
+            case GameState.MainMenu:
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset<SpriteFont>("TitleFont"), "SlyDeck", new((GraphicsDevice.Viewport.Width / 2) - 250, GraphicsDevice.Viewport.Height / 4), Color.White);
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset<SpriteFont>("SubTitleFont"), "Press Enter to play", new((GraphicsDevice.Viewport.Width / 2) - 300, GraphicsDevice.Viewport.Height / 2), Color.White);
+                break;
+            case GameState.Tutorial:
+                //to be implemented
+                break;
+            case GameState.Game:
+                GameObjectManager.Instance.DrawAll(_spriteBatch);
+                break;
+        }
 
         _spriteBatch.End();
 
