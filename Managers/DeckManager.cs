@@ -199,8 +199,7 @@ namespace SlyDeck.Managers
                                     $"Effect keyword {keyword} have not been declared"
                                 );
                         }
-
-                        string effectDescription = cardValues[4];
+                        string effectDescription = cardValues[4];                        
                         int persuasion = int.Parse(cardValues[5]);
                         string imageDirectory = cardValues[6];
                         string imageName = imageDirectory.Split('\\')[2].Split('.')[0];

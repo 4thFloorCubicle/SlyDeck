@@ -295,7 +295,7 @@ namespace SlyDeck.GameObjects.Card
                 SpriteEffects.None,
                 .15f + this.hoverScale
             );
-            lbDescription.Draw(spriteBatch, hoverScale);
+            lbDescription.DrawDesc(spriteBatch, hoverScale, persuasion + tempPersuasion);
             lbName.Draw(spriteBatch, hoverScale);
             lbPower.Draw(spriteBatch, hoverScale);
             lbType.Draw(spriteBatch, hoverScale);
