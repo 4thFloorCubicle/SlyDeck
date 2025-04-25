@@ -86,7 +86,13 @@ namespace SlyDeck.GameObjects.UI
         /// <param name="spriteBatch">The spritebatch</param>
         /// <param name="depthMod">The depth to draw at.</param>
         /// <param name="power">The power of the card to mention in the description.</param>
-        public void DrawDesc(SpriteBatch spriteBatch, float depthMod, float power, float cardWidth, SpriteFont font)
+        public void DrawDesc(
+            SpriteBatch spriteBatch,
+            float depthMod,
+            float power,
+            float cardWidth,
+            SpriteFont font
+        )
         {
             spriteBatch.DrawString(
                 spriteFont,
@@ -113,15 +119,17 @@ namespace SlyDeck.GameObjects.UI
                 return AddSpace(text, cardWidth, font);
 
             // Make a new string that contains everything inside of the brackets.
-            string equation = text.Substring(text.IndexOf('{') + 1, text.IndexOf('}') - 1 - text.IndexOf('{'));
+            string equation = text.Substring(
+                text.IndexOf('{') + 1,
+                text.IndexOf('}') - 1 - text.IndexOf('{')
+            );
             string newString = text.Substring(0, text.IndexOf('{'));
 
-            // If the brackets just reads "ability value", then just replace it with power. 
+            // If the brackets just reads "ability value", then just replace it with power.
             if (equation == "ability value")
             {
                 newString += $"{power}";
             }
-
             // Check and perform any operations.
             else
             {
@@ -152,7 +160,7 @@ namespace SlyDeck.GameObjects.UI
 
             string finalNewString = "";
             string tempString = "";
-            
+
             for (int currentWord = 0; currentWord < brokenUp.Length; currentWord++)
             {
                 // If the text in tempString (representing one line) goes off the side, add a space.
@@ -167,7 +175,6 @@ namespace SlyDeck.GameObjects.UI
                 }
             }
             finalNewString += tempString;
-
 
             return finalNewString;
         }

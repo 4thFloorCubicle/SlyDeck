@@ -293,7 +293,13 @@ namespace SlyDeck.GameObjects.Card
                 SpriteEffects.None,
                 .15f + this.hoverScale
             );
-            lbDescription.DrawDesc(spriteBatch, hoverScale, persuasion + tempPersuasion, Bounds.Width * BaseScale, Arial18);
+            lbDescription.DrawDesc(
+                spriteBatch,
+                hoverScale,
+                persuasion + tempPersuasion,
+                Bounds.Width * BaseScale,
+                Arial18
+            );
             lbName.Draw(spriteBatch, hoverScale);
             lbPower.Draw(spriteBatch, hoverScale);
             lbType.Draw(spriteBatch, hoverScale);
@@ -406,8 +412,24 @@ namespace SlyDeck.GameObjects.Card
             float nameOffset = Arial24.MeasureString(lbName.Text).X;
             float powerOffset = Arial24.MeasureString(lbPower.Text).X;
             float typeOffset = Arial24.MeasureString(lbType.Text).X;
-            float descOffset = Arial18.MeasureString(lbDescription.Debrace(persuasion + tempPersuasion, Bounds.Width * BaseScale, Arial18)).X;
-            float descOffsetY = Arial18.MeasureString(lbDescription.Debrace(persuasion + tempPersuasion, Bounds.Width * BaseScale, Arial18)).Y;
+            float descOffset = Arial18
+                .MeasureString(
+                    lbDescription.Debrace(
+                        persuasion + tempPersuasion,
+                        Bounds.Width * BaseScale,
+                        Arial18
+                    )
+                )
+                .X;
+            float descOffsetY = Arial18
+                .MeasureString(
+                    lbDescription.Debrace(
+                        persuasion + tempPersuasion,
+                        Bounds.Width * BaseScale,
+                        Arial18
+                    )
+                )
+                .Y;
 
             // Adjust the position for all of the labels
             lbName.Position = new(
