@@ -61,7 +61,7 @@ namespace SlyDeck.GameObjects.UI
         }
 
         public void Draw(SpriteBatch spriteBatch, float depthMod)
-        {            
+        {
             spriteBatch.DrawString(
                 spriteFont,
                 text,
@@ -81,7 +81,10 @@ namespace SlyDeck.GameObjects.UI
             // If a '{' is present, then a substitution needs to be made for the card's description.
             if (text.Contains('{'))
             {
-                string equation = text.Substring(text.IndexOf('{') + 1, text.IndexOf('}') - 1 - text.IndexOf('{'));
+                string equation = text.Substring(
+                    text.IndexOf('{') + 1,
+                    text.IndexOf('}') - 1 - text.IndexOf('{')
+                );
                 toPrint += text.Substring(0, text.IndexOf('{'));
 
                 if (equation == "ability value")
