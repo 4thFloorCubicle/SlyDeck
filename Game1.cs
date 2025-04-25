@@ -94,9 +94,23 @@ public class Game1 : Game
     {
         InputManager.Instance.RefreshInput();
 
+        //check for button presses to switch states
+        //main menu -> game
         if (state == GameState.MainMenu && InputManager.Instance.CheckKeyDown(Keys.Enter))
         {
             state = GameState.Game;
+        }
+
+        //main menu -> tutorial
+        if (state == GameState.MainMenu && InputManager.Instance.CheckKeyDown(Keys.T))
+        {
+            state = GameState.Tutorial;
+        }
+
+        //return to main menu from the tutorial or game screen
+        if ((state == GameState.Game || state == GameState.Tutorial) && InputManager.Instance.CheckKeyDown(Keys.Q))
+        {
+            state = GameState.MainMenu;
         }
 
         // check for left click events
@@ -139,9 +153,15 @@ public class Game1 : Game
             case GameState.MainMenu:
                 _spriteBatch.DrawString(AssetManager.Instance.GetAsset<SpriteFont>("TitleFont"), "SlyDeck", new((GraphicsDevice.Viewport.Width / 2) - 250, GraphicsDevice.Viewport.Height / 4), Color.White);
                 _spriteBatch.DrawString(AssetManager.Instance.GetAsset<SpriteFont>("SubTitleFont"), "Press Enter to play", new((GraphicsDevice.Viewport.Width / 2) - 300, GraphicsDevice.Viewport.Height / 2), Color.White);
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset<SpriteFont>("SubTitleFont"), "Press T to view the Tutorial", new((GraphicsDevice.Viewport.Width / 2) - 450, (GraphicsDevice.Viewport.Height / 2) + 200), Color.White);
                 break;
             case GameState.Tutorial:
-                //to be implemented
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset <SpriteFont>("Arial24"), "Press Z, X, or C or click a card to play it", new(100, 100), Color.White);
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset <SpriteFont>("Arial24"), "The number on the bottom right of the card is the amount of persuasion playing it will allow you to gain", new(100, 200), Color.White);
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset <SpriteFont>("Arial24"), "The bottom left value is your total score, if it is greater than the score of your opponent after playing 5 cards, you win the round!", new(100, 300), Color.White);
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset <SpriteFont>("Arial24"), "Each card (besides basic ones) has an ability that can enhance the amount of points you gain.", new(100, 400), Color.White);
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset <SpriteFont>("Arial24"), "For example, an effect can double the amount of persuasion gained, or subtract persuasion from the enemy.", new(100, 450), Color.White);
+                _spriteBatch.DrawString(AssetManager.Instance.GetAsset <SpriteFont>("Arial24"), "Press Q to return to the main menu. You can also press Q in the game state to return to the main menu at any time", new(100, 550), Color.White);
                 break;
             case GameState.Game:
                 GameObjectManager.Instance.DrawAll(_spriteBatch);
