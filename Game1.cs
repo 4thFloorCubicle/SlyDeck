@@ -56,6 +56,7 @@ public class Game1 : Game
 
         //load assets into AssetManager
         AssetManager.Instance.AddFont("Arial24", Content.Load<SpriteFont>("Arial24"));
+        AssetManager.Instance.AddFont("Arial18", Content.Load<SpriteFont>("Arial18"));
         AssetManager.Instance.AddFont("Arial12", Content.Load<SpriteFont>("Arial12"));
         AssetManager.Instance.AddFont("TitleFont", Content.Load<SpriteFont>("TitleFont"));
         AssetManager.Instance.AddFont("SubTitleFont", Content.Load<SpriteFont>("SubTitleFont"));
