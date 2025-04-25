@@ -206,8 +206,16 @@ namespace SlyDeck.GameObjects.Boards
                 playedCard.AddEffect(playerEffectOnPlay);
             }
 
-
-            Debug.WriteLine("Card Name: " + playedCard.Name + "    Temporary Persuasion: " + playedCard.TempPersuasion + "    Persuasion: " + playedCard.Persuasion + "    Total Persuasion: " + playedCard.TotalPower);
+            Debug.WriteLine(
+                "Card Name: "
+                    + playedCard.Name
+                    + "    Temporary Persuasion: "
+                    + playedCard.TempPersuasion
+                    + "    Persuasion: "
+                    + playedCard.Persuasion
+                    + "    Total Persuasion: "
+                    + playedCard.TotalPower
+            );
 
             playedCard.Play();
             lastPlayedPlayer.Insert(0, playedCard);
