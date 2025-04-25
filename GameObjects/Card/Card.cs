@@ -56,7 +56,7 @@ namespace SlyDeck.GameObjects.Card
         private Label lbName; // label to display name of card
         private Label lbPower; // label to display power of card
         private Label lbType; // label to display type of card
-        private Label lbDescription; // label to display description of card
+        private Label lbDescription; // label to play description of card
         private Texture2D cardArt; // art associated with the card
 
         private float hoverScale; // A temporary scalar for the card when hovered over

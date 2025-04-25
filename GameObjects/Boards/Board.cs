@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -205,9 +206,15 @@ namespace SlyDeck.GameObjects.Boards
                 playedCard.AddEffect(playerEffectOnPlay);
             }
 
+
+            Debug.WriteLine("Card Name: " + playedCard.Name + "    Temporary Persuasion: " + playedCard.TempPersuasion + "    Persuasion: " + playedCard.Persuasion + "    Total Persuasion: " + playedCard.TotalPower);
+
             playedCard.Play();
-            playerPersuasion += playedCard.TotalPower;
             lastPlayedPlayer.Insert(0, playedCard);
+
+            playerPersuasion = 0;
+            foreach (Card.Card tempCard in lastPlayedPlayer)
+                playerPersuasion += tempCard.TotalPower;
 
             // Position the new most recently played card
             playedCard.BaseScale = .5f;
@@ -241,8 +248,11 @@ namespace SlyDeck.GameObjects.Boards
                 enemyCard.AddEffect(enemyEffectOnPlay);
             }
 
-            enemyPersuasion += enemyCard.TotalPower;
             currentEnemy.PlayCard(enemyCard);
+
+            enemyPersuasion = 0;
+            foreach (Card.Card tempCard in currentEnemy.LastPlayed)
+                enemyPersuasion += tempCard.TotalPower;
 
             currentEnemy.LastPlayed[0].BaseScale = .5f;
             currentEnemy.LastPlayed[0].BasePos = new(
