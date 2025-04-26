@@ -59,7 +59,8 @@ public class Game1 : Game
         Deck deck = DeckManager.Instance.DeckFromFile(
             AssetManager.Instance.GetDeckFilePath("PlayerDeck")
         );
-        Deck eDeck = deck;
+
+        Deck eDeck = new Deck(deck.Name, deck.Cards);
 
         Board gameBoard = new(new Vector2(0, 0), "Testboard", deck, "Bob", eDeck, GraphicsDevice);
     }

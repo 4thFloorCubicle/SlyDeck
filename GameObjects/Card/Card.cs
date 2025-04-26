@@ -84,6 +84,7 @@ namespace SlyDeck.GameObjects.Card
             get => baseEffect.AbilityPower;
             set => baseEffect.AbilityPower = value;
         }
+
         public float TempAbilityPower
         {
             get => baseEffect.TempAbilityPower;
@@ -256,10 +257,7 @@ namespace SlyDeck.GameObjects.Card
         {
             baseEffect = cardData.BaseEffect;
 
-            foreach (ICardEffect effect in cardData.Effects)
-            {
-                AddEffect(effect);
-            }
+            AddEffect(cardData.Effect);
         }
 
         /// <summary>

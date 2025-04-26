@@ -78,18 +78,18 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                         break;
                     case TargetMode.PlayerNextCardPlayed:
                         Board.Instance.PlayerEffectOnPlay = attachment;
+                        Board.Instance.EffectPlayCount = 1;
                         break;
                     case TargetMode.EnemyNextCardPlayed:
                         Board.Instance.EnemyEffectOnPlay = attachment;
+                        Board.Instance.EffectPlayCount = 1;
                         break;
                     case TargetMode.Self:
                         Owner.AddEffect(attachment);
                         break;
                     case TargetMode.PlayerHand:
-                        foreach (Card card in Board.Instance.PlayerHand)
-                        {
-                            card.AddEffect(attachment);
-                        }
+                        Board.Instance.PlayerEffectOnPlay = attachment;
+                        Board.Instance.EffectPlayCount = 3;
                         break;
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,6 +35,7 @@ namespace SlyDeck.GameObjects.Boards
         private List<Card.Card> cardOptions = new List<Card.Card>(3);
         private Keys playerInput;
         private ICardEffect playerEffectOnPlay;
+        private int effectPlayCount;
 
         // Enemy
         private Enemy currentEnemy;
@@ -74,6 +76,12 @@ namespace SlyDeck.GameObjects.Boards
         public List<Card.Card> PlayerHand
         {
             get { return cardOptions; }
+        }
+
+        public int EffectPlayCount
+        {
+            get { return effectPlayCount; }
+            set { effectPlayCount = value; }
         }
 
         // -- Constructor -- \\
@@ -125,6 +133,26 @@ namespace SlyDeck.GameObjects.Boards
         public override void Update(GameTime gameTime)
         {
             Card.Card playedCard = null;
+            foreach (Card.Card card in playerDeck.Cards)
+            {
+                card.TempPersuasion = 0;
+                card.TempAbilityPower = 0;
+            }
+            foreach (Card.Card card in currentEnemy.Deck.Cards)
+            {
+                card.TempPersuasion = 0;
+                card.TempAbilityPower = 0;
+            }
+
+            if (Instance.playerEffectOnPlay != null && effectPlayCount > 1)
+            {
+                for (int i = 0; i < effectPlayCount; i++)
+                {
+                    cardOptions[i].AddEffect(playerEffectOnPlay);
+                }
+                effectPlayCount = 0;
+                Instance.playerEffectOnPlay = null;
+            }
 
             // Don't allow more than five cards played on the screen at once
             if (lastPlayedPlayer.Count > 4)
@@ -168,9 +196,11 @@ namespace SlyDeck.GameObjects.Boards
                 return;
 
             // apply effect to played card if one is queued;
-            if (playerEffectOnPlay != null)
+            if (Instance.playerEffectOnPlay != null)
             {
+                effectPlayCount = 0;
                 playedCard.AddEffect(playerEffectOnPlay);
+                Instance.playerEffectOnPlay = null;
             }
 
             playedCard.Play();
@@ -204,11 +234,14 @@ namespace SlyDeck.GameObjects.Boards
             Card.Card enemyCard = currentEnemy.Deck.DrawCard();
             enemyCard.Toggle();
 
-            if (enemyEffectOnPlay != null)
+            if (Instance.enemyEffectOnPlay != null)
             {
                 enemyCard.AddEffect(enemyEffectOnPlay);
+                effectPlayCount = 0;
+                Instance.enemyEffectOnPlay = null;
             }
 
+            enemyCard.Play();
             enemyPersuasion += enemyCard.TotalPower;
             currentEnemy.PlayCard(enemyCard);
 

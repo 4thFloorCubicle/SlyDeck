@@ -20,7 +20,7 @@ namespace SlyDeck.GameObjects.Card
         private float basePower;
         private CardType type;
         private Texture2D cardArt;
-        private List<ICardEffect> effects;
+        private ICardEffect effect;
         private float abilityPower;
 
         // base effect field
@@ -74,9 +74,9 @@ namespace SlyDeck.GameObjects.Card
             get { return cardArt; }
         }
 
-        public List<ICardEffect> Effects
+        public ICardEffect Effect
         {
-            get { return effects; }
+            get { return effect; }
         }
 
         public ICardEffect BaseEffect
@@ -115,12 +115,14 @@ namespace SlyDeck.GameObjects.Card
             float basePower,
             CardType type,
             Texture2D cardArt,
-            List<ICardEffect> effects,
-            float abilityPower
+            ICardEffect effect,
+            float abilityPower,
+            ICardEffect baseEffect
         )
             : this(name, backTexture, description, basePower, type, cardArt, abilityPower)
         {
-            this.effects = effects;
+            this.effect = effect;
+            this.baseEffect = baseEffect;
         }
     }
 }
