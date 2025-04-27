@@ -20,6 +20,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Arial12.spritefont
 
+#begin Arial18.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial18.spritefont
+
 #begin Arial24.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -123,6 +130,16 @@
 /processorParam:TextureFormat=Color
 /build:Custom_Court_Card_Queen_of_Spades.png;QueenOfSpades.png
 
+#begin PlaytestDeckCards.deck
+/copy:PlaytestDeckCards.deck
+
+#begin SubTitleFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:SubTitleFont.spritefont
+
 #begin TempCardBack.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -150,6 +167,10 @@
 #begin TestDeckCards.deck
 /copy:TestDeckCards.deck
 
+#begin TitleFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:TitleFont.spritefont
 
-#begin TestDeckCardsEnemy.deck
-#/copy:TestDeckCardsEnemy.deck

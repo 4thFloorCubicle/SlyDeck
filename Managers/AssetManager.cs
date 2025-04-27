@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 //MonoGame Imports
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlyDeck.Decks;
 
 namespace SlyDeck.Managers
 {
@@ -38,6 +39,7 @@ namespace SlyDeck.Managers
             textures = new Dictionary<string, Texture2D>();
             fonts = new Dictionary<string, SpriteFont>();
             deckFiles = new Dictionary<string, string>();
+            decks = new Dictionary<string, Deck>();
         }
 
         //dictionaries
@@ -45,6 +47,7 @@ namespace SlyDeck.Managers
         private Dictionary<string, Texture2D> textures;
         private Dictionary<string, SpriteFont> fonts;
         private Dictionary<string, string> deckFiles;
+        private Dictionary<string, Deck> decks;
 
         //methods
 
@@ -75,6 +78,13 @@ namespace SlyDeck.Managers
                     return (T)(object)fonts[assetName];
                 }
             }
+            else if (typeof(T) == typeof(Deck))
+            {
+                if (decks.ContainsKey(assetName))
+                {
+                    return (T)(object)decks[assetName];
+                }
+            }
 
             //Error is thrown when the asset isn't found or the wrong type of object was requested
             throw new KeyNotFoundException(
@@ -100,6 +110,16 @@ namespace SlyDeck.Managers
         public void AddFont(string name, SpriteFont font)
         {
             fonts[name] = font;
+        }
+
+        /// <summary>
+        /// Adds a deck to the decks dictionary
+        /// </summary>
+        /// <param name="name">The name of the font</param>
+        /// <param name="deck">The deck to be added</param>
+        public void AddDeck(string name, Deck deck)
+        {
+            decks[name] = deck;
         }
 
         public void AddDeckFilePath(string name, string filepath)

@@ -32,6 +32,8 @@ namespace SlyDeck.Managers
             private set { ts = value; }
         }
 
+        public int RoundNumber { get; set; }
+
         //Singleton
         private static RoundManager instance;
         public static RoundManager Instance
