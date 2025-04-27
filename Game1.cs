@@ -204,7 +204,7 @@ public class Game1 : Game
                 );
                 _spriteBatch.DrawString(
                     AssetManager.Instance.GetAsset<SpriteFont>("Arial24"),
-                    "Each card (besides basic ones) has an ability that can enhance the amount of points you gain.",
+                    "Each card (besides basic ones) have an ability that can enhance the amount of points you gain.",
                     new(100, 400),
                     Color.White
                 );
