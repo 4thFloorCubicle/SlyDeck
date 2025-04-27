@@ -35,7 +35,6 @@ namespace SlyDeck.GameObjects.Boards
         private List<Card.Card> cardOptions = new List<Card.Card>(3);
         private Keys playerInput;
         private ICardEffect playerEffectOnPlay;
-        private int effectPlayCount;
 
         // Enemy
         private Enemy currentEnemy;
@@ -76,12 +75,6 @@ namespace SlyDeck.GameObjects.Boards
         public List<Card.Card> PlayerHand
         {
             get { return cardOptions; }
-        }
-
-        public int EffectPlayCount
-        {
-            get { return effectPlayCount; }
-            set { effectPlayCount = value; }
         }
 
         // -- Constructor -- \\
@@ -144,16 +137,6 @@ namespace SlyDeck.GameObjects.Boards
                 card.TempAbilityPower = 0;
             }
 
-            if (Instance.playerEffectOnPlay != null && effectPlayCount > 1)
-            {
-                for (int i = 0; i < effectPlayCount; i++)
-                {
-                    cardOptions[i].AddEffect(playerEffectOnPlay);
-                }
-                effectPlayCount = 0;
-                Instance.playerEffectOnPlay = null;
-            }
-
             // Don't allow more than five cards played on the screen at once
             if (lastPlayedPlayer.Count > 4)
                 return;
@@ -198,12 +181,11 @@ namespace SlyDeck.GameObjects.Boards
             // apply effect to played card if one is queued;
             if (Instance.playerEffectOnPlay != null)
             {
-                effectPlayCount = 0;
                 playedCard.AddEffect(playerEffectOnPlay);
                 Instance.playerEffectOnPlay = null;
             }
 
-            playedCard.Play();
+            playedCard.Play(true);
             playerPersuasion += playedCard.TotalPower;
             lastPlayedPlayer.Insert(0, playedCard);
 
@@ -237,11 +219,10 @@ namespace SlyDeck.GameObjects.Boards
             if (Instance.enemyEffectOnPlay != null)
             {
                 enemyCard.AddEffect(enemyEffectOnPlay);
-                effectPlayCount = 0;
                 Instance.enemyEffectOnPlay = null;
             }
 
-            enemyCard.Play();
+            enemyCard.Play(false);
             enemyPersuasion += enemyCard.TotalPower;
             currentEnemy.PlayCard(enemyCard);
 

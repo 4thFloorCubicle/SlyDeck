@@ -93,7 +93,7 @@ namespace SlyDeck.Managers
                                     {
                                         float baseVal = 2;
                                         PowerType type = PowerType.TempPersuasion;
-                                        TargetMode target = TargetMode.PlayerNextCardPlayed;
+                                        TargetMode target = TargetMode.OwnerNextCardPlayed;
 
                                         ICardEffect[] effects = CreateAdditiveEffect(baseVal, abilityPower, type, target);
 
@@ -121,7 +121,7 @@ namespace SlyDeck.Managers
                                     {
                                         float baseVal = 1.5f;
                                         PowerType type = PowerType.TempPersuasion;
-                                        TargetMode target = TargetMode.PlayerDeck;
+                                        TargetMode target = TargetMode.OwnerDeck;
 
                                         ICardEffect[] effects = CreateAdditiveEffect(baseVal, abilityPower, type, target);
 
@@ -161,7 +161,7 @@ namespace SlyDeck.Managers
                                         float[] baseVals = {1, .5f};
                                         float[] dynamicVals = { abilityPower, abilityPower};
                                         PowerType[] types = { PowerType.Persuasion, PowerType.AbilityEffect };
-                                        TargetMode target = TargetMode.PlayerNextCardPlayed;
+                                        TargetMode target = TargetMode.OwnerNextCardPlayed;
 
                                         List<ICardEffect>[] effects = CreateAdditiveEffectPair(baseVals, dynamicVals, types, target);
 
@@ -187,7 +187,7 @@ namespace SlyDeck.Managers
                                         float[] baseVals = { 1.5f, 0 };
                                         float[] dynamicVals = { abilityPower * abilityPower, 0 };
                                         PowerType[] types = { PowerType.TempPersuasion, PowerType.TempAbilityEffect };
-                                        TargetMode target = TargetMode.PlayerNextCardPlayed;
+                                        TargetMode target = TargetMode.OwnerNextCardPlayed;
 
                                         List<ICardEffect>[] effects = CreateAdditiveEffectPair(baseVals, dynamicVals, types, target);
 
@@ -249,6 +249,11 @@ namespace SlyDeck.Managers
         /// <returns>Two card effects, the first being the base effect, the second being the current effect that will change based on the current affectValue</returns>
         public ICardEffect[] CreateAdditiveEffect(float staticValue, float dynamicValue, PowerType type, TargetMode target)
         {
+            if (target == TargetMode.EnemyDeck || target == TargetMode.EnemyNextCardPlayed)
+            {
+                staticValue *= -1;
+            }
+
             ICardEffect[] attachments = new ICardEffect[2];
             ICardEffect baseAttachment = new AdditivePowerEffect(
                 staticValue,
@@ -276,6 +281,11 @@ namespace SlyDeck.Managers
         /// <returns>Two card effects, the first being the base effect, the second being the current effect that will change based on the current affectValue</returns>
         public ICardEffect[] CreateMultiplierEffect(float staticValue, float dynamicValue, PowerType type, TargetMode target)
         {
+            if (target == TargetMode.EnemyDeck || target == TargetMode.EnemyNextCardPlayed)
+            {
+                staticValue *= -1;
+            }
+
             ICardEffect[] attachments = new ICardEffect[2];
             ICardEffect baseAttachment = new MultiplierPowerEffect(
                 staticValue,
@@ -303,6 +313,15 @@ namespace SlyDeck.Managers
         /// <returns>A list of card effects, the first list being the base effect, the second being the current effect that will change based on the current affectValue</returns>
         public List<ICardEffect>[] CreateAdditiveEffectPair(float[] staticValues, float[] dynamicValues, PowerType[] types, TargetMode target)
         {
+            if (target == TargetMode.EnemyDeck || target == TargetMode.EnemyNextCardPlayed)
+            {
+                for (int i = 0; i < staticValues.Length; i++)
+                {
+                    staticValues[i] *= -1; 
+                }
+                
+            }
+
             List<ICardEffect>[] effects = new List<ICardEffect>[2];
             ICardEffect[] firstEffect = CreateAdditiveEffect(staticValues[0], dynamicValues[0], types[0], target);
             ICardEffect[] secondEffect = CreateAdditiveEffect(staticValues[1], dynamicValues[1], types[1], target);
@@ -326,6 +345,15 @@ namespace SlyDeck.Managers
         /// <returns>A list of card effects, the first list being the base effect, the second being the current effect that will change based on the current affectValue</returns>
         public List<ICardEffect>[] CreateMultiplierEffectPair(float[] staticValues, float[] dynamicValues, PowerType[] types, TargetMode target)
         {
+            if (target == TargetMode.EnemyDeck || target == TargetMode.EnemyNextCardPlayed)
+            {
+                for (int i = 0; i < staticValues.Length; i++)
+                {
+                    staticValues[i] *= -1;
+                }
+
+            }
+
             List<ICardEffect>[] effects = new List<ICardEffect>[2];
             ICardEffect[] firstEffect = CreateMultiplierEffect(staticValues[0], dynamicValues[0], types[0], target);
             ICardEffect[] secondEffect = CreateMultiplierEffect(staticValues[1], dynamicValues[1], types[1], target);
