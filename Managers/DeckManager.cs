@@ -22,7 +22,7 @@ namespace SlyDeck.Managers
     {
         private static DeckManager instance;
         private Dictionary<string, Deck> decks; // all the diff decks in the game
-        private Dictionary<string, CardData> cardData; // all the diff cards in the game
+        public Dictionary<string, CardData> cardData; // all the diff cards in the game
 
 
         public static DeckManager Instance
@@ -201,7 +201,6 @@ namespace SlyDeck.Managers
                                         $"Effect keyword {keyword} have not been declared"
                                     );
                             }
-
                             string effectDescription = cardValues[4];
                             int persuasion = int.Parse(cardValues[5]);
                             string imageDirectory = cardValues[6];
