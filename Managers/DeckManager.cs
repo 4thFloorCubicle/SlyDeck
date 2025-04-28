@@ -87,13 +87,13 @@ namespace SlyDeck.Managers
                                     2 * abilityPower,
                                     PowerType.TempPersuasion
                                 );
-                                effect = new AttacherEffect(attachment, TargetMode.PlayerHand);
+                                effect = new AttacherEffect(attachment, TargetMode.PlayerNextCardPlayed);
                                 break;
                             }
                             case "Rebute": // rebute
                             {
                                 ICardEffect attachment = new AdditivePowerEffect(
-                                    abilityPower,
+                                    -abilityPower,
                                     PowerType.TempPersuasion
                                 );
                                 effect = new AttacherEffect(
@@ -118,7 +118,7 @@ namespace SlyDeck.Managers
                             case "Overtime":
                             {
                                 ICardEffect attachment = new AdditivePowerEffect(
-                                    (float)Math.Round(.5 * abilityPower + 0.5),
+                                    (float)Math.Round(.5 * -abilityPower),
                                     PowerType.TempPersuasion
                                 );
                                 effect = new AttacherEffect(attachment, TargetMode.EnemyDeck);
@@ -190,7 +190,7 @@ namespace SlyDeck.Managers
                                 attachments.Add(attachment1);
                                 attachments.Add(attachment2);
 
-                                effect = new AttacherEffect(attachments, TargetMode.PlayerHand);
+                                effect = new AttacherEffect(attachments, TargetMode.PlayerNextCardPlayed);
                                 break;
                             }
 

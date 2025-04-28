@@ -18,7 +18,6 @@ namespace SlyDeck.GameObjects.Card.CardEffects
         PlayerNextCardPlayed,
         EnemyNextCardPlayed,
         Self,
-        PlayerHand,
     }
 
     /// <summary>
@@ -85,12 +84,55 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     case TargetMode.Self:
                         Owner.AddEffect(attachment);
                         break;
-                    case TargetMode.PlayerHand:
-                        foreach (Card card in Board.Instance.PlayerHand)
-                        {
-                            card.AddEffect(attachment);
-                        }
-                        break;
+                }
+            }
+        }
+
+        public void Perform(bool isOwnerPlayer)
+        {
+            foreach (ICardEffect attachment in attachments)
+            {
+                if (isOwnerPlayer)
+                {
+                    switch (target)
+                    {
+                        case TargetMode.PlayerDeck:
+                            Board.Instance.PlayerDeck.ApplyDeckwideEffect(attachment);
+                            break;
+                        case TargetMode.EnemyDeck:
+                            Board.Instance.CurrentEnemy.Deck.ApplyDeckwideEffect(attachment);
+                            break;
+                        case TargetMode.PlayerNextCardPlayed:
+                            Board.Instance.PlayerEffectOnPlay = attachment;
+                            break;
+                        case TargetMode.EnemyNextCardPlayed:
+                            Board.Instance.EnemyEffectOnPlay = attachment;
+                            break;
+                        case TargetMode.Self:
+                            Owner.AddEffect(attachment);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (target)
+                    {
+                        case TargetMode.PlayerDeck:
+                            Board.Instance.CurrentEnemy.Deck.ApplyDeckwideEffect(attachment);
+                            break;
+                        case TargetMode.EnemyDeck:
+                            Board.Instance.PlayerDeck.ApplyDeckwideEffect(attachment);
+                            break;
+                        case TargetMode.PlayerNextCardPlayed:
+                            Board.Instance.EnemyEffectOnPlay = attachment;
+                            break;
+                        case TargetMode.EnemyNextCardPlayed:
+                            Board.Instance.PlayerEffectOnPlay = attachment;
+                            break;
+                        case TargetMode.Self:
+                            Owner.AddEffect(attachment);
+                            break;
+                    }
                 }
             }
         }

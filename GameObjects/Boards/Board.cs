@@ -201,9 +201,10 @@ namespace SlyDeck.GameObjects.Boards
                 return;
 
             // apply effect to played card if one is queued;
-            if (playerEffectOnPlay != null)
+            if (Instance.playerEffectOnPlay != null)
             {
-                playedCard.AddEffect(playerEffectOnPlay);
+                playedCard.AddEffect(Instance.playerEffectOnPlay);
+                Instance.playerEffectOnPlay = null;
             }
 
             Debug.WriteLine(
@@ -217,7 +218,7 @@ namespace SlyDeck.GameObjects.Boards
                     + playedCard.TotalPower
             );
 
-            playedCard.Play();
+            playedCard.Play(true);
             lastPlayedPlayer.Insert(0, playedCard);
 
             playerPersuasion = 0;
@@ -251,11 +252,13 @@ namespace SlyDeck.GameObjects.Boards
             Card.Card enemyCard = currentEnemy.Deck.DrawCard();
             enemyCard.Toggle();
 
-            if (enemyEffectOnPlay != null)
+            if (Instance.enemyEffectOnPlay != null)
             {
-                enemyCard.AddEffect(enemyEffectOnPlay);
+                enemyCard.AddEffect(Instance.enemyEffectOnPlay);
+                Instance.enemyEffectOnPlay = null;
             }
 
+            enemyCard.Play(false);
             currentEnemy.PlayCard(enemyCard);
 
             enemyPersuasion = 0;
