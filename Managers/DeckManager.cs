@@ -325,6 +325,9 @@ namespace SlyDeck.Managers
             ICardEffect[] firstEffect = CreateAdditiveEffect(staticValues[0], dynamicValues[0], types[0], target);
             ICardEffect[] secondEffect = CreateAdditiveEffect(staticValues[1], dynamicValues[1], types[1], target);
 
+            effects[0] = new List<ICardEffect>();
+            effects[1] = new List<ICardEffect>();
+            
             effects[0].Add(firstEffect[0]);
             effects[0].Add(secondEffect[0]);
 
@@ -357,6 +360,9 @@ namespace SlyDeck.Managers
             ICardEffect[] firstEffect = CreateMultiplierEffect(staticValues[0], dynamicValues[0], types[0], target);
             ICardEffect[] secondEffect = CreateMultiplierEffect(staticValues[1], dynamicValues[1], types[1], target);
 
+            effects[0] = new List<ICardEffect>();
+            effects[1] = new List<ICardEffect>();
+            
             effects[0].Add(firstEffect[0]);
             effects[0].Add(secondEffect[0]);
 
