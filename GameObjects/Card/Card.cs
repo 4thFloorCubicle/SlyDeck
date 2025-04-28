@@ -213,7 +213,7 @@ namespace SlyDeck.GameObjects.Card
 
             Arial18 = AssetManager.Instance.GetAsset<SpriteFont>("Arial18");
             Arial24 = AssetManager.Instance.GetAsset<SpriteFont>("Arial24");
-            lbName = new Label(Vector2.Zero, $"Card Name Label-{name}", name, Arial24, Color.Black);
+            lbName = new Label(Vector2.Zero, $"Card Name Label-{name}", name, Arial18, Color.Black);
             AddChildObject(lbName);
 
             lbType = new Label(
@@ -409,7 +409,7 @@ namespace SlyDeck.GameObjects.Card
 
         public void AdjustLabels()
         {
-            float nameOffset = Arial24.MeasureString(lbName.Text).X;
+            float nameOffset = Arial18.MeasureString(lbName.Text).X;
             float powerOffset = Arial24.MeasureString(lbPower.Text).X;
             float typeOffset = Arial24.MeasureString(lbType.Text).X;
             float descOffset = Arial18
