@@ -13,12 +13,11 @@ namespace SlyDeck.GameObjects.Card.CardEffects
     /// </summary>
     public enum TargetMode
     {
-        PlayerDeck,
+        OwnerDeck,
         EnemyDeck,
-        PlayerNextCardPlayed,
+        OwnerNextCardPlayed,
         EnemyNextCardPlayed,
         Self,
-        PlayerHand,
     }
 
     /// <summary>
@@ -64,19 +63,22 @@ namespace SlyDeck.GameObjects.Card.CardEffects
             this.attachments = attachments;
         }
 
+        /// <summary>
+        /// Applies the card effect listed on the card
+        /// </summary>
         public void Perform()
         {
             foreach (ICardEffect attachment in attachments)
             {
                 switch (target)
                 {
-                    case TargetMode.PlayerDeck:
+                    case TargetMode.OwnerDeck:
                         Board.Instance.PlayerDeck.ApplyDeckwideEffect(attachment);
                         break;
                     case TargetMode.EnemyDeck:
                         Board.Instance.CurrentEnemy.Deck.ApplyDeckwideEffect(attachment);
                         break;
-                    case TargetMode.PlayerNextCardPlayed:
+                    case TargetMode.OwnerNextCardPlayed:
                         Board.Instance.PlayerEffectOnPlay = attachment;
                         break;
                     case TargetMode.EnemyNextCardPlayed:
@@ -85,12 +87,59 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     case TargetMode.Self:
                         Owner.AddEffect(attachment);
                         break;
-                    case TargetMode.PlayerHand:
-                        foreach (Card card in Board.Instance.PlayerHand)
-                        {
-                            card.AddEffect(attachment);
-                        }
-                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// This is a modified Perform() used to make sure the targeting is correct for each effect
+        /// </summary>
+        /// <param name="isOwnerPlayer">True if the player owns the card, false if the enemy owns the card</param>
+        public void Perform(bool isOwnerPlayer)
+        {
+            foreach (ICardEffect attachment in attachments)
+            {
+                if (isOwnerPlayer)
+                {
+                    switch (target)
+                    {
+                        case TargetMode.OwnerDeck:
+                            Board.Instance.PlayerDeck.ApplyDeckwideEffect(attachment);
+                            break;
+                        case TargetMode.EnemyDeck:
+                            Board.Instance.CurrentEnemy.Deck.ApplyDeckwideEffect(attachment);
+                            break;
+                        case TargetMode.OwnerNextCardPlayed:
+                            Board.Instance.PlayerEffectOnPlay = attachment;
+                            break;
+                        case TargetMode.EnemyNextCardPlayed:
+                            Board.Instance.EnemyEffectOnPlay = attachment;
+                            break;
+                        case TargetMode.Self:
+                            Owner.AddEffect(attachment);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (target)
+                    {
+                        case TargetMode.OwnerDeck:
+                            Board.Instance.CurrentEnemy.Deck.ApplyDeckwideEffect(attachment);
+                            break;
+                        case TargetMode.EnemyDeck:
+                            Board.Instance.PlayerDeck.ApplyDeckwideEffect(attachment);
+                            break;
+                        case TargetMode.OwnerNextCardPlayed:
+                            Board.Instance.EnemyEffectOnPlay = attachment; 
+                            break;
+                        case TargetMode.EnemyNextCardPlayed:
+                            Board.Instance.PlayerEffectOnPlay = attachment;
+                            break;
+                        case TargetMode.Self:
+                            Owner.AddEffect(attachment);
+                            break;
+                    }
                 }
             }
         }

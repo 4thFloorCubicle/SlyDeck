@@ -85,10 +85,11 @@ namespace SlyDeck.GameObjects.Card
             get => baseEffect.AbilityPower;
             set => baseEffect.AbilityPower = value;
         }
+
         public float TempAbilityPower
         {
             get => baseEffect.TempAbilityPower;
-            set => baseEffect.TempAbilityPower = value;
+            //set => baseEffect.TempAbilityPower = value;
         }
 
         public Vector2 BasePos
@@ -256,10 +257,7 @@ namespace SlyDeck.GameObjects.Card
         {
             baseEffect = cardData.BaseEffect;
 
-            foreach (ICardEffect effect in cardData.Effects)
-            {
-                AddEffect(effect);
-            }
+            AddEffect(cardData.Effect);
         }
 
         /// <summary>
@@ -383,7 +381,7 @@ namespace SlyDeck.GameObjects.Card
         /// <summary>
         /// Plays this card, activating any effects attached to it
         /// </summary>
-        public void Play()
+        public void Play(bool isOwnerPlayer)
         {
             // attachment step
             if (attachers.Count > 0)
@@ -392,7 +390,7 @@ namespace SlyDeck.GameObjects.Card
                 {
                     foreach (AttacherEffect attacher in attacherSet)
                     {
-                        attacher.Perform();
+                        attacher.Perform(isOwnerPlayer);
                     }
                 }
             }

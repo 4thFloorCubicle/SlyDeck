@@ -148,6 +148,16 @@ namespace SlyDeck.GameObjects.Boards
         public override void Update(GameTime gameTime)
         {
             Card.Card playedCard = null;
+            foreach (Card.Card card in playerDeck.Cards)
+            {
+                card.TempPersuasion = 0;
+                //card.TempAbilityPower = 0;
+            }
+            foreach (Card.Card card in currentEnemy.Deck.Cards)
+            {
+                card.TempPersuasion = 0;
+                //card.TempAbilityPower = 0;
+            }
 
             if (RoundEnd && !InputManager.Instance.SingleKeyPress(Keys.Enter))
             {
@@ -201,11 +211,15 @@ namespace SlyDeck.GameObjects.Boards
                 return;
 
             // apply effect to played card if one is queued;
-            if (playerEffectOnPlay != null)
+            if (Instance.playerEffectOnPlay != null)
             {
                 playedCard.AddEffect(playerEffectOnPlay);
+                Instance.playerEffectOnPlay = null;
             }
 
+            playedCard.Play(true);
+            playerPersuasion += playedCard.TotalPower;
+            
             Debug.WriteLine(
                 "Card Name: "
                     + playedCard.Name
@@ -216,8 +230,6 @@ namespace SlyDeck.GameObjects.Boards
                     + "    Total Persuasion: "
                     + playedCard.TotalPower
             );
-
-            playedCard.Play();
             lastPlayedPlayer.Insert(0, playedCard);
 
             playerPersuasion = 0;
@@ -251,11 +263,14 @@ namespace SlyDeck.GameObjects.Boards
             Card.Card enemyCard = currentEnemy.Deck.DrawCard();
             enemyCard.Toggle();
 
-            if (enemyEffectOnPlay != null)
+            if (Instance.enemyEffectOnPlay != null)
             {
                 enemyCard.AddEffect(enemyEffectOnPlay);
+                Instance.enemyEffectOnPlay = null;
             }
 
+            enemyCard.Play(false);
+            enemyPersuasion += enemyCard.TotalPower;
             currentEnemy.PlayCard(enemyCard);
 
             enemyPersuasion = 0;
@@ -417,10 +432,10 @@ namespace SlyDeck.GameObjects.Boards
         {
             DeckManager.Instance.cardData.Clear();
             GameObjectManager.Instance.ClearAllGameObjects();
-            Deck eDeck = DeckManager.Instance.DeckFromFile(
-                AssetManager.Instance.GetDeckFilePath("PlayerDeck")
+            Deck deck = DeckManager.Instance.DeckFromFile(
+            AssetManager.Instance.GetDeckFilePath("PlayerDeck")
             );
-            Deck deck = eDeck;
+            Deck eDeck = deck;
 
             int coinFlip = rng.Next(2);
 

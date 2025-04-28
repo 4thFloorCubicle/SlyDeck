@@ -34,7 +34,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        _graphics.IsFullScreen = true;
+        _graphics.IsFullScreen = false;
         _graphics.PreferredBackBufferWidth = GraphicsAdapter
             .DefaultAdapter
             .CurrentDisplayMode
@@ -75,7 +75,7 @@ public class Game1 : Game
         Deck deck = DeckManager.Instance.DeckFromFile(
             AssetManager.Instance.GetDeckFilePath("PlayerDeck")
         );
-
+        
         AssetManager.Instance.AddDeck("pDeck", deck);
 
         Deck eDeck = deck;
