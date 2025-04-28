@@ -48,7 +48,6 @@ namespace SlyDeck.GameObjects.Card.CardEffects
                     Owner.AbilityPower += powerIncrease;
                     break;
                 case PowerType.TempAbilityEffect:
-                    Owner.TempAbilityPower += powerIncrease;
                     break;
             }
         }

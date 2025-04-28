@@ -151,12 +151,12 @@ namespace SlyDeck.GameObjects.Boards
             foreach (Card.Card card in playerDeck.Cards)
             {
                 card.TempPersuasion = 0;
-                card.TempAbilityPower = 0;
+                //card.TempAbilityPower = 0;
             }
             foreach (Card.Card card in currentEnemy.Deck.Cards)
             {
                 card.TempPersuasion = 0;
-                card.TempAbilityPower = 0;
+                //card.TempAbilityPower = 0;
             }
 
             if (RoundEnd && !InputManager.Instance.SingleKeyPress(Keys.Enter))
@@ -432,10 +432,10 @@ namespace SlyDeck.GameObjects.Boards
         {
             DeckManager.Instance.cardData.Clear();
             GameObjectManager.Instance.ClearAllGameObjects();
-            Deck eDeck = DeckManager.Instance.DeckFromFile(
-                AssetManager.Instance.GetDeckFilePath("PlayerDeck")
+            Deck deck = DeckManager.Instance.DeckFromFile(
+            AssetManager.Instance.GetDeckFilePath("PlayerDeck")
             );
-            Deck deck = eDeck;
+            Deck eDeck = deck;
 
             int coinFlip = rng.Next(2);
 

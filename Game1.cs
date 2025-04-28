@@ -34,7 +34,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        _graphics.IsFullScreen = true;
+        _graphics.IsFullScreen = false;
         _graphics.PreferredBackBufferWidth = GraphicsAdapter
             .DefaultAdapter
             .CurrentDisplayMode

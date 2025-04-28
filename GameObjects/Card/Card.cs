@@ -89,7 +89,7 @@ namespace SlyDeck.GameObjects.Card
         public float TempAbilityPower
         {
             get => baseEffect.TempAbilityPower;
-            set => baseEffect.TempAbilityPower = value;
+            //set => baseEffect.TempAbilityPower = value;
         }
 
         public Vector2 BasePos
